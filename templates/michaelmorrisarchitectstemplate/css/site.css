@@ -1,0 +1,74 @@
+
+
+
+.body_wrapper {
+	
+	width: 100%;
+	height: 400px;
+	
+}
+
+
+.left_menu
+{
+	
+	width: 250px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	
+	
+}
+
+.left_menu_content, .left_menu_toggle
+{
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.left_menu_content
+{
+	padding-left: 10px;
+	color: white;
+	height: 100%;
+	width: 220px;
+	float: left;
+}
+
+.left_menu_toggle{
+	height: 100%;
+	width: 20px;
+	float: left;
+	
+}
+
+.left_menu_toggle:hover{
+	background: rgba(0, 0, 0, 0.6);
+	
+}
+
+.left_menu_left_arrow{
+	height: 40px;
+	width: 20px;
+	background-image: url("../images/left_arrow.png");
+	background-size: 20px 40px;
+	
+}
+
+.left_menu_right_arrow{
+	height: 40px;
+	width: 20px;
+	background-image: url("../images/right_arrow.png");
+	background-size: 20px 40px;
+	
+}
+
+.content_main
+{
+	width: 100%;
+	background-color: blue;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
