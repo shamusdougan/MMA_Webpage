@@ -5,13 +5,15 @@ defined('_JEXEC') or die;
 
 $app             = JFactory::getApplication();
 $doc             = JFactory::getDocument();
-$user            = JFactory::getUser();
+
 
 JLoader::import('joomla.filesystem.file');
 
 
 JHtml::_('bootstrap.framework');
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/site.css');
+$doc->addScript($this->baseurl . '/templates/' . $this->template .'/js/jquery.cycle.lite.js');	
+require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 
 ?>
 
@@ -23,14 +25,31 @@ $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/site
 <jdoc:include type="head" />
 
 <script> 
-$(document).ready(function(){
-    $("#menu_toggle").click(function(){
-        $("#menu").animate({
-            width: 'toggle'		
-        });
-        
-    });
-});
+	jQuery(document).ready(function(){
+
+		jQuery("#menu_toggle").click(function() {
+	   		jQuery("#menu").animate({
+	            width: 'toggle'		
+			});
+			jQuery("#nav_icon").toggleClass("left_menu_left_arrow left_menu_right_arrow");
+		});
+
+	});
+	
+	
+	
+	
+	 
+	jQuery(document).ready(function() {
+				jQuery('#slideshow').cycle({
+				fx: 'fade',
+				pager: '#smallnav', 
+				pause:   1, 
+				speed: 5000,
+				timeout:  3500 
+			});			
+		});
+	
 </script> 
 
 
@@ -62,7 +81,22 @@ $(document).ready(function(){
 			
 		</div>
 	</div>
-	<div class='content_main'>Main content goes here</div>
+	<div class='content_main'>
+	
+	
+		<div id="slideshow">
+			<?php
+			$filelist = get_backgroundlist();
+			
+			foreach($filelist as $filename){
+				echo "<image src='".$filename."' class='bgM'/>\n";
+				}
+			
+			?>
+		</div>
+
+	
+	</div>
 	
 	
 </div>

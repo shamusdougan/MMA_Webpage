@@ -34,6 +34,7 @@
 	height: 100%;
 	width: 220px;
 	float: left;
+	white-space: nowrap;
 }
 
 .left_menu_toggle{
@@ -51,7 +52,7 @@
 .left_menu_left_arrow{
 	height: 40px;
 	width: 20px;
-	background-image: url("../images/left_arrow.png");
+	background-image: url("../icons/left_arrow.png");
 	background-size: 20px 40px;
 	
 }
@@ -59,7 +60,7 @@
 .left_menu_right_arrow{
 	height: 40px;
 	width: 20px;
-	background-image: url("../images/right_arrow.png");
+	background-image: url("../icons/right_arrow.png");
 	background-size: 20px 40px;
 	
 }
@@ -67,8 +68,28 @@
 .content_main
 {
 	width: 100%;
-	background-color: blue;
+	height: 100%;
+	background-color: grey;
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: -20;
+}
+
+
+#slideshow, img.bgM {
+	
+     	min-height: 100%;
+  		min-width:450px;
+
+		 /* Set up proportionate scaling */
+		width: 100%;
+ 		height: auto;
+
+		top: 0;
+  		left: 0;
+        position: fixed;
+       
+       
+        z-index:-10;
 }
