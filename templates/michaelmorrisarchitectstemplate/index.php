@@ -67,13 +67,9 @@ require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 			<div style='height: 100px;'></div>
 			<div style='padding-left: 20px; font-size: 0.79em'><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo_notext.jpg'><br>MICHAEL MORRIS ARCHITECTS</div>
 			<div style='padding-top: 50px;'>
-				<ul>
-					<li>Hello</li>
-					<li>This again</li>
-				</ul>
+				<jdoc:include type="modules" name="left_menu" />
+					
 			</div>
-			Hello this is the left menu 		
-			
 		</div>
 		<div id='menu_toggle' class='left_menu_toggle'>
 			<div style="height: 350px;"></div>
@@ -89,7 +85,7 @@ require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 			$filelist = get_backgroundlist();
 			
 			foreach($filelist as $filename){
-				echo "<image src='".$filename."' class='bgM'/>\n";
+				echo "<image src='/".$filename."' class='bgM'/>\n";
 				}
 			
 			?>
