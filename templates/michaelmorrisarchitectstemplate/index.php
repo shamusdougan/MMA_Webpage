@@ -78,8 +78,6 @@ require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 		</div>
 	</div>
 	<div class='content_main'>
-	
-	
 		<div id="slideshow">
 			<?php
 			$filelist = get_backgroundlist();
@@ -90,6 +88,14 @@ require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 			
 			?>
 		</div>
+		<div style="height: 200px"></div>
+		<div class='content_body'>
+			<jdoc:include type="component" />
+			
+			
+			
+		</div>
+
 
 	
 	</div>
