@@ -1,10 +1,15 @@
+body
+{
+	 margin: 0;
+    padding: 0;
 
+}
 
 
 .body_wrapper {
 	
 	width: 100%;
-	height: 400px;
+	height: 100%;
 	
 }
 
@@ -13,12 +18,9 @@
 {
 	
 	width: 250px;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
+	height: 100vh;
 	z-index: 10;
-	
+	float:left;
 	
 }
 
@@ -67,22 +69,23 @@
 
 .content_main
 {
-	width: 100%;
+	width: calc(100% - 250px);
+	float: left;
 	height: 100%;
-	background-color: grey;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -20;
+	padding-top: 50px;
+
+	
 }
 
 .content_body{
-	width: 800px;
+	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
 	background: rgba(0, 0, 0, 0.6);
 	color: white;
 	padding-left: 5px;
+	height: 100%;
+	z-index: 50;
 	
 }
 
@@ -102,3 +105,68 @@
        
         z-index:-10;
 }
+
+.article_listing_outer
+{
+	width: 1100px;
+	height: 700px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	padding-left: 40px;
+	padding-right: 50px;
+
+}
+
+.article_listing_inner
+{
+	width: 1100px;
+	height: 700px;
+	
+	background-color: red;
+}
+
+
+.article_listing_wrapper
+{
+	width: 250px;
+	height: 260px;
+	color: white;
+	float: left;
+	padding-left: 10px;
+}
+
+.article_listing_picture
+{
+	width: 100%;
+	height: 250px;
+	border: 1px solid black; 
+}
+
+.article_listing_picture src: hover
+{
+	-moz-box-shadow: 0 0 10px #ccc;
+ 	-webkit-box-shadow: 0 0 10px #ccc; 
+ 	box-shadow: 0 0 10px #ccc; 
+}
+
+
+
+
+.article_listing_title
+{
+	width: 100%;
+	height: 10px;
+	
+}
+
+.article_listing_title a:active, a:visited, a:link
+{ 
+	color: white; 
+	text-decoration: none;
+}
+
+.article_listing_title a:hover
+{
+	text-decoration: underline;
+}
+

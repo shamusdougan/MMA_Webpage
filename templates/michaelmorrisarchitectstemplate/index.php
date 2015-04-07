@@ -12,6 +12,7 @@ JLoader::import('joomla.filesystem.file');
 
 JHtml::_('bootstrap.framework');
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/site.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/articles-display.css');
 $doc->addScript($this->baseurl . '/templates/' . $this->template .'/js/jquery.cycle.lite.js');	
 require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 
@@ -88,7 +89,7 @@ require_once ($this->baseurl . '/templates/' . $this->template .'/library.php');
 			
 			?>
 		</div>
-		<div style="height: 200px"></div>
+		
 		<div class='content_body'>
 			<jdoc:include type="component" />
 			
