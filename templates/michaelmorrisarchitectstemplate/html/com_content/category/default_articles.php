@@ -19,13 +19,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 
 ?>
-<div class='article_listing_outer'>
+<div class='article_listing'>
 <?php foreach ($this->items as $i => $article) 
 {
 	$displayArticle =& JTable::getInstance("content"); 
 	$displayArticle->load($article->id); 
 	$images = json_decode($displayArticle->images); 
-	$displayTitle = trim(strip_tags($displayArticle->get("title")));
+	$displayTitle = strtoupper(trim(strip_tags($displayArticle->get("title"))));
 	$displayText = trim(strip_tags($displayArticle->get("introtext")));
 	
 	$id = $article->id;
