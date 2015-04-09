@@ -14,10 +14,16 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 // Create some shortcuts.
 $params		= &$this->item->params;
 $n			= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
 
 
+$limit = 6;
+$offset = 0;
+jimport('joomla.html.pagination'); 
+$pageNav = new JPagination( $this->items, $offset, $limit );
+
+
+
+$footer = $pageNav->getPaginationPages() ; 
 ?>
 <div class='article_listing'>
 <?php foreach ($this->items as $i => $article) 
@@ -60,13 +66,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $displayTitle; ?>
 			</A>
 		</div>
+		
+		
 	</div>
 	
 	
 	
 	
 <? } ?>
+	<div style='height: 50px; padding-top: 50px; float: left;'>
+		<?php echo $footer; ?>	
+	</div>
+
+
 </div>
-
-
+	
 
