@@ -83,6 +83,18 @@ foreach ($this->items as $i => $article)
 
 
 	<?php if($n != 0 && $n > $limit) { ?>
+	
+	<div class="pagination pagination-toolbar">
+		<ul class="pagination-list">
+			<li class="disabled"><a><i class="icon-previous"></i></a></li>
+			<li class="active hidden-phone"><a>1</a></li>
+			<li class="hidden-phone"><a>2</a></li>
+			<li><a class="hasTooltip" title="Next" href="#" onclick="document.adminForm.limitstart.value=10; Joomla.submitform();return false;"><i class="icon-next"></i></a></li>
+		</ul>
+
+	</div>
+	
+	
 		<div class='article_listing_footer_wrapper'>
 			<div class='article_listing_footer_content'>
 				<?php 
