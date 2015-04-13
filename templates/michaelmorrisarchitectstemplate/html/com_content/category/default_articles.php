@@ -16,7 +16,7 @@ $params		= &$this->item->params;
 $n			= count($this->items);
 
 $jinput = JFactory::getApplication()->input;
-require_once ('/templates/michaelmorrisarchitectstemplate/library.php');
+require_once ('templates/michaelmorrisarchitectstemplate/library.php');
 $limit = 6;
 $offset = $jinput->get('offset', 0, "INT" );;
 
@@ -30,7 +30,7 @@ $iCount = 0;
 foreach ($this->items as $i => $article) 
 {
 	if($i >= $offset && $iCount < $limit){
-		$displayArticle =& JTable::getInstance("content"); 
+		$displayArticle = JTable::getInstance("content"); 
 		$displayArticle->load($article->id); 
 		$images = json_decode($displayArticle->images); 
 		$displayTitle = strtoupper(trim(strip_tags($displayArticle->get("title"))));
