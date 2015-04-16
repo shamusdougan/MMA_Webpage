@@ -23,11 +23,8 @@
  	$itemCount = count($itemList);
  	
  	//Work out the page count for the display
- 	if($itemCount < $limit )
+ 	if($itemCount <= $limit )
  	{
-		$pageCount = 1;
-	}
-	elseif($itemCount == $limit){
 		$pageCount = 1;
 	}
 	else{
@@ -36,14 +33,15 @@
 			$pageCount++;
 		}
 	}
+	
  	
  	//If we are pass the first page active the prev arrow
- 	if($offset > $limit){
- 		$prevString = "<li><a class='hasTooltip' title='Previous' href='#'><i class='icon-previous'></i></a></li>";
+ 	if($offset >= $limit){
+ 		$prevString = "<li><a class='hasTooltip' title='Previous' <a href='".$baseURL."?offset=".($offset-$limit)."'><i class='icon-previous'></i></a></li>";
  		} 
  	//if we are still in the first page
  	else{
-		$prevString = "<li class='sap_disabled'><a class='hasTooltip' title='Previous'><i class='icon-previous'></i></a></li>";
+		$prevString = "<li class='active'><a class='hasTooltip' title='Previous'><i class='icon-previous'></i></a></li>";
 	}
  		
  		
@@ -54,7 +52,7 @@
 	}
 	else
 	{
-		$nextString = '<li><a class="hasTooltip" title="Next" href="#"><i class="icon-next"></i></a></li></ul>';
+		$nextString = '<li><a class="hasTooltip" title="Next" href="'.$baseURL.'?offset='.($offset+$limit).'"><i class="icon-next"></i></a></li></ul>';
 	}
  	
  	$currentPage = ($offset / $limit) +1 ;
@@ -62,13 +60,23 @@
  	$returnString = "<div class='pagination pagination-toolbar'><ul class='pagination-list'>".$prevString;
  	for($count = 1; $count <= $pageCount; $count++)
  	{
- 		$pageLinkClass = "";
+ 		
+ 		$currOffset = ($count-1) * $limit;
  		if($count == $currentPage)
  		{
-			$pageLinkClass = "class='active'";
+			$returnString .= "<li class='active'><a>".$count."</a></li>";
+		}
+		else{
+			$returnString .= "<li><a href='".$baseURL."?offset=".$currOffset."'>".$count."</a></li>";
 		}
  		
-		$returnString .= "<li ".$pageLinkClass."><a>".$count."</a></li>";
+ 		//calculate the offset required for this page
+	
+	
+ 		
+ 		
+ 		
+		
 	}
  	$returnString .= $nextString;
  	

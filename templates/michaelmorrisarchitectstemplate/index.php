@@ -4,6 +4,7 @@
 defined('_JEXEC') or die;
 
 $app             = JFactory::getApplication();
+$menuID 		 = $app->getMenu()->getActive()->id;
 $doc             = JFactory::getDocument();
 
 
@@ -15,6 +16,36 @@ $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/site
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template .'/css/articles-display.css');
 $doc->addScript($this->baseurl . '/templates/' . $this->template .'/js/jquery.cycle.lite.js');	
 require_once __DIR__ . '/library.php';
+
+
+//place different backgrounds for different pages
+$filelist = array();
+$imagePath = "images/backgrounds/";
+if($menuID == 101) // Homepage
+	{
+	$filelist = get_backgroundlist();	
+	}
+elseif($menuID == 103) //About page
+	{
+	
+	$filelist[] = $imagePath."golfcourse_hero.jpg";
+	}
+elseif($menuID == 104) //About page	
+	{
+	$filelist[] = $imagePath."merton_hero.jpg";
+	}
+elseif($menuID == 108 || $menuID == 109 || $menuID == 110 || $menuID == 106) //About page	
+	{
+	$filelist[] = $imagePath."merton_hero.jpg";
+	}
+else
+	{
+	$filelist = get_backgroundlist();	
+	}
+			
+			
+
+
 
 ?>
 
@@ -46,7 +77,7 @@ require_once __DIR__ . '/library.php';
 				fx: 'fade',
 				pager: '#smallnav', 
 				pause:   1, 
-				speed: 5000,
+				speed: 4000,
 				timeout:  3500 
 			});			
 		});
@@ -79,22 +110,29 @@ require_once __DIR__ . '/library.php';
 		</div>
 	</div>
 	<div class='content_main'>
+	
+	
+	
+	
+	
 		<div id="slideshow">
 			<?php
-			$filelist = get_backgroundlist();
+			
+			
 			
 			foreach($filelist as $filename){
 				echo "<image src='/".$filename."' class='bgM'/>\n";
 				}
-			
 			?>
 		</div>
 		
+
+
+
+		
 		<div class='content_body'>
+			
 			<jdoc:include type="component" />
-			
-			
-			
 		</div>
 
 

@@ -1,0 +1,4 @@
+Each directory needs the following images
+
+a single 250x250px image that serves as the project listing under the category
+mulitple images that are 1000x667 pixels in dimension to be added to the slideshow

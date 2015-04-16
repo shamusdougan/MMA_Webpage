@@ -24,7 +24,8 @@ $offset = $jinput->get('offset', 0, "INT" );;
 
 
 ?>
-<div class='article_listing'>
+<div class='article_listing_container'>
+	<div class='article_listing'>
 <?php 
 $iCount = 0;
 foreach ($this->items as $i => $article) 
@@ -65,7 +66,7 @@ foreach ($this->items as $i => $article)
 			</div>
 			<div class='article_listing_title'>
 				<A href='<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>'>
-					<?php echo $displayTitle."(".$i.")"; ?>
+					<?php echo $displayTitle; ?>
 				</A>
 			</div>
 			
@@ -82,7 +83,11 @@ foreach ($this->items as $i => $article)
 	} ?>
 
 
-	<?php if($n != 0 && $n > $limit) { ?>
+	
+	</div>
+	
+</div>
+<?php if($n != 0 && $n > $limit) { ?>
 
 	
 	
@@ -93,7 +98,3 @@ foreach ($this->items as $i => $article)
 			</div>
 		</div>
 	<?php } ?>
-	
-</div>
-	
-
