@@ -24,6 +24,7 @@ $offset = $jinput->get('offset', 0, "INT" );;
 
 
 ?>
+<div class='sapient_transparent_background'>
 <div class='article_listing_container'>
 	<div class='article_listing'>
 <?php 
@@ -98,3 +99,4 @@ foreach ($this->items as $i => $article)
 			</div>
 		</div>
 	<?php } ?>
+</div>

@@ -117,9 +117,6 @@ else
 	
 		<div id="slideshow">
 			<?php
-			
-			
-			
 			foreach($filelist as $filename){
 				echo "<image src='/".$filename."' class='bgM'/>\n";
 				}
@@ -128,11 +125,12 @@ else
 		
 
 
-
-		
-		<div class='content_body'>
-			
+	
+		<div class='content_body'>	
 			<jdoc:include type="component" />
+		</div>
+		
+			
 		</div>
 
 
