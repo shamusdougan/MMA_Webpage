@@ -26,7 +26,9 @@ $offset = $jinput->get('offset', 0, "INT" );;
 ?>
 <div class='sapient_transparent_background'>
 <div class='article_listing_title_bar'>
-	<?php print_r($this->category->title); ?>
+	<div class='article_listing_title_content'>
+		<?php print_r($this->category->title); ?>
+	</div>
 </div>
 <div class='article_listing_container'>
 	<div class='article_listing'>
