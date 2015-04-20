@@ -419,12 +419,18 @@ sap_disabled li{
 .sapient_contact
 {
 	width: 400px;
-	background-color: red;
+	
 }
 
-.sapient_contact input
+.sapient_contact [type="text"], [type="email"], textarea
 {
-	width: 300px;
+	width: 300px !important;
 }
 
+
+
+.sap_contact_table_email
+{
+	vertical-align: top;
+}
 
