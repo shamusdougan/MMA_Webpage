@@ -19,6 +19,15 @@ $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
+
+$catRoute = JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catid));
+$db = JFactory::getDBO();
+$query = "SELECT title FROM #__categories WHERE id = " . $this->item->catid;
+$db->setQuery($query);
+$catTitle = $db->loadResult();
+
+
+
 ?>
 <div class='sapient_transparent_background'>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Article">
@@ -30,7 +39,10 @@ JHtml::_('behavior.caption');
 			
 	<div class="sap_article_title_bar">
 		<div class='sap_article_title_bar_nav'>
-			Back
+			<A Href='<?php echo $catRoute; ?>'>
+				<div class='sap_article_title_nav_arrow'></div>
+				<div class='sap_article_title_nav_description'><?php echo $catTitle; ?></div>
+		</A>
 		</div>
 		<div class='sap_article_title_bar_content'>
 		<h1> <?php echo $this->escape($this->item->title); ?> </h1>
@@ -176,9 +188,10 @@ JHtml::_('behavior.caption');
 	
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
-<div class='sap_article_footer_nav'><a href='#'>
+<div class='sap_article_footer_nav'><a href='<?php echo $catRoute; ?>'>
 	<div class='sap_article_footer_nav_arrow'></div>
-	<div class='sap_article_footer_nav_description'>Back to Projects</div></a>
+	<div class='sap_article_footer_nav_description'><?php echo $catTitle; ?>
+	</div></a>
 </div>
 </div>
 

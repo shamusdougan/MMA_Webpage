@@ -349,20 +349,51 @@ sap_disabled li{
 
 .sap_article_title_bar_nav
 {
-	width: 100px;
+	width: 200px;
+	height: 70px;
 	float: left;
-	position: relative;
+}
+
+.sap_article_title_nav_arrow
+{
+	width: 30px;
+	height: 40px;
+	background-image: url("../icons/left_arrow.png");
+	background-size: 20px 40px;
+	background-repeat: no-repeat;
+	float: left;
+}
+
+
+.sap_article_title_nav_description:hover
+{
+	text-decoration: underline;
+}
+
+.sap_article_title_nav_description
+{
+	font-family: 'DinAlternate';
+
+	height: 40px;
+	padding-top: 7px;
+	font-size: 19px;
+	
 }
 
 .sap_article_footer_nav
 {
 	
 	height: 40px;
-	width: 250px;	
+	width: 320px;	
 	position: relative;
 	top: -50px;
 }
 
+
+.sap_article_footer_nav_description:hover
+{
+	text-decoration: underline;
+}
 
 
 .sap_article_footer_nav_arrow
@@ -378,7 +409,7 @@ sap_disabled li{
 .sap_article_footer_nav_description
 {
 	font-family: 'DinAlternate';
-	width: 200px;
+	width: 290px;
 	height: 40px;
 	float: left;
 	padding-top: 6px;
