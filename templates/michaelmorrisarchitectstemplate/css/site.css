@@ -415,3 +415,16 @@ sap_disabled li{
 	padding-top: 6px;
 	font-size: 20px;
 }
+
+.sapient_contact
+{
+	width: 400px;
+	background-color: red;
+}
+
+.sapient_contact input
+{
+	width: 300px;
+}
+
+
