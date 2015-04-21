@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2015 at 07:43 AM
--- Server version: 5.6.20
--- PHP Version: 5.5.15
+-- Generation Time: Apr 21, 2015 at 05:34 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,22 +27,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_assets` (
-`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=110 ;
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_asset_name` (`name`),
+  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
 --
 -- Dumping data for table `vfkn0_assets`
 --
 
 INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 195, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 197, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -139,7 +143,8 @@ INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `t
 (105, 8, 74, 77, 2, 'com_content.category.11', 'Media', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (106, 105, 75, 76, 3, 'com_content.article.25', 'Adobe', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (107, 18, 160, 161, 2, 'com_modules.module.107', 'slideshow adobe', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(109, 18, 162, 163, 2, 'com_modules.module.108', 'Contact Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}');
+(109, 18, 162, 163, 2, 'com_modules.module.108', 'Contact Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(110, 1, 195, 196, 1, 'com_phocamaps', 'com_phocamaps', '{}');
 
 -- --------------------------------------------------------
 
@@ -150,7 +155,9 @@ INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `t
 CREATE TABLE IF NOT EXISTS `vfkn0_associations` (
   `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
-  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.'
+  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
+  PRIMARY KEY (`context`,`id`),
+  KEY `idx_key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -160,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cid` int(11) NOT NULL DEFAULT '0',
   `type` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -193,7 +200,13 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
-  `version` int(10) unsigned NOT NULL DEFAULT '1'
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_state` (`state`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`),
+  KEY `idx_banner_catid` (`catid`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -203,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_banner_clients` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `contact` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
@@ -216,7 +229,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_clients` (
   `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
   `purchase_type` tinyint(4) NOT NULL DEFAULT '-1',
   `track_clicks` tinyint(4) NOT NULL DEFAULT '-1',
-  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1'
+  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -229,7 +245,11 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_tracks` (
   `track_date` datetime NOT NULL,
   `track_type` int(10) unsigned NOT NULL,
   `banner_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL DEFAULT '0'
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
+  KEY `idx_track_date` (`track_date`),
+  KEY `idx_track_type` (`track_type`),
+  KEY `idx_banner_id` (`banner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -239,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_tracks` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_categories` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
@@ -265,7 +285,15 @@ CREATE TABLE IF NOT EXISTS `vfkn0_categories` (
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT '1'
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `cat_idx` (`extension`,`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_path` (`path`),
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
@@ -291,7 +319,7 @@ INSERT INTO `vfkn0_categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `le
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
@@ -333,7 +361,16 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `version` int(10) unsigned NOT NULL DEFAULT '1',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0'
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -343,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -372,7 +409,16 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content` (
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.'
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
@@ -388,7 +434,7 @@ INSERT INTO `vfkn0_content` (`id`, `asset_id`, `title`, `alias`, `introtext`, `f
 (6, 59, 'Media', 'media', '', '', -2, 2, '2015-04-03 09:45:19', 989, '', '2015-04-03 09:46:50', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:45:19', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 4, '', '', 1, 5, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (7, 60, 'About', 'about', '<p style="text-align: center;">- Watch This space -</p>', '', 1, 2, '2015-04-03 09:45:45', 989, '', '2015-04-20 00:07:04', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:45:45', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"_:default","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 5, 3, '', '', 1, 83, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (8, 61, 'Principals', 'principals', '<h4 class="sapient_transparent_background"><span style="text-decoration: underline;">PRINCIPLES</span></h4>\r\n<p> </p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td class="sapient_transparent_background" valign="top" width="30%"><span style="text-decoration: underline;">Michael Morris</span><br /> Director\r\n<p>B. Arch RAIA</p>\r\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael’s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.  </p>\r\n</td>\r\n<td width="5%"> </td>\r\n<td class="sapient_transparent_background" valign="top" width="30%"><span style="text-decoration: underline;"><span style="text-decoration: underline;"><span style="text-decoration: underline;">Christine Berry</span><br /> Associate</span></span>\r\n<p>B.TRIP, MPIA</p>\r\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.</p>\r\n</td>\r\n<td width="30%"> </td>\r\n</tr>\r\n</tbody>\r\n</table>', '', 1, 2, '2015-04-03 09:46:15', 989, '', '2015-04-17 05:58:12', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:46:15', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"michaelmorrisarchitectstemplate:nobackground","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 17, 2, '', '', 1, 53, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(9, 62, 'Contact', 'contact', '<p>Michael Morris Architects<br /> 21 Laity Street, Richmond 3121<br /> Victoria, Australia</p>\r\n<p>Phone  </p>\r\n<p> </p>\r\n<p>{loadposition contact_form}</p>', '', 1, 2, '2015-04-03 09:47:12', 989, '', '2015-04-20 04:23:47', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:47:12', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"_:default","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 1, '', '', 1, 20, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(9, 62, 'Contact', 'contact', '<h2 style="text-align: center;">Contact Us</h2>\r\n<p>Michael Morris Architects</p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><img src="images/icons/home_white.png" alt="" /> </td>\r\n<td>21 Laity Street, Richmond 3121<br /> Victoria, Australia </td>\r\n<td rowspan="3">{phocamaps view=map|id=1}</td>\r\n</tr>\r\n<tr>\r\n<td> <img src="images/icons/phone16_white.png" alt="" /></td>\r\n<td> +61 3 9421 3332</td>\r\n</tr>\r\n<tr>\r\n<td class="sap_contact_table_email"><img src="images/icons/email_white.png" alt="" /></td>\r\n<td class="sap_contact_table_email">{loadposition contact_form}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p> </p>', '', 1, 2, '2015-04-03 09:47:12', 989, '', '2015-04-21 01:37:51', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:47:12', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"_:default","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 37, 1, '', '', 1, 120, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (10, 67, 'Golf Resort House', 'golf-resort-house', '<p>This is the golf course information so blaah blah blah blah</p>\r\n', '\r\n<p> {loadposition slideshow_residential_golf}</p>', 1, 8, '2015-04-04 21:24:40', 989, '', '2015-04-08 03:19:02', 989, 0, '0000-00-00 00:00:00', '2015-04-04 21:24:40', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/golf_resort_house\\/golf_resort_house_article_list.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 10, 7, '', '', 1, 67, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (11, 68, 'Sorrento Retreat', 'sorrento-retreat', '<p>This is an awesome beach house</p>\r\n', '\r\n<p> {loadposition sorrento_retreat}</p>', 1, 8, '2015-04-04 21:25:23', 989, '', '2015-04-16 06:16:31', 989, 0, '0000-00-00 00:00:00', '2015-04-04 21:25:23', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/sorento_retreat\\/sorento_retreat_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 6, 5, '', '', 1, 13, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (12, 69, 'Hinterland House', 'hinterland-house', '<p>This is the hinterland house discriptions</p>\r\n', '\r\n<p> {loadposition hinterland_house}</p>', 1, 8, '2015-04-07 06:12:51', 989, '', '2015-04-16 05:43:22', 989, 0, '0000-00-00 00:00:00', '2015-04-07 06:12:51', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/hinterland_house\\/Hinterland_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 3, '', '', 1, 15, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
@@ -404,7 +450,7 @@ INSERT INTO `vfkn0_content` (`id`, `asset_id`, `title`, `alias`, `introtext`, `f
 (22, 99, 'Fan', 'fan', '<p>Fan Design Element</p>\r\n', '\r\n<p>{loadposition fan}</p>', 1, 10, '2015-04-17 06:00:30', 989, '', '2015-04-17 06:00:30', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:00:30', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Fan\\/fan_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 2, '', '', 1, 1, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (23, 101, 'Monsoon', 'monsoon', '<p>Monsoon Design Element</p>\r\n', '\r\n<p>{loadposition monsoon}</p>', 1, 10, '2015-04-17 06:04:14', 989, '', '2015-04-17 06:04:14', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:04:14', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Monsoon\\/Monsoon_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 1, '', '', 1, 2, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (24, 103, 'Wine', 'wine', '<p>Win Design Element</p>\r\n', '\r\n<p>{loadposition wine}</p>', 1, 10, '2015-04-17 06:06:44', 989, '', '2015-04-17 06:06:44', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:06:44', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Wine\\/wine_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 0, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(25, 106, 'Adobe', 'adobe', '<p>Adobe, The best of the best Houses</p>\r\n', '\r\n<p>{loadposition adobe}</p>', 1, 11, '2015-04-17 06:21:06', 989, '', '2015-04-17 06:22:32', 989, 0, '0000-00-00 00:00:00', '2015-04-17 06:21:06', '0000-00-00 00:00:00', '{"image_intro":"images\\/Media\\/ABODE\\/adobe_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 0, '', '', 1, 15, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
+(25, 106, 'Adobe', 'adobe', '<p>Adobe, The best of the best Houses</p>\r\n', '\r\n<p>{loadposition adobe}</p>', 1, 11, '2015-04-17 06:21:06', 989, '', '2015-04-17 06:22:32', 989, 0, '0000-00-00 00:00:00', '2015-04-17 06:21:06', '0000-00-00 00:00:00', '{"image_intro":"images\\/Media\\/ABODE\\/adobe_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 0, '', '', 1, 17, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
 
 -- --------------------------------------------------------
 
@@ -418,7 +464,13 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contentitem_tag_map` (
   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
-  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table'
+  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
+  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
+  KEY `idx_tag_type` (`tag_id`,`type_id`),
+  KEY `idx_date_id` (`tag_date`,`tag_id`),
+  KEY `idx_tag` (`tag_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_core_content_id` (`core_content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
@@ -429,7 +481,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contentitem_tag_map` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content_frontpage` (
   `content_id` int(11) NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0'
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -442,7 +495,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content_rating` (
   `content_id` int(11) NOT NULL DEFAULT '0',
   `rating_sum` int(10) unsigned NOT NULL DEFAULT '0',
   `rating_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `lastip` varchar(50) NOT NULL DEFAULT ''
+  `lastip` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -452,14 +506,16 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content_rating` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content_types` (
-`type_id` int(10) unsigned NOT NULL,
+  `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type_title` varchar(255) NOT NULL DEFAULT '',
   `type_alias` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(255) NOT NULL DEFAULT '',
   `rules` text NOT NULL,
   `field_mappings` text NOT NULL,
   `router` varchar(255) NOT NULL DEFAULT '',
-  `content_history_options` varchar(5120) DEFAULT NULL COMMENT 'JSON string for com_contenthistory options'
+  `content_history_options` varchar(5120) DEFAULT NULL COMMENT 'JSON string for com_contenthistory options',
+  PRIMARY KEY (`type_id`),
+  KEY `idx_alias` (`type_alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
@@ -499,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_core_log_searches` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_extensions` (
-`extension_id` int(11) NOT NULL,
+  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
@@ -515,8 +571,12 @@ CREATE TABLE IF NOT EXISTS `vfkn0_extensions` (
   `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) DEFAULT '0',
-  `state` int(11) DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10012 ;
+  `state` int(11) DEFAULT '0',
+  PRIMARY KEY (`extension_id`),
+  KEY `element_clientid` (`element`,`client_id`),
+  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+  KEY `extension` (`type`,`element`,`folder`,`client_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10016 ;
 
 --
 -- Dumping data for table `vfkn0_extensions`
@@ -555,7 +615,7 @@ INSERT INTO `vfkn0_extensions` (`extension_id`, `name`, `type`, `element`, `fold
 (32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '{"name":"com_postinstall","type":"component","creationDate":"September 2013","author":"Joomla! Project","copyright":"(C) 2005 - 2015 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.2.0","description":"COM_POSTINSTALL_XML_DESCRIPTION","group":""}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '{"name":"SimplePie","type":"library","creationDate":"2004","author":"SimplePie","copyright":"Copyright (c) 2004-2009, Ryan Parman and Geoffrey Sneddon","authorEmail":"","authorUrl":"http:\\/\\/simplepie.org\\/","version":"1.2","description":"LIB_SIMPLEPIE_XML_DESCRIPTION","group":"","filename":"simplepie"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '{"name":"phputf8","type":"library","creationDate":"2006","author":"Harry Fuecks","copyright":"Copyright various authors","authorEmail":"hfuecks@gmail.com","authorUrl":"http:\\/\\/sourceforge.net\\/projects\\/phputf8","version":"0.5","description":"LIB_PHPUTF8_XML_DESCRIPTION","group":"","filename":"phputf8"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '{"name":"Joomla! Platform","type":"library","creationDate":"2008","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"13.1","description":"LIB_JOOMLA_XML_DESCRIPTION","group":"","filename":"joomla"}', '{"mediaversion":"fa60cf71ddb1625a20795f4dcae2f8eb"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '{"name":"Joomla! Platform","type":"library","creationDate":"2008","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"13.1","description":"LIB_JOOMLA_XML_DESCRIPTION","group":"","filename":"joomla"}', '{"mediaversion":"22c54df56fa1c202e705a8adc8802233"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (104, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '{"name":"IDNA Convert","type":"library","creationDate":"2004","author":"phlyLabs","copyright":"2004-2011 phlyLabs Berlin, http:\\/\\/phlylabs.de","authorEmail":"phlymail@phlylabs.de","authorUrl":"http:\\/\\/phlylabs.de","version":"0.8.0","description":"LIB_IDNA_XML_DESCRIPTION","group":"","filename":"idna_convert"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (105, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '{"name":"FOF","type":"library","creationDate":"2015-03-11 11:59:00","author":"Nicholas K. Dionysopoulos \\/ Akeeba Ltd","copyright":"(C)2011-2015 Nicholas K. Dionysopoulos","authorEmail":"nicholas@akeebabackup.com","authorUrl":"https:\\/\\/www.akeebabackup.com","version":"2.4.2","description":"LIB_FOF_XML_DESCRIPTION","group":"","filename":"fof"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (106, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '{"name":"PHPass","type":"library","creationDate":"2004-2006","author":"Solar Designer","copyright":"","authorEmail":"solar@openwall.com","authorUrl":"http:\\/\\/www.openwall.com\\/phpass\\/","version":"0.3","description":"LIB_PHPASS_XML_DESCRIPTION","group":"","filename":"phpass"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -660,7 +720,9 @@ INSERT INTO `vfkn0_extensions` (`extension_id`, `name`, `type`, `element`, `fold
 (10003, 'Menu Accordeon CK', 'module', 'mod_accordeonck', '', 0, 1, 0, 0, '{"name":"Menu Accordeon CK","type":"module","creationDate":"octobre 2011","author":"C\\u00e9dric KEIFLIN","copyright":"C\\u00e9dric KEIFLIN","authorEmail":"ced1870@gmail.com","authorUrl":"http:\\/\\/www.joomlack.fr","version":"2.0.13","description":"MOD_ACCORDEONCK_DESC","group":"","filename":"mod_accordeonck"}', '{"startLevel":"1","endLevel":"0","imgalignement":"none","imagerollprefix":"_hover","imageactiveprefix":"_active","cache":"1","cache_time":"900","cachemode":"itemid","eventtype":"click","eventtarget":"link","fadetransition":"false","mooduration":"500","mootransition":"linear","defaultopenedid":"","activeeffect":"0","usestyles":"1","theme":"simple","useplusminusimages":"1","imageplus":"modules\\/mod_accordeonck\\/assets\\/plus.png","imageminus":"modules\\/mod_accordeonck\\/assets\\/minus.png","imageposition":"right","menuusemargin":"1","menumargin":"0","menupadding":"5","menuusebackground":"1","menubgcolor1":"#f0f0f0","menuusegradient":"1","menubgcolor2":"#e3e3e3","menuuseroundedcorners":"1","menuroundedcornerstl":"5","menuroundedcornerstr":"5","menuroundedcornersbr":"5","menuroundedcornersbl":"5","menuuseshadow":"1","menushadowcolor":"#444444","menushadowblur":"3","menushadowspread":"0","menushadowoffsetx":"0","menushadowoffsety":"0","menushadowinset":"0","menuuseborders":"1","menubordercolor":"#efefef","menuborderwidth":"1","level1linkusefont":"1","level1linkfontsize":"12px","level1linkfontcolor":"","level1linkfontcolorhover":"","level1linkdescfontsize":"10px","level1linkdescfontcolor":"","level1linkusemargin":"1","level1linkmargin":"0","level1linkpadding":"0","level1linkusebackground":"1","level1linkbgcolor1":"","level1linkusegradient":"1","level1linkbgcolor2":"","level1linkuseroundedcorners":"1","level1linkroundedcornerstl":"0","level1linkroundedcornerstr":"0","level1linkroundedcornersbr":"0","level1linkroundedcornersbl":"0","level1linkuseshadow":"1","level1linkshadowcolor":"","level1linkshadowblur":"0","level1linkshadowspread":"0","level1linkshadowoffsetx":"0","level1linkshadowoffsety":"0","level1linkshadowinset":"0","level1linkuseborders":"1","level1linkbordercolor":"","level1linkborderwidth":"1","level2linkusefont":"1","level2linkfontsize":"12px","level2linkfontcolor":"","level2linkfontcolorhover":"","level2linkdescfontsize":"10px","level2linkdescfontcolor":"","level2linkusemargin":"1","level2linkmargin":"0","level2linkpadding":"0","level2linkusebackground":"1","level2linkbgcolor1":"","level2linkusegradient":"1","level2linkbgcolor2":"","level2linkuseroundedcorners":"1","level2linkroundedcornerstl":"0","level2linkroundedcornerstr":"0","level2linkroundedcornersbr":"0","level2linkroundedcornersbl":"0","level2linkuseshadow":"1","level2linkshadowcolor":"","level2linkshadowblur":"0","level2linkshadowspread":"0","level2linkshadowoffsetx":"0","level2linkshadowoffsety":"0","level2linkshadowinset":"0","level2linkuseborders":"1","level2linkbordercolor":"","level2linkborderwidth":"1","level3linkusefont":"1","level3linkfontsize":"12px","level3linkfontcolor":"","level3linkfontcolorhover":"","level3linkdescfontsize":"10px","level3linkdescfontcolor":"","level3linkusemargin":"1","level3linkmargin":"0","level3linkpadding":"0","level3linkusebackground":"1","level3linkbgcolor1":"","level3linkusegradient":"1","level3linkbgcolor2":"","level3linkuseroundedcorners":"1","level3linkroundedcornerstl":"0","level3linkroundedcornerstr":"0","level3linkroundedcornersbr":"0","level3linkroundedcornersbl":"0","level3linkuseshadow":"1","level3linkshadowcolor":"","level3linkshadowblur":"0","level3linkshadowspread":"0","level3linkshadowoffsetx":"0","level3linkshadowoffsety":"0","level3linkshadowinset":"0","level3linkuseborders":"1","level3linkbordercolor":"","level3linkborderwidth":"1","thirdparty":"none","hikashopitemid":"0","usehikashopimages":"0","usehikashopsuffix":"0","hikashopimagesuffix":"_mini","hikashopcategoryroot":"0","hikashopcategorydepth":"0","usevmimages":"0","usevmsuffix":"0","vmimagesuffix":"_mini","vmcategoryroot":"0","vmcategorydepth":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (10004, 'PLG_SYSTEM_SRIZONIMAGESLIDER', 'plugin', 'srizonimageslider', 'system', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (10009, 'Slideshow CK', 'module', 'mod_slideshowck', '', 0, 1, 0, 0, '{"name":"Slideshow CK","type":"module","creationDate":"Avril 2012","author":"C\\u00e9dric KEIFLIN","copyright":"C\\u00e9dric KEIFLIN","authorEmail":"ced1870@gmail.com","authorUrl":"http:\\/\\/www.joomlack.fr","version":"1.4.12","description":"MOD_SLIDESHOWCK_XML_DESCRIPTION","group":"","filename":"mod_slideshowck"}', '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|modules\\/mod_slideshowck\\/images\\/slides\\/bridge.jpg|qq|,|qq|imgcaption|qq|:|qq|This bridge is very long|qq|,|qq|imgtitle|qq|:|qq|This is a bridge|qq|,|qq|imgthumb|qq|:|qq|..\\/modules\\/mod_slideshowck\\/images\\/slides\\/bridge.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|modules\\/mod_slideshowck\\/images\\/slides\\/road.jpg|qq|,|qq|imgcaption|qq|:|qq|This slideshow uses a JQuery script adapted from <a href=|dq|http:\\/\\/www.pixedelic.com\\/plugins\\/camera\\/|dq|>Pixedelic<\\/a>|qq|,|qq|imgtitle|qq|:|qq|On the road again|qq|,|qq|imgthumb|qq|:|qq|..\\/modules\\/mod_slideshowck\\/images\\/slides\\/road.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|modules\\/mod_slideshowck\\/images\\/slides\\/big_bunny_fake.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|..\\/modules\\/mod_slideshowck\\/images\\/slides\\/big_bunny_fake.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq|http:\\/\\/player.vimeo.com\\/video\\/2203727|qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","skin":"camera_amber_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":"random","time":"7000","transperiod":"1500","captioneffect":"random","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(10011, 'SP Quick Contact', 'module', 'mod_sp_quickcontact', '', 0, 1, 0, 0, '{"name":"SP Quick Contact","type":"module","creationDate":"Aug 2011","author":"JoomShaper.com","copyright":"Copyright (C) 2010 - 2012 JoomShaper.com. All rights reserved.","authorEmail":"support@joomshaper.com","authorUrl":"www.joomshaper.com","version":"1.4","description":"SP Quick Contact - Ajax based Quick Contact Module for Joomla!","group":"","filename":"mod_sp_quickcontact"}', '{"email":"","success":"Email was sent successfully.","failed":"Email could not be sent.","formcaptcha":"1","captcha_question":"3 + 4 = ?","captcha_answer":"7","failed_captcha":"You have entered wrong captcha. Please try again.","cache":"1","cache_time":"900","cachemode":"itemid"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(10011, 'SP Quick Contact', 'module', 'mod_sp_quickcontact', '', 0, 1, 0, 0, '{"name":"SP Quick Contact","type":"module","creationDate":"Aug 2011","author":"JoomShaper.com","copyright":"Copyright (C) 2010 - 2012 JoomShaper.com. All rights reserved.","authorEmail":"support@joomshaper.com","authorUrl":"www.joomshaper.com","version":"1.4","description":"SP Quick Contact - Ajax based Quick Contact Module for Joomla!","group":"","filename":"mod_sp_quickcontact"}', '{"email":"","success":"Email was sent successfully.","failed":"Email could not be sent.","formcaptcha":"1","captcha_question":"3 + 4 = ?","captcha_answer":"7","failed_captcha":"You have entered wrong captcha. Please try again.","cache":"1","cache_time":"900","cachemode":"itemid"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(10014, 'com_phocamaps', 'component', 'com_phocamaps', '', 1, 1, 0, 0, '{"name":"com_phocamaps","type":"component","creationDate":"24\\/02\\/2014","author":"Jan Pavelka (www.phoca.cz)","copyright":"Jan Pavelka","authorEmail":"","authorUrl":"www.phoca.cz","version":"3.0.1","description":"Phoca Maps","group":"","filename":"phocamaps"}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(10015, 'Phoca Maps Plugin', 'plugin', 'phocamaps', 'content', 0, 1, 1, 0, '{"name":"Phoca Maps Plugin","type":"plugin","creationDate":"30\\/07\\/2014","author":"Jan Pavelka (www.phoca.cz)","copyright":"Jan Pavelka","authorEmail":"","authorUrl":"www.phoca.cz","version":"3.0.2","description":"PLG_CONTENT_PHOCAMAPS_DESCRIPTION","group":"","filename":"phocamaps"}', '{"display_map_description":"0","detail_window":"0","modal_box_overlay_color":"#000000","modal_box_overlay_opacity":"0.3","modal_box_border_color":"#6b6b6b","modal_box_border_width":"2"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -669,7 +731,7 @@ INSERT INTO `vfkn0_extensions` (`extension_id`, `name`, `type`, `element`, `fold
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
-`filter_id` int(10) unsigned NOT NULL,
+  `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT '1',
@@ -682,7 +744,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `map_count` int(10) unsigned NOT NULL DEFAULT '0',
   `data` text NOT NULL,
-  `params` mediumtext
+  `params` mediumtext,
+  PRIMARY KEY (`filter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -692,7 +755,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
-`link_id` int(10) unsigned NOT NULL,
+  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
   `route` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -710,7 +773,14 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
   `list_price` double unsigned NOT NULL DEFAULT '0',
   `sale_price` double unsigned NOT NULL DEFAULT '0',
   `type_id` int(11) NOT NULL,
-  `object` mediumblob NOT NULL
+  `object` mediumblob NOT NULL,
+  PRIMARY KEY (`link_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_title` (`title`),
+  KEY `idx_md5` (`md5sum`),
+  KEY `idx_url` (`url`(75)),
+  KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
+  KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -722,7 +792,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms0` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -734,7 +807,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms0` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms1` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -746,7 +822,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms1` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms2` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -758,7 +837,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms2` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms3` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -770,7 +852,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms3` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms4` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -782,7 +867,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms4` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms5` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -794,7 +882,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms5` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms6` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -806,7 +897,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms6` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms7` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -818,7 +912,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms7` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms8` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -830,7 +927,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms8` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms9` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -842,7 +942,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms9` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsa` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -854,7 +957,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsa` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsb` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -866,7 +972,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsb` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsc` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -878,7 +987,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsc` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsd` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -890,7 +1002,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsd` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termse` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -902,7 +1017,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termse` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsf` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL
+  `weight` float unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -912,12 +1030,18 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsf` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `state` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `access` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0'
+  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `state` (`state`),
+  KEY `ordering` (`ordering`),
+  KEY `access` (`access`),
+  KEY `idx_parent_published` (`parent_id`,`state`,`access`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -935,7 +1059,10 @@ INSERT INTO `vfkn0_finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `acces
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy_map` (
   `link_id` int(10) unsigned NOT NULL,
-  `node_id` int(10) unsigned NOT NULL
+  `node_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`node_id`),
+  KEY `link_id` (`link_id`),
+  KEY `node_id` (`node_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -945,7 +1072,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
-`term_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
   `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -953,7 +1080,12 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
   `weight` float unsigned NOT NULL DEFAULT '0',
   `soundex` varchar(75) NOT NULL,
   `links` int(10) NOT NULL DEFAULT '0',
-  `language` char(3) NOT NULL DEFAULT ''
+  `language` char(3) NOT NULL DEFAULT '',
+  PRIMARY KEY (`term_id`),
+  UNIQUE KEY `idx_term` (`term`),
+  KEY `idx_term_phrase` (`term`,`phrase`),
+  KEY `idx_stem_phrase` (`stem`,`phrase`),
+  KEY `idx_soundex_phrase` (`soundex`,`phrase`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -964,7 +1096,9 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms_common` (
   `term` varchar(75) NOT NULL,
-  `language` varchar(3) NOT NULL
+  `language` varchar(3) NOT NULL,
+  KEY `idx_word_lang` (`term`,`language`),
+  KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1101,7 +1235,9 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens` (
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `weight` float unsigned NOT NULL DEFAULT '1',
   `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
-  `language` char(3) NOT NULL DEFAULT ''
+  `language` char(3) NOT NULL DEFAULT '',
+  KEY `idx_word` (`term`),
+  KEY `idx_context` (`context`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1121,7 +1257,9 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens_aggregate` (
   `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `context_weight` float unsigned NOT NULL,
   `total_weight` float unsigned NOT NULL,
-  `language` char(3) NOT NULL DEFAULT ''
+  `language` char(3) NOT NULL DEFAULT '',
+  KEY `token` (`term`),
+  KEY `keyword_id` (`term_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1131,9 +1269,11 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens_aggregate` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_types` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
-  `mime` varchar(100) NOT NULL
+  `mime` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1143,7 +1283,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_types` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_languages` (
-`lang_id` int(11) unsigned NOT NULL,
+  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `lang_code` char(7) NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -1155,7 +1295,13 @@ CREATE TABLE IF NOT EXISTS `vfkn0_languages` (
   `sitename` varchar(1024) NOT NULL DEFAULT '',
   `published` int(11) NOT NULL DEFAULT '0',
   `access` int(10) unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0'
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`lang_id`),
+  UNIQUE KEY `idx_sef` (`sef`),
+  UNIQUE KEY `idx_image` (`image`),
+  UNIQUE KEY `idx_langcode` (`lang_code`),
+  KEY `idx_access` (`access`),
+  KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1172,7 +1318,7 @@ INSERT INTO `vfkn0_languages` (`lang_id`, `lang_code`, `title`, `title_native`, 
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_menu` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
@@ -1195,15 +1341,23 @@ CREATE TABLE IF NOT EXISTS `vfkn0_menu` (
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
-  `client_id` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
+  `client_id` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`),
+  KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
+  KEY `idx_menutype` (`menutype`),
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`),
+  KEY `idx_path` (`path`(255)),
+  KEY `idx_language` (`language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=135 ;
 
 --
 -- Dumping data for table `vfkn0_menu`
 --
 
 INSERT INTO `vfkn0_menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 67, 0, '*', 0),
+(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 79, 0, '*', 0),
 (2, 'menu', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 4, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1),
 (3, 'menu', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 0, 2, 2, 4, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1),
 (4, 'menu', 'com_banners_categories', 'Categories', '', 'Banners/Categories', 'index.php?option=com_categories&extension=com_banners', 'component', 0, 2, 2, 6, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-cat', 0, '', 4, 5, 0, '*', 1),
@@ -1236,7 +1390,13 @@ INSERT INTO `vfkn0_menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `l
 (110, 'mainmenu', 'DESIGN ELEMENTS', 'design-elements', '', 'projects/design-elements', 'index.php?option=com_content&view=category&id=10', 'component', 1, 105, 2, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"","show_no_articles":"","show_category_heading_title":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"","page_subheading":"","show_pagination_limit":"","filter_field":"","show_headings":"","list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","orderby_pri":"","orderby_sec":"","order_date":"","show_pagination":"","show_pagination_results":"","display_num":"10","show_featured":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 54, 55, 0, '*', 0),
 (111, 'mainmenu', 'test', 'test', '', 'projects/test', 'index.php?option=com_content&view=article&id=10', 'component', -2, 105, 2, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","urls_position":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 56, 57, 0, '*', 0),
 (126, 'mainmenu', 'Golf Resort House', 'golf-resort-house', '', 'golf-resort-house', 'index.php?option=com_phocagallery&view=category&id=2', 'component', -2, 1, 1, 10004, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"show_pagination_categories":"0","show_pagination_category":"1","show_pagination_limit_categories":"0","show_pagination_limit_category":"1","show_ordering_categories":"0","show_ordering_images":"1","display_cat_name_title":"1","display_cat_name_breadcrumbs":"0","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 63, 64, 0, '*', 0),
-(128, 'mainmenu', 'test', 'test', '', 'test', 'index.php?option=com_alfcontact&view=alfcontact', 'component', -2, 1, 1, 10010, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"title":"","defcontact":"3","header":"","footer":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 65, 66, 0, '*', 0);
+(128, 'mainmenu', 'test', 'test', '', 'test', 'index.php?option=com_alfcontact&view=alfcontact', 'component', -2, 1, 1, 10010, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"title":"","defcontact":"3","header":"","footer":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 65, 66, 0, '*', 0),
+(129, 'main', 'COM_PHOCAMAPS', 'com-phocamaps', '', 'com-phocamaps', 'index.php?option=com_phocamaps', 'component', 0, 1, 1, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu.png', 0, '', 67, 78, 0, '', 1),
+(130, 'main', 'COM_PHOCAMAPS_CONTROLPANEL', 'com-phocamaps-controlpanel', '', 'com-phocamaps/com-phocamaps-controlpanel', 'index.php?option=com_phocamaps', 'component', 0, 129, 2, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu-cp.png', 0, '', 68, 69, 0, '', 1),
+(131, 'main', 'COM_PHOCAMAPS_MAPS', 'com-phocamaps-maps', '', 'com-phocamaps/com-phocamaps-maps', 'index.php?option=com_phocamaps&view=phocamapsmaps', 'component', 0, 129, 2, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu-map.png', 0, '', 70, 71, 0, '', 1),
+(132, 'main', 'COM_PHOCAMAPS_MARKERS', 'com-phocamaps-markers', '', 'com-phocamaps/com-phocamaps-markers', 'index.php?option=com_phocamaps&view=phocamapsmarkers', 'component', 0, 129, 2, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu-marker.png', 0, '', 72, 73, 0, '', 1),
+(133, 'main', 'COM_PHOCAMAPS_ICONS', 'com-phocamaps-icons', '', 'com-phocamaps/com-phocamaps-icons', 'index.php?option=com_phocamaps&view=phocamapsicons', 'component', 0, 129, 2, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu-icon.png', 0, '', 74, 75, 0, '', 1),
+(134, 'main', 'COM_PHOCAMAPS_INFO', 'com-phocamaps-info', '', 'com-phocamaps/com-phocamaps-info', 'index.php?option=com_phocamaps&view=phocamapsinfo', 'component', 0, 129, 2, 10014, 0, '0000-00-00 00:00:00', 0, 1, 'media/com_phocamaps/images/administrator/images/icon-16-pmap-menu-info.png', 0, '', 76, 77, 0, '', 1);
 
 -- --------------------------------------------------------
 
@@ -1245,10 +1405,12 @@ INSERT INTO `vfkn0_menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `l
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_menu_types` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT ''
+  `description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_menutype` (`menutype`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1265,7 +1427,7 @@ INSERT INTO `vfkn0_menu_types` (`id`, `menutype`, `title`, `description`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
-`message_id` int(10) unsigned NOT NULL,
+  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id_from` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id_to` int(10) unsigned NOT NULL DEFAULT '0',
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
@@ -1273,7 +1435,9 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
   `state` tinyint(1) NOT NULL DEFAULT '0',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(255) NOT NULL DEFAULT '',
-  `message` text NOT NULL
+  `message` text NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `useridto_state` (`user_id_to`,`state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1285,7 +1449,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
 CREATE TABLE IF NOT EXISTS `vfkn0_messages_cfg` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `cfg_name` varchar(100) NOT NULL DEFAULT '',
-  `cfg_value` varchar(255) NOT NULL DEFAULT ''
+  `cfg_value` varchar(255) NOT NULL DEFAULT '',
+  UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1295,7 +1460,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages_cfg` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_modules` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -1312,7 +1477,11 @@ CREATE TABLE IF NOT EXISTS `vfkn0_modules` (
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
-  `language` char(7) NOT NULL
+  `language` char(7) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `published` (`published`,`access`),
+  KEY `newsfeeds` (`module`,`published`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=109 ;
 
 --
@@ -1363,7 +1532,8 @@ INSERT INTO `vfkn0_modules` (`id`, `asset_id`, `title`, `note`, `content`, `orde
 
 CREATE TABLE IF NOT EXISTS `vfkn0_modules_menu` (
   `moduleid` int(11) NOT NULL DEFAULT '0',
-  `menuid` int(11) NOT NULL DEFAULT '0'
+  `menuid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1415,7 +1585,7 @@ INSERT INTO `vfkn0_modules_menu` (`moduleid`, `menuid`) VALUES
 
 CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
   `catid` int(11) NOT NULL DEFAULT '0',
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `link` varchar(200) NOT NULL DEFAULT '',
@@ -1443,7 +1613,15 @@ CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
   `description` text NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `images` text NOT NULL
+  `images` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1453,11 +1631,143 @@ CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_overrider` (
-`id` int(10) NOT NULL COMMENT 'Primary Key',
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
-  `file` varchar(255) NOT NULL
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vfkn0_phocamaps_icon`
+--
+
+CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_icon` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(250) NOT NULL DEFAULT '',
+  `alias` varchar(255) NOT NULL DEFAULT '',
+  `url` text NOT NULL,
+  `urls` text NOT NULL,
+  `object` varchar(255) NOT NULL DEFAULT '',
+  `objects` varchar(255) NOT NULL DEFAULT '',
+  `objectshape` varchar(255) NOT NULL DEFAULT '',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `hits` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `vfkn0_phocamaps_icon`
+--
+
+INSERT INTO `vfkn0_phocamaps_icon` (`id`, `title`, `alias`, `url`, `urls`, `object`, `objects`, `objectshape`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `hits`, `params`, `language`) VALUES
+(1, 'Tree', 'tree', 'http://maps.google.com/mapfiles/ms/icons/tree.png', 'http://maps.google.com/mapfiles/ms/icons/tree.shadow.png', '', '59,32;0,0;16,34', 'rect;0,0,25,30', 1, 0, '0000-00-00 00:00:00', 1, 1, 0, '', ''),
+(2, 'Pushpin', 'pushpin', 'http://maps.google.com/mapfiles/ms/icons/red-pushpin.png', '', '', '', 'rect;0,0,25,30', 1, 0, '0000-00-00 00:00:00', 2, 1, 0, '', ''),
+(3, 'Blue Dot', 'blue-dot', 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', '', '', '', 'rect;0,0,25,30', 1, 0, '0000-00-00 00:00:00', 3, 1, 0, '', ''),
+(4, 'Flag', 'flag', 'http://maps.google.com/mapfiles/ms/icons/flag.png', 'http://maps.google.com/mapfiles/ms/icons/flag.shadow.png', '', '59,32;0,0;16,34', 'rect;0,0,25,30', 1, 0, '0000-00-00 00:00:00', 3, 1, 0, '', ''),
+(5, 'Info', 'info', 'http://maps.google.com/mapfiles/ms/icons/info.png', 'http://maps.google.com/mapfiles/ms/icons/info.shadow.png', '', '59,32;0,0;16,34', 'rect;0,0,25,30', 1, 0, '0000-00-00 00:00:00', 5, 1, 0, '', ''),
+(6, 'Snack Bar', 'snack-bar', 'http://maps.google.com/mapfiles/ms/icons/snack_bar.png', 'http://maps.google.com/mapfiles/ms/icons/snack_bar.shadow.png', '', '59,32;0,0;16,34', 'rect;0,0,32,30', 1, 0, '0000-00-00 00:00:00', 6, 1, 0, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vfkn0_phocamaps_map`
+--
+
+CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_map` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(255) NOT NULL DEFAULT '',
+  `width` int(5) NOT NULL DEFAULT '0',
+  `height` int(5) NOT NULL DEFAULT '0',
+  `latitude` varchar(20) NOT NULL DEFAULT '',
+  `longitude` varchar(20) NOT NULL DEFAULT '',
+  `zoom` int(3) NOT NULL DEFAULT '0',
+  `lang` varchar(6) NOT NULL DEFAULT '',
+  `border` tinyint(1) NOT NULL DEFAULT '0',
+  `continuouszoom` tinyint(1) NOT NULL DEFAULT '0',
+  `doubleclickzoom` tinyint(1) NOT NULL DEFAULT '0',
+  `scrollwheelzoom` tinyint(1) NOT NULL DEFAULT '0',
+  `zoomcontrol` tinyint(1) NOT NULL DEFAULT '0',
+  `scalecontrol` tinyint(1) NOT NULL DEFAULT '0',
+  `typeid` tinyint(1) NOT NULL DEFAULT '0',
+  `typecontrol` tinyint(1) NOT NULL DEFAULT '0',
+  `typecontrolposition` tinyint(1) NOT NULL DEFAULT '0',
+  `collapsibleoverview` tinyint(1) NOT NULL DEFAULT '0',
+  `dynamiclabel` tinyint(1) NOT NULL DEFAULT '0',
+  `googlebar` tinyint(1) NOT NULL DEFAULT '0',
+  `displayroute` tinyint(1) NOT NULL DEFAULT '0',
+  `kmlfile` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `hits` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `cat_idx` (`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `vfkn0_phocamaps_map`
+--
+
+INSERT INTO `vfkn0_phocamaps_map` (`id`, `title`, `alias`, `width`, `height`, `latitude`, `longitude`, `zoom`, `lang`, `border`, `continuouszoom`, `doubleclickzoom`, `scrollwheelzoom`, `zoomcontrol`, `scalecontrol`, `typeid`, `typecontrol`, `typecontrolposition`, `collapsibleoverview`, `dynamiclabel`, `googlebar`, `displayroute`, `kmlfile`, `description`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `hits`, `params`, `language`) VALUES
+(1, 'Michael Morris Architects', 'michael-morris-architects', 400, 300, '-37.813181', '145.001487', 15, '', 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, '', '', 1, 0, '0000-00-00 00:00:00', 1, 1, 0, '', '*');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vfkn0_phocamaps_marker`
+--
+
+CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_marker` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `catid` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(250) NOT NULL DEFAULT '',
+  `alias` varchar(255) NOT NULL DEFAULT '',
+  `latitude` varchar(20) NOT NULL DEFAULT '',
+  `longitude` varchar(20) NOT NULL DEFAULT '',
+  `gpslatitude` varchar(50) NOT NULL DEFAULT '',
+  `gpslongitude` varchar(50) NOT NULL DEFAULT '',
+  `displaygps` tinyint(1) NOT NULL DEFAULT '0',
+  `icon` tinyint(1) NOT NULL DEFAULT '0',
+  `iconext` int(11) NOT NULL DEFAULT '0',
+  `description` text NOT NULL,
+  `contentwidth` varchar(8) NOT NULL DEFAULT '',
+  `contentheight` varchar(8) NOT NULL DEFAULT '',
+  `markerwindow` tinyint(1) NOT NULL DEFAULT '0',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `hits` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `catid` (`catid`,`published`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `vfkn0_phocamaps_marker`
+--
+
+INSERT INTO `vfkn0_phocamaps_marker` (`id`, `catid`, `title`, `alias`, `latitude`, `longitude`, `gpslatitude`, `gpslongitude`, `displaygps`, `icon`, `iconext`, `description`, `contentwidth`, `contentheight`, `markerwindow`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `hits`, `params`, `language`) VALUES
+(2, 1, 'Richmond Office', 'office-marker', '-37.813181', '145.001487', '37° 48'' 47.452', '145° 0'' 5.353', 0, 3, 0, '<div style="color: black;"><b>Michael Morris Architects</b><br /> Richmond Office<br /> t: +61 3 9421 3332</div>', '', '', 0, 1, 0, '0000-00-00 00:00:00', 1, 1, 0, '', '*');
 
 -- --------------------------------------------------------
 
@@ -1466,7 +1776,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_overrider` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_postinstall_messages` (
-`postinstall_message_id` bigint(20) unsigned NOT NULL,
+  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `extension_id` bigint(20) NOT NULL DEFAULT '700' COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
@@ -1479,7 +1789,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_postinstall_messages` (
   `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
   `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
   `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
-  `enabled` tinyint(3) NOT NULL DEFAULT '1'
+  `enabled` tinyint(3) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`postinstall_message_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -1497,7 +1808,7 @@ INSERT INTO `vfkn0_postinstall_messages` (`postinstall_message_id`, `extension_i
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `old_url` varchar(255) NOT NULL,
   `new_url` varchar(255) DEFAULT NULL,
   `referer` varchar(150) NOT NULL,
@@ -1506,7 +1817,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `header` smallint(3) NOT NULL DEFAULT '301'
+  `header` smallint(3) NOT NULL DEFAULT '301',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_link_old` (`old_url`),
+  KEY `idx_link_modifed` (`modified_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1517,7 +1831,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_schemas` (
   `extension_id` int(11) NOT NULL,
-  `version_id` varchar(20) NOT NULL
+  `version_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`extension_id`,`version_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1540,7 +1855,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_session` (
   `time` varchar(14) DEFAULT '',
   `data` mediumtext,
   `userid` int(11) DEFAULT '0',
-  `username` varchar(150) DEFAULT ''
+  `username` varchar(150) DEFAULT '',
+  PRIMARY KEY (`session_id`),
+  KEY `userid` (`userid`),
+  KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1548,8 +1866,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_session` (
 --
 
 INSERT INTO `vfkn0_session` (`session_id`, `client_id`, `guest`, `time`, `data`, `userid`, `username`) VALUES
-('bj5uck3qjorf1u8thnidd325t1', 1, 0, '1429504408', '__default|a:8:{s:15:"session.counter";i:32;s:19:"session.timer.start";i:1429502185;s:18:"session.timer.last";i:1429504406;s:17:"session.timer.now";i:1429504407;s:22:"session.client.browser";s:75:"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":4:{s:11:"application";O:8:"stdClass":1:{s:4:"lang";s:5:"en-GB";}s:13:"com_installer";O:8:"stdClass":2:{s:7:"message";s:0:"";s:17:"extension_message";s:0:"";}s:11:"com_content";O:8:"stdClass":2:{s:8:"articles";O:8:"stdClass":3:{s:6:"filter";a:8:{s:6:"search";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:1:"2";s:5:"level";s:0:"";s:6:"access";s:0:"";s:9:"author_id";s:0:"";s:8:"language";s:0:"";s:3:"tag";s:0:"";}s:4:"list";a:2:{s:12:"fullordering";s:9:"a.id DESC";s:5:"limit";s:2:"20";}s:10:"limitstart";i:0;}s:4:"edit";O:8:"stdClass":1:{s:7:"article";O:8:"stdClass":2:{s:2:"id";a:0:{}s:4:"data";N;}}}s:11:"com_modules";O:8:"stdClass":3:{s:7:"modules";O:8:"stdClass":1:{s:6:"filter";O:8:"stdClass":1:{s:18:"client_id_previous";i:0;}}s:4:"edit";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:2:"id";a:1:{i:0;i:108;}s:4:"data";N;}}s:3:"add";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:12:"extension_id";N;s:6:"params";N;}}}}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":28:{s:9:"\\0\\0\\0isRoot";b:1;s:2:"id";s:3:"989";s:4:"name";s:10:"Super User";s:8:"username";s:8:"mmaadmin";s:5:"email";s:33:"shamus.dougan@sapient-tech.com.au";s:8:"password";s:60:"$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla";s:14:"password_clear";s:0:"";s:5:"block";s:1:"0";s:9:"sendEmail";s:1:"1";s:12:"registerDate";s:19:"2015-04-03 04:17:19";s:13:"lastvisitDate";s:19:"2015-04-20 01:01:04";s:10:"activation";s:1:"0";s:6:"params";s:0:"";s:6:"groups";a:1:{i:8;s:1:"8";}s:5:"guest";i:0;s:13:"lastResetTime";s:19:"0000-00-00 00:00:00";s:10:"resetCount";s:1:"0";s:12:"requireReset";s:1:"0";s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:8;}s:14:"\\0\\0\\0_authLevels";a:5:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:6;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;s:6:"otpKey";s:0:"";s:4:"otep";s:0:"";}s:13:"session.token";s:32:"a1130358cdcef5e8525dbeb7ad2ef038";}', 989, 'mmaadmin'),
-('kuucvg2vd0ep1p6qlg6av8k125', 0, 1, '1429504753', '__default|a:7:{s:15:"session.counter";i:14;s:19:"session.timer.start";i:1429502070;s:18:"session.timer.last";i:1429504607;s:17:"session.timer.now";i:1429504753;s:22:"session.client.browser";s:75:"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":26:{s:9:"\\0\\0\\0isRoot";b:0;s:2:"id";i:0;s:4:"name";N;s:8:"username";N;s:5:"email";N;s:8:"password";N;s:14:"password_clear";s:0:"";s:5:"block";N;s:9:"sendEmail";i:0;s:12:"registerDate";N;s:13:"lastvisitDate";N;s:10:"activation";N;s:6:"params";N;s:6:"groups";a:1:{i:0;s:1:"9";}s:5:"guest";i:1;s:13:"lastResetTime";N;s:10:"resetCount";N;s:12:"requireReset";N;s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:9;}s:14:"\\0\\0\\0_authLevels";a:3:{i:0;i:1;i:1;i:1;i:2;i:5;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;}}', 0, '');
+('531psbq35i944s1novlbbh85o0', 1, 0, '1429580946', '__default|a:9:{s:15:"session.counter";i:273;s:19:"session.timer.start";i:1429559903;s:18:"session.timer.last";i:1429580945;s:17:"session.timer.now";i:1429580945;s:22:"session.client.browser";s:68:"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":8:{s:11:"application";O:8:"stdClass":1:{s:4:"lang";s:5:"en-GB";}s:13:"com_installer";O:8:"stdClass":4:{s:7:"message";s:0:"";s:17:"extension_message";s:0:"";s:12:"redirect_url";N;s:6:"manage";O:8:"stdClass":4:{s:6:"filter";O:8:"stdClass":5:{s:6:"search";s:5:"phoca";s:9:"client_id";s:0:"";s:6:"status";s:0:"";s:4:"type";s:0:"";s:5:"group";s:0:"";}s:8:"ordercol";s:4:"name";s:9:"orderdirn";s:3:"asc";s:10:"limitstart";i:0;}}s:11:"com_content";O:8:"stdClass":2:{s:8:"articles";O:8:"stdClass":3:{s:6:"filter";a:8:{s:6:"search";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:1:"2";s:5:"level";s:0:"";s:6:"access";s:0:"";s:9:"author_id";s:0:"";s:8:"language";s:0:"";s:3:"tag";s:0:"";}s:4:"list";a:2:{s:12:"fullordering";s:9:"a.id DESC";s:5:"limit";s:2:"20";}s:10:"limitstart";i:0;}s:4:"edit";O:8:"stdClass":1:{s:7:"article";O:8:"stdClass":2:{s:2:"id";a:0:{}s:4:"data";N;}}}s:11:"com_modules";O:8:"stdClass":1:{s:7:"modules";O:8:"stdClass":1:{s:6:"filter";O:8:"stdClass":1:{s:18:"client_id_previous";i:0;}}}s:11:"com_plugins";O:8:"stdClass":2:{s:4:"edit";O:8:"stdClass":1:{s:6:"plugin";O:8:"stdClass":2:{s:2:"id";a:0:{}s:4:"data";N;}}s:7:"plugins";O:8:"stdClass":4:{s:6:"filter";O:8:"stdClass":4:{s:6:"search";s:4:"phoc";s:6:"access";i:0;s:7:"enabled";s:0:"";s:6:"folder";s:0:"";}s:8:"ordercol";s:6:"folder";s:9:"orderdirn";s:3:"asc";s:10:"limitstart";i:0;}}s:6:"global";O:8:"stdClass":1:{s:4:"list";O:8:"stdClass":1:{s:5:"limit";i:20;}}s:13:"com_phocamaps";O:8:"stdClass":1:{s:4:"edit";O:8:"stdClass":2:{s:12:"phocamapsmap";O:8:"stdClass":2:{s:4:"data";N;s:2:"id";a:0:{}}s:15:"phocamapsmarker";O:8:"stdClass":2:{s:4:"data";N;s:2:"id";a:0:{}}}}s:9:"com_menus";O:8:"stdClass":2:{s:5:"items";O:8:"stdClass":3:{s:8:"menutype";s:8:"mainmenu";s:10:"limitstart";i:0;s:4:"list";a:4:{s:9:"direction";s:3:"asc";s:5:"limit";i:20;s:8:"ordering";s:5:"a.lft";s:5:"start";d:0;}}s:4:"edit";O:8:"stdClass":1:{s:4:"item";O:8:"stdClass":3:{s:4:"data";N;s:4:"type";N;s:4:"link";N;}}}}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":28:{s:9:"\\0\\0\\0isRoot";b:1;s:2:"id";s:3:"989";s:4:"name";s:10:"Super User";s:8:"username";s:8:"mmaadmin";s:5:"email";s:33:"shamus.dougan@sapient-tech.com.au";s:8:"password";s:60:"$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla";s:14:"password_clear";s:0:"";s:5:"block";s:1:"0";s:9:"sendEmail";s:1:"1";s:12:"registerDate";s:19:"2015-04-03 04:17:19";s:13:"lastvisitDate";s:19:"2015-04-20 19:43:33";s:10:"activation";s:1:"0";s:6:"params";s:0:"";s:6:"groups";a:1:{i:8;s:1:"8";}s:5:"guest";i:0;s:13:"lastResetTime";s:19:"0000-00-00 00:00:00";s:10:"resetCount";s:1:"0";s:12:"requireReset";s:1:"0";s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:8;}s:14:"\\0\\0\\0_authLevels";a:5:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:6;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;s:6:"otpKey";s:0:"";s:4:"otep";s:0:"";}s:13:"session.token";s:32:"de2181c0fb956dc292065eca4b8ba65d";s:20:"com_media.return_url";s:115:"index.php?option=com_media&view=images&tmpl=component&fieldid=&e_name=jform_description&asset=com_phocamaps&author=";}', 989, 'mmaadmin'),
+('of6n6ecf5t9g0bv9k81asaq9k6', 0, 1, '1429581278', '__default|a:7:{s:15:"session.counter";i:48;s:19:"session.timer.start";i:1429577490;s:18:"session.timer.last";i:1429581045;s:17:"session.timer.now";i:1429581278;s:22:"session.client.browser";s:68:"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":26:{s:9:"\\0\\0\\0isRoot";b:0;s:2:"id";i:0;s:4:"name";N;s:8:"username";N;s:5:"email";N;s:8:"password";N;s:14:"password_clear";s:0:"";s:5:"block";N;s:9:"sendEmail";i:0;s:12:"registerDate";N;s:13:"lastvisitDate";N;s:10:"activation";N;s:6:"params";N;s:6:"groups";a:1:{i:0;s:1:"9";}s:5:"guest";i:1;s:13:"lastResetTime";N;s:10:"resetCount";N;s:12:"requireReset";N;s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:9;}s:14:"\\0\\0\\0_authLevels";a:3:{i:0;i:1;i:1;i:1;i:2;i:5;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;}}', 0, '');
 
 -- --------------------------------------------------------
 
@@ -1558,7 +1876,7 @@ INSERT INTO `vfkn0_session` (`session_id`, `client_id`, `guest`, `time`, `data`,
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_tags` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
@@ -1587,7 +1905,15 @@ CREATE TABLE IF NOT EXISTS `vfkn0_tags` (
   `language` char(7) NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `tag_idx` (`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_path` (`path`),
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1604,12 +1930,15 @@ INSERT INTO `vfkn0_tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `tit
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_template_styles` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `params` text NOT NULL
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_template` (`template`),
+  KEY `idx_home` (`home`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
@@ -1633,7 +1962,11 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_base` (
   `ucm_id` int(10) unsigned NOT NULL,
   `ucm_item_id` int(10) NOT NULL,
   `ucm_type_id` int(11) NOT NULL,
-  `ucm_language_id` int(11) NOT NULL
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `idx_ucm_item_id` (`ucm_item_id`),
+  KEY `idx_ucm_type_id` (`ucm_type_id`),
+  KEY `idx_ucm_language_id` (`ucm_language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1643,7 +1976,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_base` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
-`core_content_id` int(10) unsigned NOT NULL,
+  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `core_type_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,
   `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -1674,7 +2007,20 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
   `core_metadesc` text NOT NULL,
   `core_catid` int(10) unsigned NOT NULL DEFAULT '0',
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `core_type_id` int(10) unsigned DEFAULT NULL
+  `core_type_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`core_content_id`),
+  KEY `tag_idx` (`core_state`,`core_access`),
+  KEY `idx_access` (`core_access`),
+  KEY `idx_alias` (`core_alias`),
+  KEY `idx_language` (`core_language`),
+  KEY `idx_title` (`core_title`),
+  KEY `idx_modified_time` (`core_modified_time`),
+  KEY `idx_created_time` (`core_created_time`),
+  KEY `idx_content_type` (`core_type_alias`),
+  KEY `idx_core_modified_user_id` (`core_modified_user_id`),
+  KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
+  KEY `idx_core_created_user_id` (`core_created_user_id`),
+  KEY `idx_core_type_id` (`core_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1684,7 +2030,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_ucm_history` (
-`version_id` int(10) unsigned NOT NULL,
+  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ucm_item_id` int(10) unsigned NOT NULL,
   `ucm_type_id` int(10) unsigned NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
@@ -1693,8 +2039,11 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_history` (
   `character_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of characters in this version.',
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
-  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
+  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep',
+  PRIMARY KEY (`version_id`),
+  KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
+  KEY `idx_save_date` (`save_date`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=127 ;
 
 --
 -- Dumping data for table `vfkn0_ucm_history`
@@ -1709,7 +2058,6 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (6, 6, 1, '', '2015-04-03 09:45:19', 989, 1660, '4b0e1defaf36b12c723ec94e6cf7697bd5102b29', '{"id":6,"asset_id":59,"title":"MeMediadia","alias":"memediadia","introtext":"","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:45:19","created_by":"989","created_by_alias":"","modified":"2015-04-03 09:45:19","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-03 09:45:19","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (7, 7, 1, '', '2015-04-03 09:45:45', 989, 1650, '4ead75fc0212e8f3bd3edfb7b402e3a32aaba58d', '{"id":7,"asset_id":60,"title":"About","alias":"about","introtext":"","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:45:45","created_by":"989","created_by_alias":"","modified":"2015-04-03 09:45:45","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-03 09:45:45","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (9, 6, 1, '', '2015-04-03 09:46:50', 989, 1669, 'be4f541279ae9b5e414304e780648068c113aad7', '{"id":6,"asset_id":"59","title":"Media","alias":"media","introtext":"","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:45:19","created_by":"989","created_by_alias":"","modified":"2015-04-03 09:46:50","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-03 09:46:33","publish_up":"2015-04-03 09:45:19","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"0","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(10, 9, 1, '', '2015-04-03 09:47:12', 989, 1654, 'b27a0ffddebb5c29dd59341056bc1f23d759100e', '{"id":9,"asset_id":62,"title":"Contact","alias":"contact","introtext":"","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-03 09:47:12","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (11, 7, 1, '', '2015-04-04 20:55:03', 989, 2542, '3c9a426868840468e907d689a74d58363274b9dd', '{"id":7,"asset_id":"60","title":"About","alias":"about","introtext":"<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:45:45","created_by":"989","created_by_alias":"","modified":"2015-04-04 20:55:03","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-04 20:54:27","publish_up":"2015-04-03 09:45:45","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"18","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (12, 8, 5, '', '2015-04-04 21:24:01', 989, 559, '0093a65acde769c6a1063a8b826da0f3c945c646', '{"id":8,"asset_id":66,"parent_id":"1","lft":"11","rgt":12,"level":1,"path":null,"extension":"com_content","title":"Residential","alias":"residential","note":"","description":"","published":"1","checked_out":null,"checked_out_time":null,"access":"1","params":"{\\"category_layout\\":\\"\\",\\"image\\":\\"\\",\\"image_alt\\":\\"\\"}","metadesc":"","metakey":"","metadata":"{\\"author\\":\\"\\",\\"robots\\":\\"\\"}","created_user_id":"989","created_time":"2015-04-04 21:24:01","modified_user_id":null,"modified_time":"2015-04-04 21:24:01","hits":"0","language":"*","version":null}', 0),
 (13, 10, 1, '', '2015-04-04 21:24:40', 989, 1675, '7b34c3862cc40325e5f1d77ce97bfd51a3b95e79', '{"id":10,"asset_id":67,"title":"Golf Resort House","alias":"golf-resort-house","introtext":"","fulltext":"","state":1,"catid":"8","created":"2015-04-04 21:24:40","created_by":"989","created_by_alias":"","modified":"2015-04-04 21:24:40","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-04 21:24:40","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
@@ -1724,9 +2072,9 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (22, 11, 1, '', '2015-04-07 05:19:11', 989, 1704, 'bc2b6a9fd301e37701342b2fb435e21120bd6685', '{"id":11,"asset_id":"68","title":"Sorrento Retreat","alias":"sorrento-retreat","introtext":"<p>blah<\\/p>","fulltext":"","state":1,"catid":"8","created":"2015-04-04 21:25:23","created_by":"989","created_by_alias":"","modified":"2015-04-07 05:19:11","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-07 05:18:50","publish_up":"2015-04-04 21:25:23","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (23, 10, 1, '', '2015-04-07 05:38:13', 989, 1875, '7e56fd708a380c7d12ad3b9355335468d130a8a5', '{"id":10,"asset_id":"67","title":"Golf Resort House","alias":"golf-resort-house","introtext":"<p>This is the golf course information so blaah blah blah blah<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"8","created":"2015-04-04 21:24:40","created_by":"989","created_by_alias":"","modified":"2015-04-07 05:38:13","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-07 05:37:57","publish_up":"2015-04-04 21:24:40","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/golf_resort_house\\\\\\/golf_resort_house_article_list.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":9,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"4","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (24, 11, 1, '', '2015-04-07 06:08:08', 989, 1843, 'e486200fce381850db7c9f5f477418afaa444581', '{"id":11,"asset_id":"68","title":"Sorrento Retreat","alias":"sorrento-retreat","introtext":"<p>This is an awesome beach house<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"8","created":"2015-04-04 21:25:23","created_by":"989","created_by_alias":"","modified":"2015-04-07 06:08:08","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-07 06:07:34","publish_up":"2015-04-04 21:25:23","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/sorento_retreat\\\\\\/sorento_retreat_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"5","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(25, 12, 1, '', '2015-04-07 06:12:51', 989, 1837, 'e6e7e497f26a382d8c3c19dddb4aaf4442b55c2a', '{"id":12,"asset_id":69,"title":"Hinterland House","alias":"hinterland-house","introtext":"<p>This is the hinterland house discriptions<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"8","created":"2015-04-07 06:12:51","created_by":"989","created_by_alias":"","modified":"2015-04-07 06:12:51","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-07 06:12:51","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/hinterland_house\\\\\\/Hinterland_house_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+(25, 12, 1, '', '2015-04-07 06:12:51', 989, 1837, 'e6e7e497f26a382d8c3c19dddb4aaf4442b55c2a', '{"id":12,"asset_id":69,"title":"Hinterland House","alias":"hinterland-house","introtext":"<p>This is the hinterland house discriptions<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"8","created":"2015-04-07 06:12:51","created_by":"989","created_by_alias":"","modified":"2015-04-07 06:12:51","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-07 06:12:51","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/hinterland_house\\\\\\/Hinterland_house_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(26, 10, 1, '', '2015-04-08 03:19:02', 989, 1917, '651a0f83702ca5072b1eb216db463237e6b82630', '{"id":10,"asset_id":"67","title":"Golf Resort House","alias":"golf-resort-house","introtext":"<p>This is the golf course information so blaah blah blah blah<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition slideshow_residential_golf}<\\/p>","state":1,"catid":"8","created":"2015-04-04 21:24:40","created_by":"989","created_by_alias":"","modified":"2015-04-08 03:19:02","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-08 03:18:43","publish_up":"2015-04-04 21:24:40","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/golf_resort_house\\\\\\/golf_resort_house_article_list.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":10,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"7","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
 INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `version_note`, `save_date`, `editor_user_id`, `character_count`, `sha1_hash`, `version_data`, `keep_forever`) VALUES
-(26, 10, 1, '', '2015-04-08 03:19:02', 989, 1917, '651a0f83702ca5072b1eb216db463237e6b82630', '{"id":10,"asset_id":"67","title":"Golf Resort House","alias":"golf-resort-house","introtext":"<p>This is the golf course information so blaah blah blah blah<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition slideshow_residential_golf}<\\/p>","state":1,"catid":"8","created":"2015-04-04 21:24:40","created_by":"989","created_by_alias":"","modified":"2015-04-08 03:19:02","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-08 03:18:43","publish_up":"2015-04-04 21:24:40","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/golf_resort_house\\\\\\/golf_resort_house_article_list.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":10,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"7","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (27, 13, 1, '', '2015-04-08 05:28:06', 989, 1812, 'e07e810edc2bf5190f2b241cf351fce5cc825c46', '{"id":13,"asset_id":77,"title":"Jonty House","alias":"jonty-house","introtext":"<p>This is the description for Jonty House<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"8","created":"2015-04-08 05:28:06","created_by":"989","created_by_alias":"","modified":"2015-04-08 05:28:06","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-08 05:28:06","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/jonty_house\\\\\\/jonty_house_article_list.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (28, 14, 1, '', '2015-04-09 02:42:52', 989, 1808, '2c7967616f92d89d4c26dd21feb2a95cb6272943', '{"id":14,"asset_id":78,"title":"Merton House","alias":"merton-house","introtext":"<p>Merton House is awesome again<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"2","created":"2015-04-09 02:42:52","created_by":"989","created_by_alias":"","modified":"2015-04-09 02:42:52","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-09 02:42:52","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/merton_house\\\\\\/merton_house_aricle_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (29, 15, 1, '', '2015-04-09 02:43:25', 989, 1806, '9898a3baf10ed071352f7d61cdb2c03c596f39f0', '{"id":15,"asset_id":79,"title":"Richmond Factory","alias":"richmond-factory","introtext":"<p>Cool stuff<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0<\\/p>","state":1,"catid":"2","created":"2015-04-09 02:43:25","created_by":"989","created_by_alias":"","modified":"2015-04-09 02:43:25","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-09 02:43:25","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/richmond_factory\\\\\\/richmond_factory_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
@@ -1749,9 +2097,9 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (48, 17, 1, '', '2015-04-16 06:17:18', 989, 1854, '74d5a574e3c82aa36c4c2b83fb3c2203fc6a994b', '{"id":17,"asset_id":"82","title":"Frueauf Village","alias":"frueauf-village","introtext":"<p>blah blah blah<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition frueauf_village}<\\/p>","state":1,"catid":"9","created":"2015-04-16 05:33:07","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:17:18","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-16 06:16:57","publish_up":"2015-04-16 05:33:07","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Frueauf_Village\\\\\\/Frueauf_village_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (49, 18, 1, '', '2015-04-16 06:19:58', 989, 1736, '266d33307d267fbdd60dc4874376af8032086861', '{"id":18,"asset_id":90,"title":"Mandala Winery","alias":"mandala-winery","introtext":"<p>Mandala Winery<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition mandala_winery}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:19:58","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:19:58","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-16 06:19:58","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (50, 18, 1, '', '2015-04-16 06:20:11', 989, 1843, '896ef25e5fd1fe5cb0c697ab39d12f474c54bf04', '{"id":18,"asset_id":"90","title":"Mandala Winery","alias":"mandala-winery","introtext":"<p>Mandala Winery<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition mandala_winery}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:19:58","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:20:11","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-16 06:19:58","publish_up":"2015-04-16 06:19:58","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Mandala_Winery\\\\\\/Mandala_winery_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"0","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(51, 19, 1, '', '2015-04-16 06:23:13', 989, 1874, '5425ba9914c0f8ee4ded34d59f2e43e801d76e90', '{"id":19,"asset_id":92,"title":"PINE CLIFF HORSE COMPLEX","alias":"pine-cliff-horse-complex","introtext":"<p>Pine Cliff Horse Complex<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition pine_cliff_horse}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:23:13","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:23:13","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-16 06:23:13","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Pinecliff_Horse_Complex\\\\\\/Pinecliff_horse_complex_article_listing.JPG\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+(51, 19, 1, '', '2015-04-16 06:23:13', 989, 1874, '5425ba9914c0f8ee4ded34d59f2e43e801d76e90', '{"id":19,"asset_id":92,"title":"PINE CLIFF HORSE COMPLEX","alias":"pine-cliff-horse-complex","introtext":"<p>Pine Cliff Horse Complex<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition pine_cliff_horse}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:23:13","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:23:13","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-16 06:23:13","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Pinecliff_Horse_Complex\\\\\\/Pinecliff_horse_complex_article_listing.JPG\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(52, 20, 1, '', '2015-04-16 06:25:14', 989, 1728, '5947397ad97a80693eabd89ada6b584c2675e198', '{"id":20,"asset_id":94,"title":"Reece Design","alias":"reece-design","introtext":"<p>Recce Design<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition reece_design}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:25:14","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:25:14","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-16 06:25:14","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
 INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `version_note`, `save_date`, `editor_user_id`, `character_count`, `sha1_hash`, `version_data`, `keep_forever`) VALUES
-(52, 20, 1, '', '2015-04-16 06:25:14', 989, 1728, '5947397ad97a80693eabd89ada6b584c2675e198', '{"id":20,"asset_id":94,"title":"Reece Design","alias":"reece-design","introtext":"<p>Recce Design<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition reece_design}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:25:14","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:25:14","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-16 06:25:14","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (53, 20, 1, '', '2015-04-16 06:25:29', 989, 1831, '3ce58e69729824e5fa4d4223a3b73e81dd21bb1e', '{"id":20,"asset_id":"94","title":"Reece Design","alias":"reece-design","introtext":"<p>Recce Design<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition reece_design}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:25:14","created_by":"989","created_by_alias":"","modified":"2015-04-16 06:25:29","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-16 06:25:14","publish_up":"2015-04-16 06:25:14","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/reece_design\\\\\\/recce_design_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"0","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (54, 13, 1, '', '2015-04-16 23:47:54', 989, 1961, '898c9ae48509f1b468e474bc0365165bbb9258cc', '{"id":13,"asset_id":"77","title":"Jonty House","alias":"jonty-house","introtext":"<p>Located in the Melbourne inner city, this rear addition to a simple cottage breaks out exuberantly from the confines of the historic structure.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition jonty_house}<\\/p>","state":1,"catid":"8","created":"2015-04-08 05:28:06","created_by":"989","created_by_alias":"","modified":"2015-04-16 23:47:54","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-16 23:47:29","publish_up":"2015-04-08 05:28:06","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/jonty_house\\\\\\/jonty_house_article_list.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":3,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"4","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (55, 14, 1, '', '2015-04-16 23:49:42', 989, 1973, '743ec73d7f0c9bbd945c30e11f3192ecefc57fa8', '{"id":14,"asset_id":"78","title":"Merton House","alias":"merton-house","introtext":"<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition merton_house}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:42:52","created_by":"989","created_by_alias":"","modified":"2015-04-16 23:49:42","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-16 23:49:31","publish_up":"2015-04-09 02:42:52","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/merton_house\\\\\\/merton_house_aricle_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
@@ -1764,9 +2112,9 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (66, 8, 1, '', '2015-04-17 05:53:47', 989, 3469, '50b9e09faccc90a4472449512c2592c2c4ab4d67', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"10\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:53:47","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:53:25","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":12,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"42","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (67, 8, 1, '', '2015-04-17 05:54:37', 989, 3503, 'ed01b5262c39dbf250230f144f9968d8e19aa899', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:54:37","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:53:47","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":13,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"43","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (68, 8, 1, '', '2015-04-17 05:55:22', 989, 3607, 'ef2cffab34dccc142dbc1debb5b2abb42e483a74', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<span style=\\"text-decoration: underline;\\"><br \\/> Associate<\\/span><\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:55:22","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:54:37","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":14,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"44","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(69, 8, 1, '', '2015-04-17 05:56:36', 989, 3607, '6df2e57c981cf92ebc37f73221b3b629f2b366a1', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate<\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:56:36","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:55:22","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":15,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"46","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+(69, 8, 1, '', '2015-04-17 05:56:36', 989, 3607, '6df2e57c981cf92ebc37f73221b3b629f2b366a1', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate<\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:56:36","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:55:22","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":15,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"46","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(70, 8, 1, '', '2015-04-17 05:57:45', 989, 3637, '02a3cfc70b8c0af5c377c4c401d34106656be55a', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate<\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:57:45","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:56:36","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":16,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"48","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
 INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `version_note`, `save_date`, `editor_user_id`, `character_count`, `sha1_hash`, `version_data`, `keep_forever`) VALUES
-(70, 8, 1, '', '2015-04-17 05:57:45', 989, 3637, '02a3cfc70b8c0af5c377c4c401d34106656be55a', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<div class=\\"sapient_transparent_background\\">PRINCIPLES<\\/div>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate<\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:57:45","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:56:36","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":16,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"48","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (71, 8, 1, '', '2015-04-17 05:58:12', 989, 3687, 'fbd6469209b09812e04ef1c439e44288bf67cf24', '{"id":8,"asset_id":"61","title":"Principals","alias":"principals","introtext":"<h4 class=\\"sapient_transparent_background\\"><span style=\\"text-decoration: underline;\\">PRINCIPLES<\\/span><\\/h4>\\r\\n<p>\\u00a0<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\">Michael Morris<\\/span><br \\/> Director\\r\\n<p>B. Arch RAIA<\\/p>\\r\\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael\\u2019s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.\\u00a0\\u00a0<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"5%\\">\\u00a0<\\/td>\\r\\n<td class=\\"sapient_transparent_background\\" valign=\\"top\\" width=\\"30%\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\"><span style=\\"text-decoration: underline;\\">Christine Berry<\\/span><br \\/> Associate<\\/span><\\/span>\\r\\n<p>B.TRIP, MPIA<\\/p>\\r\\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.<\\/p>\\r\\n<\\/td>\\r\\n<td width=\\"30%\\">\\u00a0<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:46:15","created_by":"989","created_by_alias":"","modified":"2015-04-17 05:58:12","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-17 05:57:45","publish_up":"2015-04-03 09:46:15","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:nobackground\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":17,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"49","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (72, 10, 5, '', '2015-04-17 05:59:29', 989, 568, '6c3cdb46d4f1f15f5d8986575267d147b3dc6f51', '{"id":10,"asset_id":98,"parent_id":"1","lft":"19","rgt":20,"level":1,"path":null,"extension":"com_content","title":"Design Elements","alias":"design-elements","note":"","description":"","published":"1","checked_out":null,"checked_out_time":null,"access":"1","params":"{\\"category_layout\\":\\"\\",\\"image\\":\\"\\",\\"image_alt\\":\\"\\"}","metadesc":"","metakey":"","metadata":"{\\"author\\":\\"\\",\\"robots\\":\\"\\"}","created_user_id":"989","created_time":"2015-04-17 05:59:29","modified_user_id":null,"modified_time":"2015-04-17 05:59:29","hits":"0","language":"*","version":null}', 0),
 (73, 22, 1, '', '2015-04-17 06:00:30', 989, 1779, '491dceb19887ea7bc7517d8b820fdec88d5eda07', '{"id":22,"asset_id":99,"title":"Fan","alias":"fan","introtext":"<p>Fan Design Element<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition fan}<\\/p>","state":1,"catid":"10","created":"2015-04-17 06:00:30","created_by":"989","created_by_alias":"","modified":"2015-04-17 06:00:30","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-04-17 06:00:30","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/Design_elements\\\\\\/Fan\\\\\\/fan_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
@@ -1787,15 +2135,19 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (88, 14, 1, '', '2015-04-19 23:28:35', 989, 2021, 'c122cef9f9575fa2a1c57766d4f30ebcad60f4fa', '{"id":14,"asset_id":"78","title":"Merton House","alias":"merton-house","introtext":"<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition merton_house}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:42:52","created_by":"989","created_by_alias":"","modified":"2015-04-19 23:28:35","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-19 23:28:20","publish_up":"2015-04-09 02:42:52","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/merton_house\\\\\\/merton_house_aricle_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"michaelmorrisarchitectstemplate:projectSlideshow\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":5,"ordering":"6","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (89, 16, 1, '', '2015-04-19 23:30:38', 989, 1858, '973c08d6352e43469c0c7efc5e8a133352104063', '{"id":16,"asset_id":"80","title":"Richmond House","alias":"richmond-house","introtext":"<p>This is Richmond House<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition richmond_house}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:43:58","created_by":"989","created_by_alias":"","modified":"2015-04-19 23:30:38","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-19 23:30:29","publish_up":"2015-04-09 02:43:58","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/richmond_house\\\\\\/richmond_house_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":5,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"5","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (90, 15, 1, '', '2015-04-19 23:30:52', 989, 1860, '3693983a5d410357d6a4cb34331fb905254b3903', '{"id":15,"asset_id":"79","title":"Richmond Factory","alias":"richmond-factory","introtext":"<p>Richmond House<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition richmond_factory}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:43:25","created_by":"989","created_by_alias":"","modified":"2015-04-19 23:30:52","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-19 23:30:42","publish_up":"2015-04-09 02:43:25","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/richmond_factory\\\\\\/richmond_factory_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":5,"ordering":"4","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(91, 14, 1, '', '2015-04-19 23:43:36', 989, 1973, '1821e822b9ed8abe4a49922e68dd1964627fd6a3', '{"id":14,"asset_id":"78","title":"Merton House","alias":"merton-house","introtext":"<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition merton_house}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:42:52","created_by":"989","created_by_alias":"","modified":"2015-04-19 23:43:36","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-19 23:43:26","publish_up":"2015-04-09 02:42:52","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/merton_house\\\\\\/merton_house_aricle_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":6,"ordering":"6","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
-INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `version_note`, `save_date`, `editor_user_id`, `character_count`, `sha1_hash`, `version_data`, `keep_forever`) VALUES
+(91, 14, 1, '', '2015-04-19 23:43:36', 989, 1973, '1821e822b9ed8abe4a49922e68dd1964627fd6a3', '{"id":14,"asset_id":"78","title":"Merton House","alias":"merton-house","introtext":"<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition merton_house}<\\/p>","state":1,"catid":"8","created":"2015-04-09 02:42:52","created_by":"989","created_by_alias":"","modified":"2015-04-19 23:43:36","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-19 23:43:26","publish_up":"2015-04-09 02:42:52","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/merton_house\\\\\\/merton_house_aricle_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":6,"ordering":"6","metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (92, 7, 1, '', '2015-04-20 00:07:04', 989, 1737, 'b8ff7b40f5c2fb92f50fbed28f44be01bdcb6255', '{"id":7,"asset_id":"60","title":"About","alias":"about","introtext":"<p style=\\"text-align: center;\\">- Watch This space -<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:45:45","created_by":"989","created_by_alias":"","modified":"2015-04-20 00:07:04","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 00:06:50","publish_up":"2015-04-03 09:45:45","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":5,"ordering":"3","metakey":"","metadesc":"","access":"1","hits":"81","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(93, 9, 1, '', '2015-04-20 00:16:24', 989, 1682, 'fb45e18d9a12094fd17ba2dd91767a7f9d8c2050', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 00:16:24","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 00:15:59","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"3","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(94, 9, 1, '', '2015-04-20 01:25:06', 989, 1716, '7aa71a3664c069c397714e00ad1d9336031e91cc', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<p>{loadpostion contact_form}<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 01:25:06","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 01:24:48","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":3,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"6","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(95, 9, 1, '', '2015-04-20 01:25:21', 989, 1717, 'c8934e60d4cbb16e4214dad1dc1b3d86d11e97b1', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<p>{loadposition contact_form}<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 01:25:21","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 01:25:06","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"6","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(96, 9, 1, '', '2015-04-20 01:30:42', 989, 1863, 'b421b53ca32e29c06e19cab07105ecb59e7f1e12', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<p>Michael Morris Architects<\\/p>\\r\\n<p>21 Laity Street, Richmond 3121<\\/p>\\r\\n<p>Victoria, Australia<\\/p>\\r\\n<p>\\u00a0<\\/p>\\r\\n<p>\\u00a0<\\/p>\\r\\n<p>{loadposition contact_form}<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 01:30:42","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 01:29:41","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":5,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"8","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(97, 9, 1, '', '2015-04-20 04:11:11', 989, 1856, '3e4d46072ecb9fe8ab6f460b426f6f193ce93595', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<p>Michael Morris Architects<br \\/> 21 Laity Street, Richmond 3121<br \\/> Victoria, Australia<\\/p>\\r\\n<p>\\u00a0<\\/p>\\r\\n<p>\\u00a0<\\/p>\\r\\n<p>{loadposition contact_form}<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 04:11:11","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 04:09:58","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":6,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"10","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(98, 9, 1, '', '2015-04-20 04:23:47', 989, 1862, '371747512f2e6332cb02bff45c239e86dcee8804', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<p>Michael Morris Architects<br \\/> 21 Laity Street, Richmond 3121<br \\/> Victoria, Australia<\\/p>\\r\\n<p>Phone \\u00a0<\\/p>\\r\\n<p>\\u00a0<\\/p>\\r\\n<p>{loadposition contact_form}<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-20 04:23:47","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-20 04:11:11","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":7,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"12","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+(117, 9, 1, '', '2015-04-21 00:56:44', 989, 2495, '33427f0587d7c5a93214e7aa7ee9f019268df4f8', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">\\u00a0{google_map}21 Laity Street, Richmond 3121|width:400|height:300|info_label:Blah{\\/google_map}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 00:56:44","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 00:55:17","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":27,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"83","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `version_note`, `save_date`, `editor_user_id`, `character_count`, `sha1_hash`, `version_data`, `keep_forever`) VALUES
+(118, 9, 1, '', '2015-04-21 00:59:17', 989, 2511, '01d6e5d1b8abea35a7a9fcf734b7ea5926b74e11', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">\\u00a0{google_map}21 Laity Street, Richmond 3121|version:classic|width:400|height:300|info_label:Blah{\\/google_map}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 00:59:17","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 00:56:44","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":28,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"84","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(119, 9, 1, '', '2015-04-21 00:59:52', 989, 2525, '95ffd387ff6ed95d0f844cb9b2ab29f18e60c4b5', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">\\u00a0{google_map}21 Laity Street, Richmond 3121|version:classic|width:400|height:300|show_info:yes|info_label:Blah{\\/google_map}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 00:59:52","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 00:59:17","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":29,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"85","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(120, 9, 1, '', '2015-04-21 01:01:03', 989, 2524, '3f0c61c11b7d9048de11b323a60637444eedcc9d', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">\\u00a0{google_map}21 Laity Street, Richmond 3121width:400|height:300|version:classic|show_info:yes|info_label:Blah{\\/google_map}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:01:03","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 00:59:52","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":30,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"86","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(121, 9, 1, '', '2015-04-21 01:01:28', 989, 2525, '3496c96827633335684129bec73102d1bf58a024', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">\\u00a0{google_map}21 Laity Street, Richmond 3121|width:400|height:300|version:classic|show_info:yes|info_label:Blah{\\/google_map}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:01:28","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 01:01:03","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":31,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"87","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(122, 9, 1, '', '2015-04-21 01:10:45', 989, 2633, 'a852eacfd453b942e79d3501d32bc5ff857c610c', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\"><img src=\\"http:\\/\\/www.phoca.cz\\/images\\/documentation\\/lt.gif\\" alt=\\"alt\\" width=\\"6\\" height=\\"12\\" \\/>phocamaps view=map|id=1<img src=\\"http:\\/\\/www.phoca.cz\\/images\\/documentation\\/gt.gif\\" alt=\\"alt\\" width=\\"6\\" height=\\"12\\" \\/><\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:10:45","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 01:10:36","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":32,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"88","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(123, 9, 1, '', '2015-04-21 01:11:58', 989, 2403, '0e944d1eebba5e5a1a25d53d8b77fd62aba148df', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td style=\\"background-color: red;\\" rowspan=\\"3\\">{phocamaps view=map|id=1}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:11:58","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 01:10:45","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":33,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"89","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(124, 9, 1, '', '2015-04-21 01:16:37', 989, 2370, '13e440857b04bde9d3fa5601d6d843c783c8fded', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td rowspan=\\"3\\">{phocamaps view=map|id=1}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:16:37","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 01:16:24","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":35,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"92","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(125, 9, 1, '', '2015-04-21 01:33:43', 989, 2397, '14c57476e650315794bdc01eea0f578fa893a8e3', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td rowspan=\\"3\\">{phocamaps view=map|id=1|text=blah}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:33:43","modified_by":"989","checked_out":"0","checked_out_time":"0000-00-00 00:00:00","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":36,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"104","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(126, 9, 1, '', '2015-04-21 01:37:51', 989, 2389, '21b1f8775ae08cbe4becebaa51b19730645f211f', '{"id":9,"asset_id":"62","title":"Contact","alias":"contact","introtext":"<h2 style=\\"text-align: center;\\">Contact Us<\\/h2>\\r\\n<p>Michael Morris Architects<\\/p>\\r\\n<table>\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"images\\/icons\\/home_white.png\\" alt=\\"\\" \\/>\\u00a0<\\/td>\\r\\n<td>21 Laity Street, Richmond 3121<br \\/> Victoria, Australia\\u00a0<\\/td>\\r\\n<td rowspan=\\"3\\">{phocamaps view=map|id=1}<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td>\\u00a0<img src=\\"images\\/icons\\/phone16_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td>\\u00a0+61 3 9421 3332<\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"sap_contact_table_email\\"><img src=\\"images\\/icons\\/email_white.png\\" alt=\\"\\" \\/><\\/td>\\r\\n<td class=\\"sap_contact_table_email\\">{loadposition contact_form}<\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p>\\u00a0<\\/p>","fulltext":"","state":1,"catid":"2","created":"2015-04-03 09:47:12","created_by":"989","created_by_alias":"","modified":"2015-04-21 01:37:51","modified_by":"989","checked_out":"989","checked_out_time":"2015-04-21 01:33:43","publish_up":"2015-04-03 09:47:12","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"_:default\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":37,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"106","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
 
 -- --------------------------------------------------------
 
@@ -1804,7 +2156,7 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
-`update_id` int(11) NOT NULL,
+  `update_id` int(11) NOT NULL AUTO_INCREMENT,
   `update_site_id` int(11) DEFAULT '0',
   `extension_id` int(11) DEFAULT '0',
   `name` varchar(100) DEFAULT '',
@@ -1817,8 +2169,73 @@ CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
-  `extra_query` varchar(1000) DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available Updates' AUTO_INCREMENT=1 ;
+  `extra_query` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`update_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Available Updates' AUTO_INCREMENT=59 ;
+
+--
+-- Dumping data for table `vfkn0_updates`
+--
+
+INSERT INTO `vfkn0_updates` (`update_id`, `update_site_id`, `extension_id`, `name`, `description`, `element`, `type`, `folder`, `client_id`, `version`, `data`, `detailsurl`, `infourl`, `extra_query`) VALUES
+(1, 3, 0, 'Malay', '', 'pkg_ms-MY', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ms-MY_details.xml', '', ''),
+(2, 3, 0, 'Romanian', '', 'pkg_ro-RO', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ro-RO_details.xml', '', ''),
+(3, 3, 0, 'Flemish', '', 'pkg_nl-BE', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/nl-BE_details.xml', '', ''),
+(4, 3, 0, 'Chinese Traditional', '', 'pkg_zh-TW', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/zh-TW_details.xml', '', ''),
+(5, 3, 0, 'French', '', 'pkg_fr-FR', 'package', '', 0, '3.4.1.2', '', 'http://update.joomla.org/language/details3/fr-FR_details.xml', '', ''),
+(6, 3, 0, 'Galician', '', 'pkg_gl-ES', 'package', '', 0, '3.3.1.2', '', 'http://update.joomla.org/language/details3/gl-ES_details.xml', '', ''),
+(7, 3, 0, 'German', '', 'pkg_de-DE', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/de-DE_details.xml', '', ''),
+(8, 3, 0, 'Greek', '', 'pkg_el-GR', 'package', '', 0, '3.3.3.1', '', 'http://update.joomla.org/language/details3/el-GR_details.xml', '', ''),
+(9, 3, 0, 'Japanese', '', 'pkg_ja-JP', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ja-JP_details.xml', '', ''),
+(10, 3, 0, 'Hebrew', '', 'pkg_he-IL', 'package', '', 0, '3.1.1.1', '', 'http://update.joomla.org/language/details3/he-IL_details.xml', '', ''),
+(11, 3, 0, 'EnglishAU', '', 'pkg_en-AU', 'package', '', 0, '3.3.1.1', '', 'http://update.joomla.org/language/details3/en-AU_details.xml', '', ''),
+(12, 3, 0, 'EnglishUS', '', 'pkg_en-US', 'package', '', 0, '3.3.1.1', '', 'http://update.joomla.org/language/details3/en-US_details.xml', '', ''),
+(13, 3, 0, 'Hungarian', '', 'pkg_hu-HU', 'package', '', 0, '3.3.3.1', '', 'http://update.joomla.org/language/details3/hu-HU_details.xml', '', ''),
+(14, 3, 0, 'Afrikaans', '', 'pkg_af-ZA', 'package', '', 0, '3.2.0.2', '', 'http://update.joomla.org/language/details3/af-ZA_details.xml', '', ''),
+(15, 3, 0, 'Arabic Unitag', '', 'pkg_ar-AA', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ar-AA_details.xml', '', ''),
+(16, 3, 0, 'Belarusian', '', 'pkg_be-BY', 'package', '', 0, '3.2.1.1', '', 'http://update.joomla.org/language/details3/be-BY_details.xml', '', ''),
+(17, 3, 0, 'Bulgarian', '', 'pkg_bg-BG', 'package', '', 0, '3.3.0.1', '', 'http://update.joomla.org/language/details3/bg-BG_details.xml', '', ''),
+(18, 3, 0, 'Catalan', '', 'pkg_ca-ES', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ca-ES_details.xml', '', ''),
+(19, 3, 0, 'Chinese Simplified', '', 'pkg_zh-CN', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/zh-CN_details.xml', '', ''),
+(20, 3, 0, 'Croatian', '', 'pkg_hr-HR', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/hr-HR_details.xml', '', ''),
+(21, 3, 0, 'Czech', '', 'pkg_cs-CZ', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/cs-CZ_details.xml', '', ''),
+(22, 3, 0, 'Danish', '', 'pkg_da-DK', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/da-DK_details.xml', '', ''),
+(23, 3, 0, 'Dutch', '', 'pkg_nl-NL', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/nl-NL_details.xml', '', ''),
+(24, 3, 0, 'Estonian', '', 'pkg_et-EE', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/et-EE_details.xml', '', ''),
+(25, 3, 0, 'Italian', '', 'pkg_it-IT', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/it-IT_details.xml', '', ''),
+(26, 3, 0, 'Korean', '', 'pkg_ko-KR', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ko-KR_details.xml', '', ''),
+(27, 3, 0, 'Latvian', '', 'pkg_lv-LV', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/lv-LV_details.xml', '', ''),
+(28, 3, 0, 'Macedonian', '', 'pkg_mk-MK', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/mk-MK_details.xml', '', ''),
+(29, 3, 0, 'Norwegian Bokmal', '', 'pkg_nb-NO', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/nb-NO_details.xml', '', ''),
+(30, 3, 0, 'Norwegian Nynorsk', '', 'pkg_nn-NO', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/nn-NO_details.xml', '', ''),
+(31, 3, 0, 'Persian', '', 'pkg_fa-IR', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/fa-IR_details.xml', '', ''),
+(32, 3, 0, 'Polish', '', 'pkg_pl-PL', 'package', '', 0, '3.4.0.1', '', 'http://update.joomla.org/language/details3/pl-PL_details.xml', '', ''),
+(33, 3, 0, 'Portuguese', '', 'pkg_pt-PT', 'package', '', 0, '3.3.3.1', '', 'http://update.joomla.org/language/details3/pt-PT_details.xml', '', ''),
+(34, 3, 0, 'Russian', '', 'pkg_ru-RU', 'package', '', 0, '3.3.6.2', '', 'http://update.joomla.org/language/details3/ru-RU_details.xml', '', ''),
+(35, 3, 0, 'Slovak', '', 'pkg_sk-SK', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/sk-SK_details.xml', '', ''),
+(36, 3, 0, 'Swedish', '', 'pkg_sv-SE', 'package', '', 0, '3.4.1.3', '', 'http://update.joomla.org/language/details3/sv-SE_details.xml', '', ''),
+(37, 3, 0, 'Syriac', '', 'pkg_sy-IQ', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/sy-IQ_details.xml', '', ''),
+(38, 3, 0, 'Tamil', '', 'pkg_ta-IN', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/ta-IN_details.xml', '', ''),
+(39, 3, 0, 'Thai', '', 'pkg_th-TH', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/th-TH_details.xml', '', ''),
+(40, 3, 0, 'Turkish', '', 'pkg_tr-TR', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/tr-TR_details.xml', '', ''),
+(41, 3, 0, 'Ukrainian', '', 'pkg_uk-UA', 'package', '', 0, '3.3.3.15', '', 'http://update.joomla.org/language/details3/uk-UA_details.xml', '', ''),
+(42, 3, 0, 'Uyghur', '', 'pkg_ug-CN', 'package', '', 0, '3.3.0.1', '', 'http://update.joomla.org/language/details3/ug-CN_details.xml', '', ''),
+(43, 3, 0, 'Albanian', '', 'pkg_sq-AL', 'package', '', 0, '3.1.1.1', '', 'http://update.joomla.org/language/details3/sq-AL_details.xml', '', ''),
+(44, 3, 0, 'Hindi', '', 'pkg_hi-IN', 'package', '', 0, '3.3.6.1', '', 'http://update.joomla.org/language/details3/hi-IN_details.xml', '', ''),
+(45, 3, 0, 'Portuguese Brazil', '', 'pkg_pt-BR', 'package', '', 0, '3.4.1.2', '', 'http://update.joomla.org/language/details3/pt-BR_details.xml', '', ''),
+(46, 3, 0, 'Serbian Latin', '', 'pkg_sr-YU', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/sr-YU_details.xml', '', ''),
+(47, 3, 0, 'Spanish', '', 'pkg_es-ES', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/es-ES_details.xml', '', ''),
+(48, 3, 0, 'Bosnian', '', 'pkg_bs-BA', 'package', '', 0, '3.4.0.1', '', 'http://update.joomla.org/language/details3/bs-BA_details.xml', '', ''),
+(49, 3, 0, 'Serbian Cyrillic', '', 'pkg_sr-RS', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/sr-RS_details.xml', '', ''),
+(50, 3, 0, 'Vietnamese', '', 'pkg_vi-VN', 'package', '', 0, '3.2.1.1', '', 'http://update.joomla.org/language/details3/vi-VN_details.xml', '', ''),
+(51, 3, 0, 'Bahasa Indonesia', '', 'pkg_id-ID', 'package', '', 0, '3.3.0.2', '', 'http://update.joomla.org/language/details3/id-ID_details.xml', '', ''),
+(52, 3, 0, 'Finnish', '', 'pkg_fi-FI', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/fi-FI_details.xml', '', ''),
+(53, 3, 0, 'Swahili', '', 'pkg_sw-KE', 'package', '', 0, '3.4.1.1', '', 'http://update.joomla.org/language/details3/sw-KE_details.xml', '', ''),
+(54, 3, 0, 'Montenegrin', '', 'pkg_srp-ME', 'package', '', 0, '3.3.1.1', '', 'http://update.joomla.org/language/details3/srp-ME_details.xml', '', ''),
+(55, 3, 0, 'EnglishCA', '', 'pkg_en-CA', 'package', '', 0, '3.3.6.1', '', 'http://update.joomla.org/language/details3/en-CA_details.xml', '', ''),
+(56, 3, 0, 'FrenchCA', '', 'pkg_fr-CA', 'package', '', 0, '3.3.6.1', '', 'http://update.joomla.org/language/details3/fr-CA_details.xml', '', ''),
+(57, 3, 0, 'Welsh', '', 'pkg_cy-GB', 'package', '', 0, '3.3.0.1', '', 'http://update.joomla.org/language/details3/cy-GB_details.xml', '', ''),
+(58, 3, 0, 'Sinhala', '', 'pkg_si-LK', 'package', '', 0, '3.3.1.1', '', 'http://update.joomla.org/language/details3/si-LK_details.xml', '', '');
 
 -- --------------------------------------------------------
 
@@ -1827,26 +2244,27 @@ CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_update_sites` (
-`update_site_id` int(11) NOT NULL,
+  `update_site_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
   `enabled` int(11) DEFAULT '0',
   `last_check_timestamp` bigint(20) DEFAULT '0',
-  `extra_query` varchar(1000) DEFAULT ''
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites' AUTO_INCREMENT=11 ;
+  `extra_query` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`update_site_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites' AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `vfkn0_update_sites`
 --
 
 INSERT INTO `vfkn0_update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`, `extra_query`) VALUES
-(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 1429502196, ''),
-(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 1429502196, ''),
-(3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0, ''),
-(4, 'Joomla! Update Component Update Site', 'extension', 'http://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0, ''),
-(7, 'Accordeon Menu CK Update', 'extension', 'http://update.joomlack.fr/mod_accordeonck_update.xml', 1, 1429502195, ''),
-(9, 'Slideshow CK Update', 'extension', 'http://update.joomlack.fr/mod_slideshowck_update.xml', 1, 1429502195, '');
+(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 1429575450, ''),
+(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 1429575450, ''),
+(3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 1429575450, ''),
+(4, 'Joomla! Update Component Update Site', 'extension', 'http://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 1429575450, ''),
+(7, 'Accordeon Menu CK Update', 'extension', 'http://update.joomlack.fr/mod_accordeonck_update.xml', 1, 1429575450, ''),
+(9, 'Slideshow CK Update', 'extension', 'http://update.joomlack.fr/mod_slideshowck_update.xml', 1, 1429575450, '');
 
 -- --------------------------------------------------------
 
@@ -1856,7 +2274,8 @@ INSERT INTO `vfkn0_update_sites` (`update_site_id`, `name`, `type`, `location`, 
 
 CREATE TABLE IF NOT EXISTS `vfkn0_update_sites_extensions` (
   `update_site_id` int(11) NOT NULL DEFAULT '0',
-  `extension_id` int(11) NOT NULL DEFAULT '0'
+  `extension_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`update_site_id`,`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Links extensions to update sites';
 
 --
@@ -1878,11 +2297,16 @@ INSERT INTO `vfkn0_update_sites_extensions` (`update_site_id`, `extension_id`) V
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_usergroups` (
-`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
-  `title` varchar(100) NOT NULL DEFAULT ''
+  `title` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
+  KEY `idx_usergroup_title_lookup` (`title`),
+  KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
@@ -1907,7 +2331,7 @@ INSERT INTO `vfkn0_usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_users` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
@@ -1922,7 +2346,12 @@ CREATE TABLE IF NOT EXISTS `vfkn0_users` (
   `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
-  `requireReset` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Require user to reset password on next login'
+  `requireReset` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Require user to reset password on next login',
+  PRIMARY KEY (`id`),
+  KEY `idx_name` (`name`),
+  KEY `idx_block` (`block`),
+  KEY `username` (`username`),
+  KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=990 ;
 
 --
@@ -1930,7 +2359,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_users` (
 --
 
 INSERT INTO `vfkn0_users` (`id`, `name`, `username`, `email`, `password`, `block`, `sendEmail`, `registerDate`, `lastvisitDate`, `activation`, `params`, `lastResetTime`, `resetCount`, `otpKey`, `otep`, `requireReset`) VALUES
-(989, 'Super User', 'mmaadmin', 'shamus.dougan@sapient-tech.com.au', '$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla', 0, 1, '2015-04-03 04:17:19', '2015-04-20 03:56:32', '0', '', '0000-00-00 00:00:00', 0, '', '', 0);
+(989, 'Super User', 'mmaadmin', 'shamus.dougan@sapient-tech.com.au', '$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla', 0, 1, '2015-04-03 04:17:19', '2015-04-20 19:58:28', '0', '', '0000-00-00 00:00:00', 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1939,13 +2368,18 @@ INSERT INTO `vfkn0_users` (`id`, `name`, `username`, `email`, `password`, `block
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_keys` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(255) NOT NULL,
   `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
-  `uastring` varchar(255) NOT NULL
+  `uastring` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `series` (`series`),
+  UNIQUE KEY `series_2` (`series`),
+  UNIQUE KEY `series_3` (`series`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1955,7 +2389,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_keys` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_notes` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `catid` int(10) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(100) NOT NULL DEFAULT '',
@@ -1969,7 +2403,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_notes` (
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_category_id` (`catid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1982,7 +2419,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT '0'
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
 
 -- --------------------------------------------------------
@@ -1993,7 +2431,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_profiles` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_usergroup_map` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id'
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2010,10 +2449,12 @@ INSERT INTO `vfkn0_user_usergroup_map` (`user_id`, `group_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_viewlevels` (
-`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
   `ordering` int(11) NOT NULL DEFAULT '0',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.'
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
@@ -2027,575 +2468,6 @@ INSERT INTO `vfkn0_viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `vfkn0_assets`
---
-ALTER TABLE `vfkn0_assets`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_asset_name` (`name`), ADD KEY `idx_lft_rgt` (`lft`,`rgt`), ADD KEY `idx_parent_id` (`parent_id`);
-
---
--- Indexes for table `vfkn0_associations`
---
-ALTER TABLE `vfkn0_associations`
- ADD PRIMARY KEY (`context`,`id`), ADD KEY `idx_key` (`key`);
-
---
--- Indexes for table `vfkn0_banners`
---
-ALTER TABLE `vfkn0_banners`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_state` (`state`), ADD KEY `idx_own_prefix` (`own_prefix`), ADD KEY `idx_metakey_prefix` (`metakey_prefix`), ADD KEY `idx_banner_catid` (`catid`), ADD KEY `idx_language` (`language`);
-
---
--- Indexes for table `vfkn0_banner_clients`
---
-ALTER TABLE `vfkn0_banner_clients`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_own_prefix` (`own_prefix`), ADD KEY `idx_metakey_prefix` (`metakey_prefix`);
-
---
--- Indexes for table `vfkn0_banner_tracks`
---
-ALTER TABLE `vfkn0_banner_tracks`
- ADD PRIMARY KEY (`track_date`,`track_type`,`banner_id`), ADD KEY `idx_track_date` (`track_date`), ADD KEY `idx_track_type` (`track_type`), ADD KEY `idx_banner_id` (`banner_id`);
-
---
--- Indexes for table `vfkn0_categories`
---
-ALTER TABLE `vfkn0_categories`
- ADD PRIMARY KEY (`id`), ADD KEY `cat_idx` (`extension`,`published`,`access`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_path` (`path`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_language` (`language`);
-
---
--- Indexes for table `vfkn0_contact_details`
---
-ALTER TABLE `vfkn0_contact_details`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`published`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_featured_catid` (`featured`,`catid`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
-
---
--- Indexes for table `vfkn0_content`
---
-ALTER TABLE `vfkn0_content`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`state`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_featured_catid` (`featured`,`catid`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
-
---
--- Indexes for table `vfkn0_contentitem_tag_map`
---
-ALTER TABLE `vfkn0_contentitem_tag_map`
- ADD UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`), ADD KEY `idx_tag_type` (`tag_id`,`type_id`), ADD KEY `idx_date_id` (`tag_date`,`tag_id`), ADD KEY `idx_tag` (`tag_id`), ADD KEY `idx_type` (`type_id`), ADD KEY `idx_core_content_id` (`core_content_id`);
-
---
--- Indexes for table `vfkn0_content_frontpage`
---
-ALTER TABLE `vfkn0_content_frontpage`
- ADD PRIMARY KEY (`content_id`);
-
---
--- Indexes for table `vfkn0_content_rating`
---
-ALTER TABLE `vfkn0_content_rating`
- ADD PRIMARY KEY (`content_id`);
-
---
--- Indexes for table `vfkn0_content_types`
---
-ALTER TABLE `vfkn0_content_types`
- ADD PRIMARY KEY (`type_id`), ADD KEY `idx_alias` (`type_alias`);
-
---
--- Indexes for table `vfkn0_extensions`
---
-ALTER TABLE `vfkn0_extensions`
- ADD PRIMARY KEY (`extension_id`), ADD KEY `element_clientid` (`element`,`client_id`), ADD KEY `element_folder_clientid` (`element`,`folder`,`client_id`), ADD KEY `extension` (`type`,`element`,`folder`,`client_id`);
-
---
--- Indexes for table `vfkn0_finder_filters`
---
-ALTER TABLE `vfkn0_finder_filters`
- ADD PRIMARY KEY (`filter_id`);
-
---
--- Indexes for table `vfkn0_finder_links`
---
-ALTER TABLE `vfkn0_finder_links`
- ADD PRIMARY KEY (`link_id`), ADD KEY `idx_type` (`type_id`), ADD KEY `idx_title` (`title`), ADD KEY `idx_md5` (`md5sum`), ADD KEY `idx_url` (`url`(75)), ADD KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`), ADD KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`);
-
---
--- Indexes for table `vfkn0_finder_links_terms0`
---
-ALTER TABLE `vfkn0_finder_links_terms0`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms1`
---
-ALTER TABLE `vfkn0_finder_links_terms1`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms2`
---
-ALTER TABLE `vfkn0_finder_links_terms2`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms3`
---
-ALTER TABLE `vfkn0_finder_links_terms3`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms4`
---
-ALTER TABLE `vfkn0_finder_links_terms4`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms5`
---
-ALTER TABLE `vfkn0_finder_links_terms5`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms6`
---
-ALTER TABLE `vfkn0_finder_links_terms6`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms7`
---
-ALTER TABLE `vfkn0_finder_links_terms7`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms8`
---
-ALTER TABLE `vfkn0_finder_links_terms8`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_terms9`
---
-ALTER TABLE `vfkn0_finder_links_terms9`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termsa`
---
-ALTER TABLE `vfkn0_finder_links_termsa`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termsb`
---
-ALTER TABLE `vfkn0_finder_links_termsb`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termsc`
---
-ALTER TABLE `vfkn0_finder_links_termsc`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termsd`
---
-ALTER TABLE `vfkn0_finder_links_termsd`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termse`
---
-ALTER TABLE `vfkn0_finder_links_termse`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_links_termsf`
---
-ALTER TABLE `vfkn0_finder_links_termsf`
- ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
-
---
--- Indexes for table `vfkn0_finder_taxonomy`
---
-ALTER TABLE `vfkn0_finder_taxonomy`
- ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`), ADD KEY `state` (`state`), ADD KEY `ordering` (`ordering`), ADD KEY `access` (`access`), ADD KEY `idx_parent_published` (`parent_id`,`state`,`access`);
-
---
--- Indexes for table `vfkn0_finder_taxonomy_map`
---
-ALTER TABLE `vfkn0_finder_taxonomy_map`
- ADD PRIMARY KEY (`link_id`,`node_id`), ADD KEY `link_id` (`link_id`), ADD KEY `node_id` (`node_id`);
-
---
--- Indexes for table `vfkn0_finder_terms`
---
-ALTER TABLE `vfkn0_finder_terms`
- ADD PRIMARY KEY (`term_id`), ADD UNIQUE KEY `idx_term` (`term`), ADD KEY `idx_term_phrase` (`term`,`phrase`), ADD KEY `idx_stem_phrase` (`stem`,`phrase`), ADD KEY `idx_soundex_phrase` (`soundex`,`phrase`);
-
---
--- Indexes for table `vfkn0_finder_terms_common`
---
-ALTER TABLE `vfkn0_finder_terms_common`
- ADD KEY `idx_word_lang` (`term`,`language`), ADD KEY `idx_lang` (`language`);
-
---
--- Indexes for table `vfkn0_finder_tokens`
---
-ALTER TABLE `vfkn0_finder_tokens`
- ADD KEY `idx_word` (`term`), ADD KEY `idx_context` (`context`);
-
---
--- Indexes for table `vfkn0_finder_tokens_aggregate`
---
-ALTER TABLE `vfkn0_finder_tokens_aggregate`
- ADD KEY `token` (`term`), ADD KEY `keyword_id` (`term_id`);
-
---
--- Indexes for table `vfkn0_finder_types`
---
-ALTER TABLE `vfkn0_finder_types`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `title` (`title`);
-
---
--- Indexes for table `vfkn0_languages`
---
-ALTER TABLE `vfkn0_languages`
- ADD PRIMARY KEY (`lang_id`), ADD UNIQUE KEY `idx_sef` (`sef`), ADD UNIQUE KEY `idx_image` (`image`), ADD UNIQUE KEY `idx_langcode` (`lang_code`), ADD KEY `idx_access` (`access`), ADD KEY `idx_ordering` (`ordering`);
-
---
--- Indexes for table `vfkn0_menu`
---
-ALTER TABLE `vfkn0_menu`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`), ADD KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`), ADD KEY `idx_menutype` (`menutype`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_path` (`path`(255)), ADD KEY `idx_language` (`language`);
-
---
--- Indexes for table `vfkn0_menu_types`
---
-ALTER TABLE `vfkn0_menu_types`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_menutype` (`menutype`);
-
---
--- Indexes for table `vfkn0_messages`
---
-ALTER TABLE `vfkn0_messages`
- ADD PRIMARY KEY (`message_id`), ADD KEY `useridto_state` (`user_id_to`,`state`);
-
---
--- Indexes for table `vfkn0_messages_cfg`
---
-ALTER TABLE `vfkn0_messages_cfg`
- ADD UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`);
-
---
--- Indexes for table `vfkn0_modules`
---
-ALTER TABLE `vfkn0_modules`
- ADD PRIMARY KEY (`id`), ADD KEY `published` (`published`,`access`), ADD KEY `newsfeeds` (`module`,`published`), ADD KEY `idx_language` (`language`);
-
---
--- Indexes for table `vfkn0_modules_menu`
---
-ALTER TABLE `vfkn0_modules_menu`
- ADD PRIMARY KEY (`moduleid`,`menuid`);
-
---
--- Indexes for table `vfkn0_newsfeeds`
---
-ALTER TABLE `vfkn0_newsfeeds`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`published`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
-
---
--- Indexes for table `vfkn0_overrider`
---
-ALTER TABLE `vfkn0_overrider`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `vfkn0_postinstall_messages`
---
-ALTER TABLE `vfkn0_postinstall_messages`
- ADD PRIMARY KEY (`postinstall_message_id`);
-
---
--- Indexes for table `vfkn0_redirect_links`
---
-ALTER TABLE `vfkn0_redirect_links`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_link_old` (`old_url`), ADD KEY `idx_link_modifed` (`modified_date`);
-
---
--- Indexes for table `vfkn0_schemas`
---
-ALTER TABLE `vfkn0_schemas`
- ADD PRIMARY KEY (`extension_id`,`version_id`);
-
---
--- Indexes for table `vfkn0_session`
---
-ALTER TABLE `vfkn0_session`
- ADD PRIMARY KEY (`session_id`), ADD KEY `userid` (`userid`), ADD KEY `time` (`time`);
-
---
--- Indexes for table `vfkn0_tags`
---
-ALTER TABLE `vfkn0_tags`
- ADD PRIMARY KEY (`id`), ADD KEY `tag_idx` (`published`,`access`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_path` (`path`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_language` (`language`);
-
---
--- Indexes for table `vfkn0_template_styles`
---
-ALTER TABLE `vfkn0_template_styles`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_template` (`template`), ADD KEY `idx_home` (`home`);
-
---
--- Indexes for table `vfkn0_ucm_base`
---
-ALTER TABLE `vfkn0_ucm_base`
- ADD PRIMARY KEY (`ucm_id`), ADD KEY `idx_ucm_item_id` (`ucm_item_id`), ADD KEY `idx_ucm_type_id` (`ucm_type_id`), ADD KEY `idx_ucm_language_id` (`ucm_language_id`);
-
---
--- Indexes for table `vfkn0_ucm_content`
---
-ALTER TABLE `vfkn0_ucm_content`
- ADD PRIMARY KEY (`core_content_id`), ADD KEY `tag_idx` (`core_state`,`core_access`), ADD KEY `idx_access` (`core_access`), ADD KEY `idx_alias` (`core_alias`), ADD KEY `idx_language` (`core_language`), ADD KEY `idx_title` (`core_title`), ADD KEY `idx_modified_time` (`core_modified_time`), ADD KEY `idx_created_time` (`core_created_time`), ADD KEY `idx_content_type` (`core_type_alias`), ADD KEY `idx_core_modified_user_id` (`core_modified_user_id`), ADD KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`), ADD KEY `idx_core_created_user_id` (`core_created_user_id`), ADD KEY `idx_core_type_id` (`core_type_id`);
-
---
--- Indexes for table `vfkn0_ucm_history`
---
-ALTER TABLE `vfkn0_ucm_history`
- ADD PRIMARY KEY (`version_id`), ADD KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`), ADD KEY `idx_save_date` (`save_date`);
-
---
--- Indexes for table `vfkn0_updates`
---
-ALTER TABLE `vfkn0_updates`
- ADD PRIMARY KEY (`update_id`);
-
---
--- Indexes for table `vfkn0_update_sites`
---
-ALTER TABLE `vfkn0_update_sites`
- ADD PRIMARY KEY (`update_site_id`);
-
---
--- Indexes for table `vfkn0_update_sites_extensions`
---
-ALTER TABLE `vfkn0_update_sites_extensions`
- ADD PRIMARY KEY (`update_site_id`,`extension_id`);
-
---
--- Indexes for table `vfkn0_usergroups`
---
-ALTER TABLE `vfkn0_usergroups`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`), ADD KEY `idx_usergroup_title_lookup` (`title`), ADD KEY `idx_usergroup_adjacency_lookup` (`parent_id`), ADD KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE;
-
---
--- Indexes for table `vfkn0_users`
---
-ALTER TABLE `vfkn0_users`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_name` (`name`), ADD KEY `idx_block` (`block`), ADD KEY `username` (`username`), ADD KEY `email` (`email`);
-
---
--- Indexes for table `vfkn0_user_keys`
---
-ALTER TABLE `vfkn0_user_keys`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `series` (`series`), ADD UNIQUE KEY `series_2` (`series`), ADD UNIQUE KEY `series_3` (`series`), ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `vfkn0_user_notes`
---
-ALTER TABLE `vfkn0_user_notes`
- ADD PRIMARY KEY (`id`), ADD KEY `idx_user_id` (`user_id`), ADD KEY `idx_category_id` (`catid`);
-
---
--- Indexes for table `vfkn0_user_profiles`
---
-ALTER TABLE `vfkn0_user_profiles`
- ADD UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`);
-
---
--- Indexes for table `vfkn0_user_usergroup_map`
---
-ALTER TABLE `vfkn0_user_usergroup_map`
- ADD PRIMARY KEY (`user_id`,`group_id`);
-
---
--- Indexes for table `vfkn0_viewlevels`
---
-ALTER TABLE `vfkn0_viewlevels`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_assetgroup_title_lookup` (`title`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `vfkn0_assets`
---
-ALTER TABLE `vfkn0_assets`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=110;
---
--- AUTO_INCREMENT for table `vfkn0_banners`
---
-ALTER TABLE `vfkn0_banners`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_banner_clients`
---
-ALTER TABLE `vfkn0_banner_clients`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_categories`
---
-ALTER TABLE `vfkn0_categories`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT for table `vfkn0_contact_details`
---
-ALTER TABLE `vfkn0_contact_details`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_content`
---
-ALTER TABLE `vfkn0_content`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
---
--- AUTO_INCREMENT for table `vfkn0_content_types`
---
-ALTER TABLE `vfkn0_content_types`
-MODIFY `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT for table `vfkn0_extensions`
---
-ALTER TABLE `vfkn0_extensions`
-MODIFY `extension_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10012;
---
--- AUTO_INCREMENT for table `vfkn0_finder_filters`
---
-ALTER TABLE `vfkn0_finder_filters`
-MODIFY `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_finder_links`
---
-ALTER TABLE `vfkn0_finder_links`
-MODIFY `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_finder_taxonomy`
---
-ALTER TABLE `vfkn0_finder_taxonomy`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vfkn0_finder_terms`
---
-ALTER TABLE `vfkn0_finder_terms`
-MODIFY `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_finder_types`
---
-ALTER TABLE `vfkn0_finder_types`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_languages`
---
-ALTER TABLE `vfkn0_languages`
-MODIFY `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vfkn0_menu`
---
-ALTER TABLE `vfkn0_menu`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=129;
---
--- AUTO_INCREMENT for table `vfkn0_menu_types`
---
-ALTER TABLE `vfkn0_menu_types`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vfkn0_messages`
---
-ALTER TABLE `vfkn0_messages`
-MODIFY `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_modules`
---
-ALTER TABLE `vfkn0_modules`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=109;
---
--- AUTO_INCREMENT for table `vfkn0_newsfeeds`
---
-ALTER TABLE `vfkn0_newsfeeds`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_overrider`
---
-ALTER TABLE `vfkn0_overrider`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
---
--- AUTO_INCREMENT for table `vfkn0_postinstall_messages`
---
-ALTER TABLE `vfkn0_postinstall_messages`
-MODIFY `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `vfkn0_redirect_links`
---
-ALTER TABLE `vfkn0_redirect_links`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_tags`
---
-ALTER TABLE `vfkn0_tags`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vfkn0_template_styles`
---
-ALTER TABLE `vfkn0_template_styles`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT for table `vfkn0_ucm_content`
---
-ALTER TABLE `vfkn0_ucm_content`
-MODIFY `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_ucm_history`
---
-ALTER TABLE `vfkn0_ucm_history`
-MODIFY `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
---
--- AUTO_INCREMENT for table `vfkn0_updates`
---
-ALTER TABLE `vfkn0_updates`
-MODIFY `update_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_update_sites`
---
-ALTER TABLE `vfkn0_update_sites`
-MODIFY `update_site_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT for table `vfkn0_usergroups`
---
-ALTER TABLE `vfkn0_usergroups`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT for table `vfkn0_users`
---
-ALTER TABLE `vfkn0_users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=990;
---
--- AUTO_INCREMENT for table `vfkn0_user_keys`
---
-ALTER TABLE `vfkn0_user_keys`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_user_notes`
---
-ALTER TABLE `vfkn0_user_notes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vfkn0_viewlevels`
---
-ALTER TABLE `vfkn0_viewlevels`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
