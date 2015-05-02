@@ -24,6 +24,13 @@ body
 	
 }
 
+.logoTitle
+{
+	style=padding-left: 20px; 
+	font-size: 0.77em;
+	font-family: Arial;
+}
+
 .left_menu_content, .left_menu_toggle
 {
 	background: rgba(0, 0, 0, 0.5);

@@ -21,6 +21,7 @@ require_once __DIR__ . '/library.php';
 //place different backgrounds for different pages
 $filelist = array();
 $imagePath = "images/backgrounds/";
+$imagePath2 = "images/background_blackwhite/";
 if($menuID == 101) // Homepage
 	{
 	$filelist = get_backgroundlist();	
@@ -28,15 +29,15 @@ if($menuID == 101) // Homepage
 elseif($menuID == 103) //About page
 	{
 	
-	$filelist[] = $imagePath."golfcourse_hero.jpg";
+	$filelist[] = $imagePath2."merton_hero_bw.jpg";
 	}
-elseif($menuID == 104) //About page	
+elseif($menuID == 104) //principals	
 	{
-	$filelist[] = $imagePath."merton_hero.jpg";
+	$filelist[] = $imagePath2."principals_background.JPG";
 	}
-elseif($menuID == 108 || $menuID == 109 || $menuID == 110 || $menuID == 106) //About page	
+elseif($menuID == 108 || $menuID == 109 || $menuID == 110 || $menuID == 106) //projects pages
 	{
-	$filelist[] = $imagePath."merton_hero.jpg";
+	$filelist[] = $imagePath2."merton_hero_bw.jpg";
 	}
 else
 	{
@@ -77,7 +78,7 @@ else
 				fx: 'fade',
 				pager: '#smallnav', 
 				pause:   1, 
-				speed: 4000,
+				speed: 2000,
 				timeout:  3500 
 			});			
 		});
@@ -97,7 +98,7 @@ else
 		
 		
 			<div style='height: 100px;'></div>
-			<div style='padding-left: 20px; font-size: 0.79em'><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo_notext.jpg'><br>MICHAEL MORRIS ARCHITECTS</div>
+			<div class='logoTitle' ><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo_notext.jpg'><br>MICHAEL MORRIS ARCHITECTS</div>
 			<div style='padding-top: 50px;'>
 				<jdoc:include type="modules" name="left_menu" />
 					

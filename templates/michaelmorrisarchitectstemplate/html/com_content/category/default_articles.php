@@ -34,6 +34,7 @@ $offset = $jinput->get('offset', 0, "INT" );;
 	<div class='article_listing'>
 <?php 
 $iCount = 0;
+
 foreach ($this->items as $i => $article) 
 {
 	if($i >= $offset && $iCount < $limit){
