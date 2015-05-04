@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.7
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: May 04, 2015 at 08:14 AM
--- Server version: 5.5.42-cll
--- PHP Version: 5.4.23
+-- Host: 127.0.0.1
+-- Generation Time: May 04, 2015 at 03:48 AM
+-- Server version: 5.6.20
+-- PHP Version: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,76 +27,72 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_assets` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_asset_name` (`name`),
-  KEY `idx_lft_rgt` (`lft`,`rgt`),
-  KEY `idx_parent_id` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=127 ;
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
 
 --
 -- Dumping data for table `vfkn0_assets`
 --
 
 INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 229, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 235, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (6, 1, 11, 12, 1, 'com_config', 'com_config', '{}'),
 (7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(8, 1, 17, 108, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(9, 1, 109, 110, 1, 'com_cpanel', 'com_cpanel', '{}'),
-(10, 1, 111, 112, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
-(11, 1, 113, 114, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(12, 1, 115, 116, 1, 'com_login', 'com_login', '{}'),
-(13, 1, 117, 118, 1, 'com_mailto', 'com_mailto', '{}'),
-(14, 1, 119, 120, 1, 'com_massmail', 'com_massmail', '{}'),
-(15, 1, 121, 122, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
-(16, 1, 123, 124, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(17, 1, 125, 126, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 127, 196, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(19, 1, 197, 200, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(20, 1, 201, 202, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
-(21, 1, 203, 204, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'),
-(22, 1, 205, 206, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 207, 208, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(24, 1, 209, 212, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(26, 1, 213, 214, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(8, 1, 17, 112, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(9, 1, 113, 114, 1, 'com_cpanel', 'com_cpanel', '{}'),
+(10, 1, 115, 116, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
+(11, 1, 117, 118, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(12, 1, 119, 120, 1, 'com_login', 'com_login', '{}'),
+(13, 1, 121, 122, 1, 'com_mailto', 'com_mailto', '{}'),
+(14, 1, 123, 124, 1, 'com_massmail', 'com_massmail', '{}'),
+(15, 1, 125, 126, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
+(16, 1, 127, 128, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(17, 1, 129, 130, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(18, 1, 131, 202, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(19, 1, 203, 206, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(20, 1, 207, 208, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
+(21, 1, 209, 210, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'),
+(22, 1, 211, 212, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 213, 214, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(24, 1, 215, 218, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(26, 1, 219, 220, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 37, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(30, 19, 198, 199, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(32, 24, 210, 211, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(33, 1, 215, 216, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 217, 218, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(35, 1, 219, 220, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(36, 1, 221, 222, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 223, 224, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 225, 226, 1, 'com_postinstall', 'com_postinstall', '{}'),
-(39, 18, 128, 129, 2, 'com_modules.module.1', 'Main Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(40, 18, 130, 131, 2, 'com_modules.module.2', 'Login', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(41, 18, 132, 133, 2, 'com_modules.module.3', 'Popular Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(42, 18, 134, 135, 2, 'com_modules.module.4', 'Recently Added Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(43, 18, 136, 137, 2, 'com_modules.module.8', 'Toolbar', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(44, 18, 138, 139, 2, 'com_modules.module.9', 'Quick Icons', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(45, 18, 140, 141, 2, 'com_modules.module.10', 'Logged-in Users', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(46, 18, 142, 143, 2, 'com_modules.module.12', 'Admin Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(47, 18, 144, 145, 2, 'com_modules.module.13', 'Admin Submenu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(48, 18, 146, 147, 2, 'com_modules.module.14', 'User Status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(49, 18, 148, 149, 2, 'com_modules.module.15', 'Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(50, 18, 150, 151, 2, 'com_modules.module.16', 'Login Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(51, 18, 152, 153, 2, 'com_modules.module.17', 'Breadcrumbs', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(52, 18, 154, 155, 2, 'com_modules.module.79', 'Multilanguage status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(53, 18, 156, 157, 2, 'com_modules.module.86', 'Joomla Version', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(30, 19, 204, 205, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(32, 24, 216, 217, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(33, 1, 221, 222, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 223, 224, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
+(35, 1, 225, 226, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
+(36, 1, 227, 228, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 229, 230, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 231, 232, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(39, 18, 132, 133, 2, 'com_modules.module.1', 'Main Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(40, 18, 134, 135, 2, 'com_modules.module.2', 'Login', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(41, 18, 136, 137, 2, 'com_modules.module.3', 'Popular Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(42, 18, 138, 139, 2, 'com_modules.module.4', 'Recently Added Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(43, 18, 140, 141, 2, 'com_modules.module.8', 'Toolbar', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(44, 18, 142, 143, 2, 'com_modules.module.9', 'Quick Icons', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(45, 18, 144, 145, 2, 'com_modules.module.10', 'Logged-in Users', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(46, 18, 146, 147, 2, 'com_modules.module.12', 'Admin Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(47, 18, 148, 149, 2, 'com_modules.module.13', 'Admin Submenu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(48, 18, 150, 151, 2, 'com_modules.module.14', 'User Status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(49, 18, 152, 153, 2, 'com_modules.module.15', 'Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(50, 18, 154, 155, 2, 'com_modules.module.16', 'Login Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(51, 18, 156, 157, 2, 'com_modules.module.17', 'Breadcrumbs', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(52, 18, 158, 159, 2, 'com_modules.module.79', 'Multilanguage status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(53, 18, 160, 161, 2, 'com_modules.module.86', 'Joomla Version', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (54, 27, 19, 20, 3, 'com_content.article.1', 'Residential', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (55, 27, 21, 22, 3, 'com_content.article.2', 'Commercial', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (56, 27, 23, 24, 3, 'com_content.article.3', 'Design Elements', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
@@ -106,61 +102,64 @@ INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `t
 (60, 27, 31, 32, 3, 'com_content.article.7', 'About', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (61, 27, 33, 34, 3, 'com_content.article.8', 'Principals', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (62, 27, 35, 36, 3, 'com_content.article.9', 'Contact', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(65, 18, 158, 159, 2, 'com_modules.module.89', 'Left Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
-(66, 8, 38, 57, 2, 'com_content.category.8', 'Residential Projects', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(65, 18, 162, 163, 2, 'com_modules.module.89', 'Left Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(66, 8, 38, 59, 2, 'com_content.category.8', 'Residential Projects', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (67, 66, 39, 40, 3, 'com_content.article.10', 'Golf Resort House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (68, 66, 41, 42, 3, 'com_content.article.11', 'Sorrento Retreat', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (69, 66, 43, 44, 3, 'com_content.article.12', 'Hinterland House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(76, 18, 160, 161, 2, 'com_modules.module.92', 'Slideshow - Golf Resort House', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(76, 18, 164, 165, 2, 'com_modules.module.92', 'Slideshow - Golf Resort House', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (77, 66, 45, 46, 3, 'com_content.article.13', 'Jonty House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (78, 66, 51, 52, 3, 'com_content.article.14', 'Merton House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (79, 66, 49, 50, 3, 'com_content.article.15', 'Richmond Factory', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (80, 66, 47, 48, 3, 'com_content.article.16', 'Richmond House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(81, 8, 58, 67, 2, 'com_content.category.9', 'Comerical', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
-(82, 81, 59, 60, 3, 'com_content.article.17', 'Frueauf Village', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(83, 18, 162, 163, 2, 'com_modules.module.93', 'slideshow - hinterland house ', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(84, 18, 164, 165, 2, 'com_modules.module.94', 'Slideshow - richmond house', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(85, 18, 166, 167, 2, 'com_modules.module.95', 'Slideshow - Richmond Factory', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(86, 18, 168, 169, 2, 'com_modules.module.96', 'Slideshow - Merton House', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(87, 18, 170, 171, 2, 'com_modules.module.97', 'Slide Show - Jonty House', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(88, 18, 172, 173, 2, 'com_modules.module.98', 'Slideshow - sorrento retreat', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(89, 18, 174, 175, 2, 'com_modules.module.99', 'slideshow - frueauf village', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(90, 81, 61, 62, 3, 'com_content.article.18', 'Mandala Winery', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(91, 18, 176, 177, 2, 'com_modules.module.100', 'slideshow mandala winery', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(92, 81, 63, 64, 3, 'com_content.article.19', 'PINE CLIFF HORSE COMPLEX', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(93, 18, 178, 179, 2, 'com_modules.module.101', 'slideshow - pine cliff horse', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(94, 81, 65, 66, 3, 'com_content.article.20', 'Reece Design', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(95, 18, 180, 181, 2, 'com_modules.module.102', 'slideshow - reece Design', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(81, 8, 60, 69, 2, 'com_content.category.9', 'Comerical', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(82, 81, 61, 62, 3, 'com_content.article.17', 'Frueauf Village', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(83, 18, 166, 167, 2, 'com_modules.module.93', 'slideshow - hinterland house ', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(84, 18, 168, 169, 2, 'com_modules.module.94', 'Slideshow - richmond house', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(85, 18, 170, 171, 2, 'com_modules.module.95', 'Slideshow - Richmond Factory', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(86, 18, 172, 173, 2, 'com_modules.module.96', 'Slideshow - Merton House', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(87, 18, 174, 175, 2, 'com_modules.module.97', 'Slide Show - Jonty House', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(88, 18, 176, 177, 2, 'com_modules.module.98', 'Slideshow - sorrento retreat', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(89, 18, 178, 179, 2, 'com_modules.module.99', 'slideshow - frueauf village', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(90, 81, 63, 64, 3, 'com_content.article.18', 'Mandala Winery', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(91, 18, 180, 181, 2, 'com_modules.module.100', 'slideshow mandala winery', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(92, 81, 65, 66, 3, 'com_content.article.19', 'PINE CLIFF HORSE COMPLEX', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(93, 18, 182, 183, 2, 'com_modules.module.101', 'slideshow - pine cliff horse', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(94, 81, 67, 68, 3, 'com_content.article.20', 'Reece Design', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(95, 18, 184, 185, 2, 'com_modules.module.102', 'slideshow - reece Design', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
 (96, 66, 53, 54, 3, 'com_content.article.21', 'Tree House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(97, 18, 182, 183, 2, 'com_modules.module.103', 'Slideshow - tree house', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(98, 8, 68, 75, 2, 'com_content.category.10', 'Design Elements', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
-(99, 98, 69, 70, 3, 'com_content.article.22', 'Fan', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(100, 18, 184, 185, 2, 'com_modules.module.104', 'slideshow fan', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(101, 98, 71, 72, 3, 'com_content.article.23', 'Monsoon', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(102, 18, 186, 187, 2, 'com_modules.module.105', 'slideshow monsoon', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(103, 98, 73, 74, 3, 'com_content.article.24', 'Wine', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(104, 18, 188, 189, 2, 'com_modules.module.106', 'Slideshow - wine', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(105, 8, 76, 79, 2, 'com_content.category.11', 'Media', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
-(106, 105, 77, 78, 3, 'com_content.article.25', 'Adobe', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(107, 18, 190, 191, 2, 'com_modules.module.107', 'slideshow adobe', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(109, 18, 192, 193, 2, 'com_modules.module.108', 'Contact Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
-(110, 1, 227, 228, 1, 'com_phocamaps', 'com_phocamaps', '{}'),
-(111, 112, 81, 82, 3, 'com_content.article.26', 'Tree House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(112, 8, 80, 107, 2, 'com_content.category.12', 'Descriptions', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
-(113, 112, 83, 84, 3, 'com_content.article.27', 'Golf Course House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(114, 112, 85, 86, 3, 'com_content.article.28', 'Hinterland House ', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(115, 112, 87, 88, 3, 'com_content.article.29', 'Sorrento Retreat', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(116, 112, 89, 90, 3, 'com_content.article.30', 'Merton House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(117, 112, 91, 92, 3, 'com_content.article.31', 'Richmond House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(118, 112, 93, 94, 3, 'com_content.article.32', 'Jonty House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(119, 112, 95, 96, 3, 'com_content.article.33', 'Richmond Factory', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(97, 18, 186, 187, 2, 'com_modules.module.103', 'Slideshow - tree house', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(98, 8, 70, 77, 2, 'com_content.category.10', 'Design Elements', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(99, 98, 71, 72, 3, 'com_content.article.22', 'Fan', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(100, 18, 188, 189, 2, 'com_modules.module.104', 'slideshow fan', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(101, 98, 73, 74, 3, 'com_content.article.23', 'Monsoon', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(102, 18, 190, 191, 2, 'com_modules.module.105', 'slideshow monsoon', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(103, 98, 75, 76, 3, 'com_content.article.24', 'Wine', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(104, 18, 192, 193, 2, 'com_modules.module.106', 'Slideshow - wine', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(105, 8, 78, 81, 2, 'com_content.category.11', 'Media', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(106, 105, 79, 80, 3, 'com_content.article.25', 'Adobe', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(107, 18, 194, 195, 2, 'com_modules.module.107', 'slideshow adobe', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(109, 18, 196, 197, 2, 'com_modules.module.108', 'Contact Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(110, 1, 233, 234, 1, 'com_phocamaps', 'com_phocamaps', '{}'),
+(111, 112, 83, 84, 3, 'com_content.article.26', 'Tree House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(112, 8, 82, 111, 2, 'com_content.category.12', 'Descriptions', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(113, 112, 85, 86, 3, 'com_content.article.27', 'Golf Course House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(114, 112, 87, 88, 3, 'com_content.article.28', 'Hinterland House ', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(115, 112, 89, 90, 3, 'com_content.article.29', 'Sorrento Retreat', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(116, 112, 91, 92, 3, 'com_content.article.30', 'Merton House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(117, 112, 93, 94, 3, 'com_content.article.31', 'Richmond House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(118, 112, 95, 96, 3, 'com_content.article.32', 'Jonty House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(119, 112, 97, 98, 3, 'com_content.article.33', 'Richmond Factory', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
 (120, 66, 55, 56, 3, 'com_content.article.34', 'Richmond Warehouse', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(121, 112, 97, 98, 3, 'com_content.article.35', 'Richmond Warehouse', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(122, 18, 194, 195, 2, 'com_modules.module.109', 'Slideshow - Richmond Warehouse', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
-(123, 112, 99, 100, 3, 'com_content.article.36', 'Frueauf Village', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-(124, 112, 101, 102, 3, 'com_content.article.37', 'Mandala Winery', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(125, 112, 103, 104, 3, 'com_content.article.38', 'Pinecliff Horse Complex', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(126, 112, 105, 106, 3, 'com_content.article.39', 'Reece Design', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}');
+(121, 112, 99, 100, 3, 'com_content.article.35', 'Richmond Warehouse', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(122, 18, 198, 199, 2, 'com_modules.module.109', 'Slideshow - Richmond Warehouse', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}'),
+(123, 112, 101, 102, 3, 'com_content.article.36', 'Frueauf Village', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(124, 112, 103, 104, 3, 'com_content.article.37', 'Mandala Winery', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(125, 112, 105, 106, 3, 'com_content.article.38', 'Pinecliff Horse Complex', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(126, 112, 107, 108, 3, 'com_content.article.39', 'Reece Design', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(127, 66, 57, 58, 3, 'com_content.article.40', 'Sorrento House', '{"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(128, 112, 109, 110, 3, 'com_content.article.41', 'Sorrento House', '{"core.admin":{"7":1},"core.options":[],"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(129, 18, 200, 201, 2, 'com_modules.module.110', 'slideshow sorrento house', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"module.edit.frontend":[]}');
 
 -- --------------------------------------------------------
 
@@ -171,9 +170,7 @@ INSERT INTO `vfkn0_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `t
 CREATE TABLE IF NOT EXISTS `vfkn0_associations` (
   `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
-  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
-  PRIMARY KEY (`context`,`id`),
-  KEY `idx_key` (`key`)
+  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -183,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `cid` int(11) NOT NULL DEFAULT '0',
   `type` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -216,13 +213,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
-  `version` int(10) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `idx_state` (`state`),
-  KEY `idx_own_prefix` (`own_prefix`),
-  KEY `idx_metakey_prefix` (`metakey_prefix`),
-  KEY `idx_banner_catid` (`catid`),
-  KEY `idx_language` (`language`)
+  `version` int(10) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -232,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banners` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_banner_clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `contact` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
@@ -245,10 +236,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_clients` (
   `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
   `purchase_type` tinyint(4) NOT NULL DEFAULT '-1',
   `track_clicks` tinyint(4) NOT NULL DEFAULT '-1',
-  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1',
-  PRIMARY KEY (`id`),
-  KEY `idx_own_prefix` (`own_prefix`),
-  KEY `idx_metakey_prefix` (`metakey_prefix`)
+  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -261,11 +249,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_tracks` (
   `track_date` datetime NOT NULL,
   `track_type` int(10) unsigned NOT NULL,
   `banner_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
-  KEY `idx_track_date` (`track_date`),
-  KEY `idx_track_type` (`track_type`),
-  KEY `idx_banner_id` (`banner_id`)
+  `count` int(10) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -275,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_banner_tracks` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
@@ -301,15 +285,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_categories` (
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `cat_idx` (`extension`,`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_path` (`path`),
-  KEY `idx_left_right` (`lft`,`rgt`),
-  KEY `idx_alias` (`alias`),
-  KEY `idx_language` (`language`)
+  `version` int(10) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
@@ -336,7 +312,7 @@ INSERT INTO `vfkn0_categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `le
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
@@ -378,16 +354,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `version` int(10) unsigned NOT NULL DEFAULT '1',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`published`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_featured_catid` (`featured`,`catid`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
+  `hits` int(10) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -397,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contact_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -426,17 +393,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content` (
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  PRIMARY KEY (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`state`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_featured_catid` (`featured`,`catid`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
 
 --
 -- Dumping data for table `vfkn0_content`
@@ -452,37 +410,39 @@ INSERT INTO `vfkn0_content` (`id`, `asset_id`, `title`, `alias`, `introtext`, `f
 (7, 60, 'About', 'about', '<p style="text-align: center;">- Watch This space -</p>', '', 1, 2, '2015-04-03 09:45:45', 989, '', '2015-04-20 00:07:04', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:45:45', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"_:default","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 5, 3, '', '', 1, 84, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (8, 61, 'Principals', 'principals', '<h4 class="sapient_transparent_background"><span style="text-decoration: underline;">PRINCIPLES</span></h4>\r\n<p> </p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td class="sapient_transparent_background" valign="top" width="30%"><span style="text-decoration: underline;">Michael Morris</span><br /> Director\r\n<p>B. Arch RAIA</p>\r\n<p>Dynamic, inventive and passionate about architecture, Michael Morris has a reputation for high quality design and a unique approach to each project. Michael’s buildings include many individual residences in city and country locations, retail showrooms, commercial offices, restaurants and cafes, tourist and leisure centres and many other specialist buildings. Michael is familiar with complex design briefs and has the experience which comes from meeting the needs of a diverse range of clients. He is closely involved in all stages of projects from concept design through to project administration.  </p>\r\n</td>\r\n<td width="5%"> </td>\r\n<td class="sapient_transparent_background" valign="top" width="30%"><span style="text-decoration: underline;"><span style="text-decoration: underline;"><span style="text-decoration: underline;">Christine Berry</span><br /> Associate</span></span>\r\n<p>B.TRP</p>\r\n<p>With a career covering many aspects of both the planning and design industries, Christine brings a depth of understanding in the delivery of projects, thus enabling a high level of successful outcomes. Working closely with the design team on each project and utilising her well-honed communication skills, Christine relates to the needs of stake holders and applies her knowledge in the liaison with government bodies and community groups in the development approval process. She is also actively involved in project concept design and project management overall.</p>\r\n</td>\r\n<td width="30%"> </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p> </p>', '', 1, 2, '2015-04-03 09:46:15', 989, '', '2015-05-02 21:46:02', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:46:15', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"michaelmorrisarchitectstemplate:nobackground","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 18, 2, '', '', 1, 59, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (9, 62, 'Contact', 'contact', '<h2 style="text-align: center;">Contact Us</h2>\r\n<p>Michael Morris Architects</p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><img src="images/icons/home_white.png" alt="" /> </td>\r\n<td>21 Laity Street, Richmond 3121<br /> Victoria, Australia </td>\r\n<td rowspan="3">{phocamaps view=map|id=1}</td>\r\n</tr>\r\n<tr>\r\n<td> <img src="images/icons/phone16_white.png" alt="" /></td>\r\n<td> +61 3 9421 3332</td>\r\n</tr>\r\n<tr>\r\n<td class="sap_contact_table_email"><img src="images/icons/email_white.png" alt="" /></td>\r\n<td class="sap_contact_table_email">{loadposition contact_form}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p> </p>', '', 1, 2, '2015-04-03 09:47:12', 989, '', '2015-04-21 01:37:51', 989, 0, '0000-00-00 00:00:00', '2015-04-03 09:47:12', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"_:default","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 37, 1, '', '', 1, 128, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(10, 67, 'Golf Resort House', 'golf-resort-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">The green grassy fairways and lush landscaping of the 13th Beach Golf Course surround this residence.</span> </span></p>\r\n', '\r\n<p> {loadposition residential_golf}</p>', 1, 8, '2015-03-01 21:24:00', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-03-01 21:24:00', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/golf_resort_house\\/golf_resort_house_article_list.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 13, 1, '', '', 1, 88, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(11, 68, 'Sorrento Retreat', 'sorrento-retreat', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">The juxtaposition of strong geometric forms</span><span style="mso-spacerun: yes;"><span style="color: #000000;">  </span></span><span style="color: #000000;">- constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.</span></span></p>\r\n', '\r\n<p> {loadposition residential_sorrento_retreat}</p>', 1, 8, '2015-04-04 21:25:23', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-04-04 21:25:23', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/sorento_retreat\\/sorento_retreat_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 2, '', '', 1, 16, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(12, 69, 'Hinterland House', 'hinterland-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Arriving at Hinterland House is a startling experience. The sandy track winds through the sloping site and stops at a gravel clearing.</span></span></p>\r\n', '\r\n<p> {loadposition residential_hinterland_house}</p>', 1, 8, '2015-04-07 06:12:51', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-04-07 06:12:51', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/hinterland_house\\/Hinterland_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 5, '', '', 1, 25, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(13, 77, 'Jonty House', 'jonty-house', '<p>Located in the Melbourne inner city, this rear addition to a simple cottage breaks out exuberantly from the confines of the historic structure.</p>\r\n', '\r\n<p> {loadposition residential_jonty_house}</p>', 1, 8, '2015-04-08 05:28:06', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-04-08 05:28:06', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/jonty_house\\/jonty_house_article_list.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 4, 6, '', '', 1, 7, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(14, 78, 'Merton House', 'merton-house', '<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.</p>\r\n', '\r\n<p> {loadposition residential_merton_house}</p>', 1, 8, '2015-04-09 02:42:52', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:42:52', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/merton_house\\/merton_house_aricle_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 3, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(15, 79, 'Richmond Factory', 'richmond-factory', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;"><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;">The retention of the original concrete slab and the steel beam roof structure of this 1960’s factory provides a spacious and enlivening framework for its residential use. </span></span></span></p>\r\n', '\r\n<p> {loadposition residential_richmond_factory}</p>', 1, 8, '2015-04-09 02:43:25', 989, '', '2015-05-02 21:29:26', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:43:25', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_factory\\/richmond_factory_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 8, '', '', 1, 3, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(16, 80, 'Richmond House', 'richmond-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Responding boldly to the challenges of a tight inner city site, Richmond House provides a sanctuary amidst the traffic and intensity of the immediate surroundings.</span></span></p>\r\n', '\r\n<p> {loadposition residential_richmond_house}</p>', 1, 8, '2015-04-09 02:43:58', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:43:58', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_house\\/richmond_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 4, '', '', 1, 8, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(10, 67, 'Golf Resort House', 'golf-resort-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">The green grassy fairways and lush landscaping of the 13th Beach Golf Course surround this residence.</span> </span></p>\r\n', '\r\n<p> {loadposition residential_golf}</p>', 1, 8, '2015-03-01 21:24:00', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-03-01 21:24:00', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/golf_resort_house\\/golf_resort_house_article_list.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 13, 1, '', '', 1, 89, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(11, 68, 'Sorrento Retreat', 'sorrento-retreat', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">The juxtaposition of strong geometric forms</span><span style="mso-spacerun: yes;"><span style="color: #000000;">  </span></span><span style="color: #000000;">- constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.</span></span></p>\r\n', '\r\n<p> {loadposition residential_sorrento_retreat}</p>', 1, 8, '2015-04-04 21:25:23', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-04-04 21:25:23', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/sorento_retreat\\/sorento_retreat_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 2, '', '', 1, 16, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(12, 69, 'Hinterland House', 'hinterland-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Arriving at Hinterland House is a startling experience. The sandy track winds through the sloping site and stops at a gravel clearing.</span></span></p>\r\n', '\r\n<p> {loadposition residential_hinterland_house}</p>', 1, 8, '2015-04-07 06:12:51', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-04-07 06:12:51', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/hinterland_house\\/Hinterland_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 5, '', '', 1, 26, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(13, 77, 'Jonty House', 'jonty-house', '<p>Located in the Melbourne inner city, this rear addition to a simple cottage breaks out exuberantly from the confines of the historic structure.</p>\r\n', '\r\n<p> {loadposition residential_jonty_house}</p>', 1, 8, '2015-04-08 05:28:06', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-04-08 05:28:06', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/jonty_house\\/jonty_house_article_list.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 4, 6, '', '', 1, 7, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(14, 78, 'Merton House', 'merton-house', '<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside.</p>\r\n', '\r\n<p> {loadposition residential_merton_house}</p>', 1, 8, '2015-04-09 02:42:52', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:42:52', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/merton_house\\/merton_house_aricle_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 3, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(15, 79, 'Richmond Factory', 'richmond-factory', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;"><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;">The retention of the original concrete slab and the steel beam roof structure of this 1960’s factory provides a spacious and enlivening framework for its residential use. </span></span></span></p>\r\n', '\r\n<p> {loadposition residential_richmond_factory}</p>', 1, 8, '2015-04-09 02:43:25', 989, '', '2015-05-02 21:29:26', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:43:25', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_factory\\/richmond_factory_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 9, '', '', 1, 3, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(16, 80, 'Richmond House', 'richmond-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Responding boldly to the challenges of a tight inner city site, Richmond House provides a sanctuary amidst the traffic and intensity of the immediate surroundings.</span></span></p>\r\n', '\r\n<p> {loadposition residential_richmond_house}</p>', 1, 8, '2015-04-09 02:43:58', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-04-09 02:43:58', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_house\\/richmond_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 7, 4, '', '', 1, 8, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (17, 82, 'Frueauf Village', 'frueauf-village', '<p>This multi-purpose ski village is located in the High Plains of South East Victoria at Falls Creek.</p>\r\n', '\r\n<p> {loadposition comercial_frueauf_village}</p>', 1, 9, '2015-04-16 05:33:07', 989, '', '2015-05-03 19:03:10', 989, 0, '0000-00-00 00:00:00', '2015-04-16 05:33:07', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Frueauf_village_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 6, 3, '', '', 1, 7, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (18, 90, 'Mandala Winery', 'mandala-winery', '<p>Preserving the magnificent views to the surrounding Yarra Ranges and providing an intense rural experience for visitors, were key determinants in the design of the Mandala Winery.</p>\r\n', '\r\n<p>{loadposition comercial_mandala_winery}</p>', 1, 9, '2015-04-16 06:19:58', 989, '', '2015-05-03 19:06:08', 989, 0, '0000-00-00 00:00:00', '2015-04-16 06:19:58', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/Mandala_winery_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 4, 2, '', '', 1, 5, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(19, 92, 'PINE CLIFF HORSE COMPLEX', 'pine-cliff-horse-complex', '<p>Located on the Mornington Peninsula, Pinecliff provides state of the art facilities in horse training, and environmentally sustainable management and landscape design.</p>\r\n', '\r\n<p>{loadposition comercial_pine_cliff_horse}</p>', 1, 9, '2015-04-16 06:23:13', 989, '', '2015-05-03 19:06:30', 989, 0, '0000-00-00 00:00:00', '2015-04-16 06:23:13', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Pinecliff_horse_complex_article_listing.JPG","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 1, '', '', 1, 2, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(19, 92, 'PINE CLIFF HORSE COMPLEX', 'pine-cliff-horse-complex', '<p>Located on the Mornington Peninsula, Pinecliff provides state of the art facilities in horse training, and environmentally sustainable management and landscape design.</p>\r\n', '\r\n<p>{loadposition comercial_pine_cliff_horse}</p>', 1, 9, '2015-04-16 06:23:13', 989, '', '2015-05-03 19:06:30', 989, 0, '0000-00-00 00:00:00', '2015-04-16 06:23:13', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Pinecliff_horse_complex_article_listing.JPG","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 1, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (20, 94, 'Reece Design', 'reece-design', '<p>Located in inner city Melbourne, Reecedesign was a showroom created in 2001 for architects, interior designers and the design aware public.</p>\r\n', '\r\n<p>{loadposition comercial_reece_design}</p>', 1, 9, '2015-04-16 06:25:14', 989, '', '2015-05-03 19:11:41', 989, 0, '0000-00-00 00:00:00', '2015-04-16 06:25:14', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/COMMERCIAL\\/reece_design\\/recce_design_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 4, 0, '', '', 1, 6, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(21, 96, 'Tree House', 'tree-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Perched in the Otway Ranges, the Lorne Tree House hides seductively amongst the eucalypts. </span></span></p>\r\n', '\r\n<p>{loadposition residential_tree_house}</p>', 1, 8, '2015-03-01 23:51:00', 989, '', '2015-05-02 20:27:56', 989, 0, '0000-00-00 00:00:00', '2015-04-16 23:51:03', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/tree_house\\/tree_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 11, 9, '', '', 1, 176, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(21, 96, 'Tree House', 'tree-house', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Perched in the Otway Ranges, the Lorne Tree House hides seductively amongst the eucalypts. </span></span></p>\r\n', '\r\n<p>{loadposition residential_tree_house}</p>', 1, 8, '2015-03-01 23:51:00', 989, '', '2015-05-02 20:27:56', 989, 0, '0000-00-00 00:00:00', '2015-04-16 23:51:03', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/tree_house\\/tree_house_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 11, 10, '', '', 1, 176, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (22, 99, 'Fan', 'fan', '<p>Fan Design Element</p>\r\n', '\r\n<p>{loadposition fan}</p>', 1, 10, '2015-04-17 06:00:30', 989, '', '2015-04-17 06:00:30', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:00:30', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Fan\\/fan_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 2, '', '', 1, 1, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (23, 101, 'Monsoon', 'monsoon', '<p>Monsoon Design Element</p>\r\n', '\r\n<p>{loadposition monsoon}</p>', 1, 10, '2015-04-17 06:04:14', 989, '', '2015-04-17 06:04:14', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:04:14', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Monsoon\\/Monsoon_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 1, '', '', 1, 2, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (24, 103, 'Wine', 'wine', '<p>Win Design Element</p>\r\n', '\r\n<p>{loadposition wine}</p>', 1, 10, '2015-04-17 06:06:44', 989, '', '2015-04-17 06:06:44', 0, 0, '0000-00-00 00:00:00', '2015-04-17 06:06:44', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/Design_elements\\/Wine\\/wine_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 0, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
 (25, 106, 'Adobe', 'adobe', '<p>Adobe, The best of the best Houses</p>\r\n', '\r\n<p>{loadposition adobe}</p>', 1, 11, '2015-04-17 06:21:06', 989, '', '2015-04-17 06:22:32', 989, 0, '0000-00-00 00:00:00', '2015-04-17 06:21:06', '0000-00-00 00:00:00', '{"image_intro":"images\\/Media\\/ABODE\\/adobe_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 0, '', '', 1, 17, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(26, 111, 'Tree House', 'tree-house-description', '<p><span style="font-size: 15px;">Perched in the Otway Ranges, the Lorne Tree House hides seductively amongst the eucalypts. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">The exterior of the house is clad in stained timber, copper, corten steel and painted cement sheet. These materials weather naturally to a recessive palette blending with the surrounding environment. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">The use of perforated metal screens at ground level enables through air flow to be maintained around the house. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">In the summer months movement of cool air up through the levels of the house minimizes the need for air conditioning. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">Interiors of the house are deliberately kept simple and in natural tonings. Timber floors blend seamlessly into the decks. Timber walkways at the entry bridge the steepness of the site thus enabling the natural gradients to remain unimpeded</span>.</p>\r\n<p> </p>', '', 1, 12, '2015-05-02 19:53:39', 989, '', '2015-05-02 21:33:12', 989, 0, '0000-00-00 00:00:00', '2015-05-02 19:53:39', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"michaelmorrisarchitectstemplate:projectslideshow","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 8, 12, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(27, 113, 'Golf Course House', 'golf-course-house', '<div style="font-size: 15px;">\r\n<p>The green grassy fairways and lush landscaping of the 13th Beach Golf Course surround this residence. At the front entry, a central axis opens out to a stand of cypresses fringing the 1st tee. There are the occasional long views of golfers. The house embraces its natural surroundings and the beauty of the environment. Small private courtyards are also located within the house that enables the outdoors to be enjoyed in all seasons.</p>\r\n<p>The materials palette reflects the casual holiday style - spotted gum cladding predominating with individual modules attached in folded zincalume and painted cement sheet. These materials flow through to the interiors and are lustrously lit at night.</p>\r\n<p>The extensive central axis in polished concrete contrasts with the soft, lush, amber of the matt cork tiles throughout the kitchen, living and dining area. A glass roofed cylinder captures the morning light and folds around a circular table to provide an intimate breakfast space adjoined to the otherwise large volumes throughout.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 20:57:24', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 6, 11, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(28, 114, 'Hinterland House ', 'golf-course-house-2', '<div style="font-size: 15px;">\r\n<p>Arriving at Hinterland House is a startling experience. The sandy track winds through the sloping site and stops at a gravel clearing. A powerful rammed earth wall slices through the building and enables other elements to float. The site seems to flow through. There is no obvious entry. The house is deliberately illusive - it challenges expectations.</p>\r\n<p>The building enables views of the site to be enjoyed and confronted - the seductive dam, modest scrub, bushfire scarred eucalypts and abundant wildlife. The design is a fragmented building with living, working and sleeping zones separated by glazed slots, links and open spaces.</p>\r\n<p>Once inside, the excitement of the building and the site is revealed. Personal privacy is created without the use of barriers. Movement between zones provides a continual disconnection reinforced by changes in materials. The house requires a journey with minimal definition between the interior and exterior.</p>\r\n<p>This house is provocative in its rejection of any easy gratification of the aesthetic – it beckons the occupants to think, observe and encounter the uniqueness of the Australian bush.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 20:58:28', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 10, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(29, 115, 'Sorrento Retreat', 'sorrento-retreat', '<div style="font-size: 15px;">\r\n<p>Constructed as a later addition to the Sorrento Beach House, the retreat adds a further dimension to this iconic beach house. The structure floats above the ground floor entertainment area in the form of a rotated cube. The staircase is a simply expressed form encased in white glass and blades of aluminium.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:12:02', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 5, 9, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
+(26, 111, 'Tree House', 'tree-house-description', '<p><span style="font-size: 15px;">Perched in the Otway Ranges, the Lorne Tree House hides seductively amongst the eucalypts. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">The exterior of the house is clad in stained timber, copper, corten steel and painted cement sheet. These materials weather naturally to a recessive palette blending with the surrounding environment. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">The use of perforated metal screens at ground level enables through air flow to be maintained around the house. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">In the summer months movement of cool air up through the levels of the house minimizes the need for air conditioning. </span></p>\r\n<p><span style="font-size: 15px; mso-bidi-font-size: 11.0pt;">Interiors of the house are deliberately kept simple and in natural tonings. Timber floors blend seamlessly into the decks. Timber walkways at the entry bridge the steepness of the site thus enabling the natural gradients to remain unimpeded</span>.</p>\r\n<p> </p>', '', 1, 12, '2015-05-02 19:53:39', 989, '', '2015-05-02 21:33:12', 989, 0, '0000-00-00 00:00:00', '2015-05-02 19:53:39', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"michaelmorrisarchitectstemplate:projectslideshow","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 8, 13, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(27, 113, 'Golf Course House', 'golf-course-house', '<div style="font-size: 15px;">\r\n<p>The green grassy fairways and lush landscaping of the 13th Beach Golf Course surround this residence. At the front entry, a central axis opens out to a stand of cypresses fringing the 1st tee. There are the occasional long views of golfers. The house embraces its natural surroundings and the beauty of the environment. Small private courtyards are also located within the house that enables the outdoors to be enjoyed in all seasons.</p>\r\n<p>The materials palette reflects the casual holiday style - spotted gum cladding predominating with individual modules attached in folded zincalume and painted cement sheet. These materials flow through to the interiors and are lustrously lit at night.</p>\r\n<p>The extensive central axis in polished concrete contrasts with the soft, lush, amber of the matt cork tiles throughout the kitchen, living and dining area. A glass roofed cylinder captures the morning light and folds around a circular table to provide an intimate breakfast space adjoined to the otherwise large volumes throughout.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 20:57:24', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 6, 12, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(28, 114, 'Hinterland House ', 'golf-course-house-2', '<div style="font-size: 15px;">\r\n<p>Arriving at Hinterland House is a startling experience. The sandy track winds through the sloping site and stops at a gravel clearing. A powerful rammed earth wall slices through the building and enables other elements to float. The site seems to flow through. There is no obvious entry. The house is deliberately illusive - it challenges expectations.</p>\r\n<p>The building enables views of the site to be enjoyed and confronted - the seductive dam, modest scrub, bushfire scarred eucalypts and abundant wildlife. The design is a fragmented building with living, working and sleeping zones separated by glazed slots, links and open spaces.</p>\r\n<p>Once inside, the excitement of the building and the site is revealed. Personal privacy is created without the use of barriers. Movement between zones provides a continual disconnection reinforced by changes in materials. The house requires a journey with minimal definition between the interior and exterior.</p>\r\n<p>This house is provocative in its rejection of any easy gratification of the aesthetic – it beckons the occupants to think, observe and encounter the uniqueness of the Australian bush.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 20:58:28', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 11, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(29, 115, 'Sorrento Retreat', 'sorrento-retreat', '<div style="font-size: 15px;">\r\n<p>Constructed as a later addition to the Sorrento Beach House, the retreat adds a further dimension to this iconic beach house. The structure floats above the ground floor entertainment area in the form of a rotated cube. The staircase is a simply expressed form encased in white glass and blades of aluminium.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:12:02', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 5, 10, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
 INSERT INTO `vfkn0_content` (`id`, `asset_id`, `title`, `alias`, `introtext`, `fulltext`, `state`, `catid`, `created`, `created_by`, `created_by_alias`, `modified`, `modified_by`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `images`, `urls`, `attribs`, `version`, `ordering`, `metakey`, `metadesc`, `access`, `hits`, `metadata`, `featured`, `language`, `xreference`) VALUES
-(30, 116, 'Merton House', 'merton-house', '<div style="font-size: 15px;">\r\n<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside. The building sits in a rocky outcrop and relies on the juxtaposition and linking of three simple box elements to express the building form. A large stone fireplace anchors the central core where the living room, kitchen and dining areas dramatically cantilever over the natural slope of the site. A series of decks and courtyards provide respite from prevailing winds and extremes of temperatures.</p>\r\n<p>The house provides an enriching, uniquely rural experience where the natural beauty of the site with its shaly outcrops, wind battered trees, lush young eucalypts and climatic extremes can be celebrated and enjoyed. The use of strong shapes and the imaginative blending and contrasting of relatively low cost, conventional materials are melded together to provide an uplifting experience. The house is respectful of the landscape yet has its own force and presence in providing the occupants with great sensory and visual cinema as the days and seasons unfold around it.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:13:02', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 8, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(31, 117, 'Richmond House', 'richmond-house', '<div style="font-size: 15px;">\r\n<p>Responding boldly to the challenges of a tight inner city site, Richmond House provides a sanctuary amidst the traffic and intensity of the immediate surroundings. The interior is private, quiet and visually exciting. The exterior is assertive in its presence - but not dominating - and contributes to the vitality and interest of the street.</p>\r\n<p>The front façade is notched to provide a protected entry and enable views of the Victorian cottage adjacent. Large screens prevent invasive views and rooms revolve around protective courtyards and decks. A vertical garden is the main feature of the central internal courtyard.</p>\r\n<p>An adjacent peppercorn tree forms a protective veil. A stacked stone wall along the entry path conceals rain water tanks for the gardens and also holds grasses and orchids along the entry.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:17:47', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 7, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(32, 118, 'Jonty House', 'jonty-house', '<div style="font-size: 15px;">\r\n<p>Located in the Melbourne inner city, this rear addition to a simple cottage breaks out exuberantly from the confines of the historic structure.</p>\r\n<p>Unseen from the heritage street frontage, the upper floor floats seamlessly and opens out to a concertina deck with panoramic city views. Privacy of neighbours is ensured by the use of screens formed from aluminium box sections. Enfolding the upper floor and, together with panels of white glass, these sections form an ephemeral band around the structure.</p>\r\n<p>The aesthetic potential of metal layering is celebrated by creating varying widths, perforation and sizing. The resultant softness of interior illumination and blending of the structure with the sky provides a heightened sense of lightness and exhilaration. A staircase clad in Spectra Alucobond gleams and is a theatrical negative joint marking the transition from old to new.</p>\r\n<p>A palette of contrasts is carefully crafted with stainless steel, timber and pale natural stone intersecting with dark grey Alpaca carpet, black terrazzo, concrete, bluestone and deep red corten steel. The pre-existing dark interior of the cottage has been retained for bedrooms – the journey through the building is towards the light of the new additions.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:23:29', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 6, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(33, 119, 'Richmond Factory', 'richmond-factory', '<div style="font-size: 15px;">\r\n<p>The retention of the original concrete slab and the steel beam roof structure of this 1960’s factory provides a spacious and enlivening framework for its residential use.</p>\r\n<p>Pock marked rendered walls have been simply painted and interior lighting has been cabled through the exposed metal tubing suspended below the ceiling line. The minimum of internal structure provides a continual reminder of the building’s origins and adds to the excitement of the internal space. An enclosed courtyard has been relandscaped and provides a private open space large enough for vegetables in containers and flourishing citrus trees. A narrow side finger of land - seen at the entry - has been transformed by lush landscaping.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:29:08', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 5, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(34, 120, 'Richmond Warehouse', 'richmond-warehouse', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Nestled inside a multi-story turn of the century warehousing complex, this refurbished building has soaring interior spaces and robust red brick walls retained from the original structure.</span><span style="mso-spacerun: yes;"><span style="color: #000000;">  </span></span></span></p>\r\n', '\r\n<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="mso-spacerun: yes;"><span style="color: #000000;">{loadposition residential_richmond_warehouse}</span></span></span></p>', 1, 8, '2015-05-02 21:36:47', 989, '', '2015-05-02 21:42:17', 989, 0, '0000-00-00 00:00:00', '2015-05-02 21:36:47', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_warehouse\\/richmond_Warehouse_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 7, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(35, 121, 'Richmond Warehouse', 'richmond-warehouse', '<div style="font-size: 15px;">\r\n<p>Nestled inside a multi-story turn of the century warehousing complex, this refurbished building has soaring interior spaces and robust red brick walls retained from the original structure.</p>\r\n<p>The dramatic, sculptural internal staircase provides access to bedrooms and bathrooms tucked under the ceiling line.</p>\r\n</div>', '', 1, 12, '2015-05-02 21:37:59', 989, '', '2015-05-02 21:37:59', 0, 0, '0000-00-00 00:00:00', '2015-05-02 21:37:59', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 4, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(36, 123, 'Frueauf Village', 'frueauf-village', '<div style="font-size: 15px;">\r\n<p>This multi-purpose ski village is located in the High Plains of South East Victoria at Falls Creek. The central core provides for a cinema and restaurant and is surrounded by separate lodges. The extreme climate has required the careful selection of materials which are natural stone, copper and timber cladding and galvanized steelwork. The vibrant combination of materials, together with the fragmented massing of the lodges, has created an exciting, iconic and popular destination in the resort.</p>\r\n</div>', '', 1, 12, '2015-05-02 21:37:59', 989, '', '2015-05-03 18:55:21', 989, 0, '0000-00-00 00:00:00', '2015-05-02 21:37:59', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 3, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(37, 124, 'Mandala Winery', 'mandala-winery', '<div style="font-size: 15px;">\r\n<p>Preserving the magnificent views to the surrounding Yarra Ranges and providing an intense rural experience for visitors, were key determinants in the design of the Mandala Winery.</p>\r\n<p>There is minimal definition between the indoors and outdoors. Large sections of openable glass provide for outdoor wine tasting and dining. Building materials feature corten steel, recycled rubber flooring and spotted gum timber. A Bocce Court encourages outdoor recreation while the Green enables larger scale music and market events to be held and the occasional landing of hot air Balloons.</p>\r\n<p>All roof water is recycled for landscape uses.</p>\r\n<p>The Melba Highway has been screened by mounds and extensive native planting and car parking is largely concealed behind a screen of vines. The Master Plan also provides for future processing of grapes on site which will further enhance the wine making experience for visitors.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:56:22', 989, '', '2015-05-03 18:56:22', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:56:22', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 2, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(38, 125, 'Pinecliff Horse Complex', 'pinecliff-horse-complex', '<div style="font-size: 15px;">\r\n<p>Located on the Mornington Peninsula, Pinecliff provides state of the art facilities in horse training, and environmentally sustainable management and landscape design.</p>\r\n<p>The original site of 50 hectares had been cleared for grazing and the site has now been transformed by the creation of a system of linked wetlands. These progressively filter waste water and enable its reuse throughout the site. A new 7.6 megalitre dam provides the final stage of this system. Water birds now flock to the site.</p>\r\n<p>There are numerous buildings accommodating the diverse activities associated with a training/breeding facility. These are carefully and functionally designed using a mix of industrial structures ad materials.</p>\r\n<p>A large scale innovative worm farm - 25 metres by 10 metres by average 2 metres depth - processes all horse manure, water, cardboard and grass/ landscape waste within the site. The worm farm provides the initial treatment of waste with worm castings being used for ongoing fertilization of the grassed horse yards.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:58:13', 989, '', '2015-05-03 18:58:13', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:58:13', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 1, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
-(39, 126, 'Reece Design', 'reece-design', '<div style="font-size: 15px;">\r\n<p>Located in inner city Melbourne, Reecedesign was a showroom created in 2001 for architects, interior designers and the design aware public. Built over two levels in a major renovation of the existing industrial structure, the showroom provided for the display of an extensive range of bathroom and kitchen products. Water connection to many fitments enabled the full impact of tapware to be experienced – a new innovation at the time. Products featured designs from a number of international companies not seen before in Australia and a new benchmark was created in the quality of presentation for such showrooms.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:58:44', 989, '', '2015-05-03 18:58:44', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:58:44', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 0, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
+(30, 116, 'Merton House', 'merton-house', '<div style="font-size: 15px;">\r\n<p>Located in the foothills of the Great Dividing Range, this remote and steeply sloping site provides spectacular views of the Australian countryside. The building sits in a rocky outcrop and relies on the juxtaposition and linking of three simple box elements to express the building form. A large stone fireplace anchors the central core where the living room, kitchen and dining areas dramatically cantilever over the natural slope of the site. A series of decks and courtyards provide respite from prevailing winds and extremes of temperatures.</p>\r\n<p>The house provides an enriching, uniquely rural experience where the natural beauty of the site with its shaly outcrops, wind battered trees, lush young eucalypts and climatic extremes can be celebrated and enjoyed. The use of strong shapes and the imaginative blending and contrasting of relatively low cost, conventional materials are melded together to provide an uplifting experience. The house is respectful of the landscape yet has its own force and presence in providing the occupants with great sensory and visual cinema as the days and seasons unfold around it.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:13:02', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 9, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(31, 117, 'Richmond House', 'richmond-house', '<div style="font-size: 15px;">\r\n<p>Responding boldly to the challenges of a tight inner city site, Richmond House provides a sanctuary amidst the traffic and intensity of the immediate surroundings. The interior is private, quiet and visually exciting. The exterior is assertive in its presence - but not dominating - and contributes to the vitality and interest of the street.</p>\r\n<p>The front façade is notched to provide a protected entry and enable views of the Victorian cottage adjacent. Large screens prevent invasive views and rooms revolve around protective courtyards and decks. A vertical garden is the main feature of the central internal courtyard.</p>\r\n<p>An adjacent peppercorn tree forms a protective veil. A stacked stone wall along the entry path conceals rain water tanks for the gardens and also holds grasses and orchids along the entry.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:17:47', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 8, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(32, 118, 'Jonty House', 'jonty-house', '<div style="font-size: 15px;">\r\n<p>Located in the Melbourne inner city, this rear addition to a simple cottage breaks out exuberantly from the confines of the historic structure.</p>\r\n<p>Unseen from the heritage street frontage, the upper floor floats seamlessly and opens out to a concertina deck with panoramic city views. Privacy of neighbours is ensured by the use of screens formed from aluminium box sections. Enfolding the upper floor and, together with panels of white glass, these sections form an ephemeral band around the structure.</p>\r\n<p>The aesthetic potential of metal layering is celebrated by creating varying widths, perforation and sizing. The resultant softness of interior illumination and blending of the structure with the sky provides a heightened sense of lightness and exhilaration. A staircase clad in Spectra Alucobond gleams and is a theatrical negative joint marking the transition from old to new.</p>\r\n<p>A palette of contrasts is carefully crafted with stainless steel, timber and pale natural stone intersecting with dark grey Alpaca carpet, black terrazzo, concrete, bluestone and deep red corten steel. The pre-existing dark interior of the cottage has been retained for bedrooms – the journey through the building is towards the light of the new additions.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:23:29', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 7, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(33, 119, 'Richmond Factory', 'richmond-factory', '<div style="font-size: 15px;">\r\n<p>The retention of the original concrete slab and the steel beam roof structure of this 1960’s factory provides a spacious and enlivening framework for its residential use.</p>\r\n<p>Pock marked rendered walls have been simply painted and interior lighting has been cabled through the exposed metal tubing suspended below the ceiling line. The minimum of internal structure provides a continual reminder of the building’s origins and adds to the excitement of the internal space. An enclosed courtyard has been relandscaped and provides a private open space large enough for vegetables in containers and flourishing citrus trees. A narrow side finger of land - seen at the entry - has been transformed by lush landscaping.</p>\r\n</div>', '', 1, 12, '2015-05-02 20:42:33', 989, '', '2015-05-02 21:29:08', 989, 0, '0000-00-00 00:00:00', '2015-05-02 20:42:33', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 3, 6, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(34, 120, 'Richmond Warehouse', 'richmond-warehouse', '<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="color: #000000;">Nestled inside a multi-story turn of the century warehousing complex, this refurbished building has soaring interior spaces and robust red brick walls retained from the original structure.</span><span style="mso-spacerun: yes;"><span style="color: #000000;">  </span></span></span></p>\r\n', '\r\n<p><span style="line-height: 115%; font-family: ''Calibri'',sans-serif; font-size: 10pt; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;"><span style="mso-spacerun: yes;"><span style="color: #000000;">{loadposition residential_richmond_warehouse}</span></span></span></p>', 1, 8, '2015-05-02 21:36:47', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-05-02 21:36:47', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/richmond_warehouse\\/richmond_Warehouse_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 7, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(35, 121, 'Richmond Warehouse', 'richmond-warehouse', '<div style="font-size: 15px;">\r\n<p>Nestled inside a multi-story turn of the century warehousing complex, this refurbished building has soaring interior spaces and robust red brick walls retained from the original structure.</p>\r\n<p>The dramatic, sculptural internal staircase provides access to bedrooms and bathrooms tucked under the ceiling line.</p>\r\n</div>', '', 1, 12, '2015-05-02 21:37:59', 989, '', '2015-05-02 21:37:59', 0, 0, '0000-00-00 00:00:00', '2015-05-02 21:37:59', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 5, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(36, 123, 'Frueauf Village', 'frueauf-village', '<div style="font-size: 15px;">\r\n<p>This multi-purpose ski village is located in the High Plains of South East Victoria at Falls Creek. The central core provides for a cinema and restaurant and is surrounded by separate lodges. The extreme climate has required the careful selection of materials which are natural stone, copper and timber cladding and galvanized steelwork. The vibrant combination of materials, together with the fragmented massing of the lodges, has created an exciting, iconic and popular destination in the resort.</p>\r\n</div>', '', 1, 12, '2015-05-02 21:37:59', 989, '', '2015-05-03 18:55:21', 989, 0, '0000-00-00 00:00:00', '2015-05-02 21:37:59', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 4, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(37, 124, 'Mandala Winery', 'mandala-winery', '<div style="font-size: 15px;">\r\n<p>Preserving the magnificent views to the surrounding Yarra Ranges and providing an intense rural experience for visitors, were key determinants in the design of the Mandala Winery.</p>\r\n<p>There is minimal definition between the indoors and outdoors. Large sections of openable glass provide for outdoor wine tasting and dining. Building materials feature corten steel, recycled rubber flooring and spotted gum timber. A Bocce Court encourages outdoor recreation while the Green enables larger scale music and market events to be held and the occasional landing of hot air Balloons.</p>\r\n<p>All roof water is recycled for landscape uses.</p>\r\n<p>The Melba Highway has been screened by mounds and extensive native planting and car parking is largely concealed behind a screen of vines. The Master Plan also provides for future processing of grapes on site which will further enhance the wine making experience for visitors.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:56:22', 989, '', '2015-05-03 18:56:22', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:56:22', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 3, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(38, 125, 'Pinecliff Horse Complex', 'pinecliff-horse-complex', '<div style="font-size: 15px;">\r\n<p>Located on the Mornington Peninsula, Pinecliff provides state of the art facilities in horse training, and environmentally sustainable management and landscape design.</p>\r\n<p>The original site of 50 hectares had been cleared for grazing and the site has now been transformed by the creation of a system of linked wetlands. These progressively filter waste water and enable its reuse throughout the site. A new 7.6 megalitre dam provides the final stage of this system. Water birds now flock to the site.</p>\r\n<p>There are numerous buildings accommodating the diverse activities associated with a training/breeding facility. These are carefully and functionally designed using a mix of industrial structures ad materials.</p>\r\n<p>A large scale innovative worm farm - 25 metres by 10 metres by average 2 metres depth - processes all horse manure, water, cardboard and grass/ landscape waste within the site. The worm farm provides the initial treatment of waste with worm castings being used for ongoing fertilization of the grassed horse yards.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:58:13', 989, '', '2015-05-03 18:58:13', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:58:13', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 2, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(39, 126, 'Reece Design', 'reece-design', '<div style="font-size: 15px;">\r\n<p>Located in inner city Melbourne, Reecedesign was a showroom created in 2001 for architects, interior designers and the design aware public. Built over two levels in a major renovation of the existing industrial structure, the showroom provided for the display of an extensive range of bathroom and kitchen products. Water connection to many fitments enabled the full impact of tapware to be experienced – a new innovation at the time. Products featured designs from a number of international companies not seen before in Australia and a new benchmark was created in the quality of presentation for such showrooms.</p>\r\n</div>', '', 1, 12, '2015-05-03 18:58:44', 989, '', '2015-05-03 18:58:44', 0, 0, '0000-00-00 00:00:00', '2015-05-03 18:58:44', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 1, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(40, 127, 'Sorrento House', 'sorrento-house', '<p>The juxtaposition of strong geometric forms  - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.</p>\r\n', '\r\n<p>{loadposition residential_sorrento_house}</p>', 1, 8, '2015-05-04 00:44:36', 989, '', '2015-05-04 00:55:41', 989, 0, '0000-00-00 00:00:00', '2015-05-04 00:44:36', '0000-00-00 00:00:00', '{"image_intro":"images\\/Projects\\/residential\\/sorento_house\\/Sorrecto_retreat_article_listing.jpg","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 2, 8, '', '', 1, 3, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
+(41, 128, 'Sorrento House', 'sorrento-house', '<div style="font-size: 15px;">\r\n<p>Sorrento Beach House. The juxtaposition of strong geometric forms - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house. Ground floor entertainment areas open out on all sides engaging with the extensive recreational opportunities on the site – playing tennis, swimming, sunbathing, cooking pizzas, picking olives or gathering around the fire pit or BBQ.</p>\r\n<p>The building entry with the reflective pool, hovering rheinzinc cube and illuminated undercroft has been carefully crafted to create a hint of the fun and relaxation that being on holiday can provide. Interiors are casually grounded with the use of local stone for many walls, seamless indoor outdoor openings and rugged polished timber floors.</p>\r\n</div>', '', 1, 12, '2015-05-04 00:46:36', 989, '', '2015-05-04 00:46:36', 0, 0, '0000-00-00 00:00:00', '2015-05-04 00:46:36', '0000-00-00 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 0, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', '');
 
 -- --------------------------------------------------------
 
@@ -496,13 +456,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contentitem_tag_map` (
   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
-  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
-  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
-  KEY `idx_tag_type` (`tag_id`,`type_id`),
-  KEY `idx_date_id` (`tag_date`,`tag_id`),
-  KEY `idx_tag` (`tag_id`),
-  KEY `idx_type` (`type_id`),
-  KEY `idx_core_content_id` (`core_content_id`)
+  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
@@ -513,8 +467,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_contentitem_tag_map` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content_frontpage` (
   `content_id` int(11) NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`content_id`)
+  `ordering` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -527,8 +480,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content_rating` (
   `content_id` int(11) NOT NULL DEFAULT '0',
   `rating_sum` int(10) unsigned NOT NULL DEFAULT '0',
   `rating_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `lastip` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`content_id`)
+  `lastip` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -538,16 +490,14 @@ CREATE TABLE IF NOT EXISTS `vfkn0_content_rating` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_content_types` (
-  `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`type_id` int(10) unsigned NOT NULL,
   `type_title` varchar(255) NOT NULL DEFAULT '',
   `type_alias` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(255) NOT NULL DEFAULT '',
   `rules` text NOT NULL,
   `field_mappings` text NOT NULL,
   `router` varchar(255) NOT NULL DEFAULT '',
-  `content_history_options` varchar(5120) DEFAULT NULL COMMENT 'JSON string for com_contenthistory options',
-  PRIMARY KEY (`type_id`),
-  KEY `idx_alias` (`type_alias`)
+  `content_history_options` varchar(5120) DEFAULT NULL COMMENT 'JSON string for com_contenthistory options'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
@@ -587,7 +537,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_core_log_searches` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_extensions` (
-  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
+`extension_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
@@ -603,11 +553,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_extensions` (
   `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) DEFAULT '0',
-  `state` int(11) DEFAULT '0',
-  PRIMARY KEY (`extension_id`),
-  KEY `element_clientid` (`element`,`client_id`),
-  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
-  KEY `extension` (`type`,`element`,`folder`,`client_id`)
+  `state` int(11) DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10016 ;
 
 --
@@ -763,7 +709,7 @@ INSERT INTO `vfkn0_extensions` (`extension_id`, `name`, `type`, `element`, `fold
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
-  `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`filter_id` int(10) unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT '1',
@@ -776,8 +722,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `map_count` int(10) unsigned NOT NULL DEFAULT '0',
   `data` text NOT NULL,
-  `params` mediumtext,
-  PRIMARY KEY (`filter_id`)
+  `params` mediumtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -787,7 +732,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_filters` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`link_id` int(10) unsigned NOT NULL,
   `url` varchar(255) NOT NULL,
   `route` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -805,14 +750,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
   `list_price` double unsigned NOT NULL DEFAULT '0',
   `sale_price` double unsigned NOT NULL DEFAULT '0',
   `type_id` int(11) NOT NULL,
-  `object` mediumblob NOT NULL,
-  PRIMARY KEY (`link_id`),
-  KEY `idx_type` (`type_id`),
-  KEY `idx_title` (`title`),
-  KEY `idx_md5` (`md5sum`),
-  KEY `idx_url` (`url`(75)),
-  KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
-  KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
+  `object` mediumblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -824,10 +762,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms0` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -839,10 +774,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms0` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms1` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -854,10 +786,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms1` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms2` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -869,10 +798,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms2` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms3` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -884,10 +810,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms3` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms4` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -899,10 +822,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms4` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms5` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -914,10 +834,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms5` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms6` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -929,10 +846,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms6` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms7` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -944,10 +858,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms7` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms8` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -959,10 +870,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms8` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms9` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -974,10 +882,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_terms9` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsa` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -989,10 +894,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsa` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsb` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1004,10 +906,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsb` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsc` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1019,10 +918,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsc` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsd` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1034,10 +930,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsd` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termse` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1049,10 +942,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termse` (
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsf` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+  `weight` float unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1062,18 +952,12 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_links_termsf` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `state` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `access` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `state` (`state`),
-  KEY `ordering` (`ordering`),
-  KEY `access` (`access`),
-  KEY `idx_parent_published` (`parent_id`,`state`,`access`)
+  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1091,10 +975,7 @@ INSERT INTO `vfkn0_finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `acces
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy_map` (
   `link_id` int(10) unsigned NOT NULL,
-  `node_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`node_id`),
-  KEY `link_id` (`link_id`),
-  KEY `node_id` (`node_id`)
+  `node_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1104,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_taxonomy_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
-  `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`term_id` int(10) unsigned NOT NULL,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
   `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -1112,12 +993,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
   `weight` float unsigned NOT NULL DEFAULT '0',
   `soundex` varchar(75) NOT NULL,
   `links` int(10) NOT NULL DEFAULT '0',
-  `language` char(3) NOT NULL DEFAULT '',
-  PRIMARY KEY (`term_id`),
-  UNIQUE KEY `idx_term` (`term`),
-  KEY `idx_term_phrase` (`term`,`phrase`),
-  KEY `idx_stem_phrase` (`stem`,`phrase`),
-  KEY `idx_soundex_phrase` (`soundex`,`phrase`)
+  `language` char(3) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1128,9 +1004,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_terms_common` (
   `term` varchar(75) NOT NULL,
-  `language` varchar(3) NOT NULL,
-  KEY `idx_word_lang` (`term`,`language`),
-  KEY `idx_lang` (`language`)
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1267,9 +1141,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens` (
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `weight` float unsigned NOT NULL DEFAULT '1',
   `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
-  `language` char(3) NOT NULL DEFAULT '',
-  KEY `idx_word` (`term`),
-  KEY `idx_context` (`context`)
+  `language` char(3) NOT NULL DEFAULT ''
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1289,9 +1161,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens_aggregate` (
   `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `context_weight` float unsigned NOT NULL,
   `total_weight` float unsigned NOT NULL,
-  `language` char(3) NOT NULL DEFAULT '',
-  KEY `token` (`term`),
-  KEY `keyword_id` (`term_id`)
+  `language` char(3) NOT NULL DEFAULT ''
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1301,11 +1171,9 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_tokens_aggregate` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_finder_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `title` varchar(100) NOT NULL,
-  `mime` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `title` (`title`)
+  `mime` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1315,7 +1183,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_finder_types` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_languages` (
-  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`lang_id` int(11) unsigned NOT NULL,
   `lang_code` char(7) NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -1327,13 +1195,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_languages` (
   `sitename` varchar(1024) NOT NULL DEFAULT '',
   `published` int(11) NOT NULL DEFAULT '0',
   `access` int(10) unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`lang_id`),
-  UNIQUE KEY `idx_sef` (`sef`),
-  UNIQUE KEY `idx_image` (`image`),
-  UNIQUE KEY `idx_langcode` (`lang_code`),
-  KEY `idx_access` (`access`),
-  KEY `idx_ordering` (`ordering`)
+  `ordering` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1350,7 +1212,7 @@ INSERT INTO `vfkn0_languages` (`lang_id`, `lang_code`, `title`, `title_native`, 
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
@@ -1373,15 +1235,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_menu` (
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
-  `client_id` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`),
-  KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
-  KEY `idx_menutype` (`menutype`),
-  KEY `idx_left_right` (`lft`,`rgt`),
-  KEY `idx_alias` (`alias`),
-  KEY `idx_path` (`path`(255)),
-  KEY `idx_language` (`language`)
+  `client_id` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=135 ;
 
 --
@@ -1437,12 +1291,10 @@ INSERT INTO `vfkn0_menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `l
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_menu_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_menutype` (`menutype`)
+  `description` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1459,7 +1311,7 @@ INSERT INTO `vfkn0_menu_types` (`id`, `menutype`, `title`, `description`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
-  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`message_id` int(10) unsigned NOT NULL,
   `user_id_from` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id_to` int(10) unsigned NOT NULL DEFAULT '0',
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
@@ -1467,9 +1319,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
   `state` tinyint(1) NOT NULL DEFAULT '0',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(255) NOT NULL DEFAULT '',
-  `message` text NOT NULL,
-  PRIMARY KEY (`message_id`),
-  KEY `useridto_state` (`user_id_to`,`state`)
+  `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1481,8 +1331,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages` (
 CREATE TABLE IF NOT EXISTS `vfkn0_messages_cfg` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `cfg_name` varchar(100) NOT NULL DEFAULT '',
-  `cfg_value` varchar(255) NOT NULL DEFAULT '',
-  UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
+  `cfg_value` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1492,7 +1341,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_messages_cfg` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -1509,12 +1358,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_modules` (
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
-  `language` char(7) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `published` (`published`,`access`),
-  KEY `newsfeeds` (`module`,`published`),
-  KEY `idx_language` (`language`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=110 ;
+  `language` char(7) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
 --
 -- Dumping data for table `vfkn0_modules`
@@ -1547,16 +1392,17 @@ INSERT INTO `vfkn0_modules` (`id`, `asset_id`, `title`, `note`, `content`, `orde
 (98, 88, 'Slideshow - sorrento retreat', '', '', 1, 'residential_sorrento_retreat', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image text.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image text.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|29|qq|,|qq|slidearticlename|qq|:|qq|Sorrento Beach House|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 01.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 01.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 02.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 02.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 03.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 03.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 04.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 04.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 05.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 05.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_retreat\\/image 06.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_retreat\\/image 06.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (99, 89, 'slideshow - frueauf village', '', '', 1, 'comercial_frueauf_village', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image_01_Text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image_01_Text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|36|qq|,|qq|slidearticlename|qq|:|qq|Frueauf Village|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image 03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Frueauf_Village\\/Image 03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (100, 91, 'slideshow mandala winery', '', '', 1, 'comercial_mandala_winery', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image_01_text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image_01_text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|37|qq|,|qq|slidearticlename|qq|:|qq|Mandala Winery|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/Image 03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/Image 03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 05.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Mandala_Winery\\/image 05.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(101, 93, 'slideshow - pine cliff horse', '', '', 1, 'comercial_pine_cliff_horse', 989, '2015-05-03 19:08:51', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image_01_text.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image_01_text.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|38|qq|,|qq|slidearticlename|qq|:|qq|Pinecliff Horse Complex|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 01.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 01.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 03.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 03.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 10.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 10.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(101, 93, 'slideshow - pine cliff horse', '', '', 1, 'comercial_pine_cliff_horse', 989, '2015-05-04 01:40:31', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image_01_text.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image_01_text.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|38|qq|,|qq|slidearticlename|qq|:|qq|Pinecliff Horse Complex|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 01.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 01.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 02.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 02.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 03.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 03.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 04.JPG|qq|,|qq|imgcaption|qq|:|qq|Track underpass for horse vehicular separation |qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 04.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 05.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 05.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 06_1.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 06_1.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 07.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 07.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 08_1.jpg|qq|,|qq|imgcaption|qq|:|qq|Saddlery|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 08_1.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 08_2.jpg|qq|,|qq|imgcaption|qq|:|qq|Stripping Stalls.|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 08_2.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 09_1.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 09_1.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 09_2.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 09_2.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 10.JPG|qq|,|qq|imgcaption|qq|:|qq|Foot wash entry to exercise pool.|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 10.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 11.JPG|qq|,|qq|imgcaption|qq|:|qq|Horse exercising pool.|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 11.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 12.jpg|qq|,|qq|imgcaption|qq|:|qq|Dry Stone retaining walls.|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 12.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 13.JPG|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/image 13.JPG|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 14_1.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 14_1.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 14_2.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/COMMERCIAL\\/Pinecliff_Horse_Complex\\/Image 14_2.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (102, 95, 'slideshow - reece Design', '', '', 1, 'comercial_reece_design', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image_01_text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image_01_text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|39|qq|,|qq|slidearticlename|qq|:|qq|Reece Design|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 06.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 06.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 09.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/www.michaelmorrisarchitects.com.au\\/images\\/Projects\\/COMMERCIAL\\/reece_design\\/Image 09.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (103, 97, 'Slideshow - tree house', '', '', 1, 'residential_tree_house', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/tree_house\\/image_text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/tree_house\\/image_text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|26|qq|,|qq|slidearticlename|qq|:|qq|Tree House Description|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/tree_house\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq|blah b lah|qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/tree_house\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/tree_house\\/image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/tree_house\\/image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/tree_house\\/image 03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/tree_house\\/image 03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/tree_house\\/image 04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/tree_house\\/image 04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"none","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"div","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"12px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat-x","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (104, 100, 'slideshow fan', '', '', 1, 'fan', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Fan\\/Image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Fan\\/Image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Fan\\/Image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Fan\\/Image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Fan\\/Image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Fan\\/Image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (105, 102, 'slideshow monsoon', '', '', 1, 'monsoon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Monsoon\\/Image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Monsoon\\/Image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Monsoon\\/Image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Monsoon\\/Image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Monsoon\\/Image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Monsoon\\/Image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(106, 104, 'Slideshow - wine', '', '', 1, 'wine', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(107, 107, 'slideshow adobe', '', '', 1, 'adobe', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_05.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_05.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_06.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_06.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_07.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_07.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"1","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(108, 109, 'Contact Form', '', '', 1, 'contact_form', 989, '2015-04-20 04:33:26', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sp_quickcontact', 1, 0, '{"email":"shamus.dougan@sapient-tech.com.au","success":"Email was sent successfully.","failed":"Email could not be sent.","formcaptcha":"1","captcha_question":"3 + 4 = ?","captcha_answer":"7","failed_captcha":"You have entered wrong captcha. Please try again.","layout":"michaelmorrisarchitectstemplate:sapientContact","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"2","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
+(106, 104, 'Slideshow - wine', '', '', 1, 'wine', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/Design_elements\\/Wine\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
 INSERT INTO `vfkn0_modules` (`id`, `asset_id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-(109, 122, 'Slideshow - Richmond Warehouse', '', '', 1, 'residential_richmond_warehouse', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 1, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|35|qq|,|qq|slidearticlename|qq|:|qq|Richmond Warehouse|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
+(107, 107, 'slideshow adobe', '', '', 1, 'adobe', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_05.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_05.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_06.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_06.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Media\\/ABODE\\/image_07.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Media\\/ABODE\\/image_07.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"moveFromLeft","portrait":"1","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"150","articlelink":"readmore","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"0","captionstylesmarginbottom":"0","captionstylesmarginleft":"0","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(108, 109, 'Contact Form', '', '', 1, 'contact_form', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sp_quickcontact', 1, 0, '{"email":"info@michaelmorrisarchitects.com.au","success":"Email was sent successfully.","failed":"Email could not be sent.","formcaptcha":"1","captcha_question":"3 + 4 = ?","captcha_answer":"7","failed_captcha":"You have entered wrong captcha. Please try again.","layout":"michaelmorrisarchitectstemplate:sapientContact","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"2","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(109, 122, 'Slideshow - Richmond Warehouse', '', '', 1, 'residential_richmond_warehouse', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 1, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|35|qq|,|qq|slidearticlename|qq|:|qq|Richmond Warehouse|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/richmond_warehouse\\/image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/richmond_warehouse\\/image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(110, 129, 'slideshow sorrento house', '', '', 1, 'residential_sorrento_house', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_slideshowck', 1, 0, '{"slidesssource":"slidesmanager","slides":"[{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 01 Text.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 01 Text.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq|41|qq|,|qq|slidearticlename|qq|:|qq|Sorrento House|qq|,|qq|imgtime|qq|:|qq|20000|qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 01.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 01.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 02.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 02.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|_parent|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 03.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 03.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 04.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 04.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 05.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 05.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|},{|qq|imgname|qq|:|qq|images\\/Projects\\/residential\\/sorento_house\\/image 06.jpg|qq|,|qq|imgcaption|qq|:|qq||qq|,|qq|imgtitle|qq|:|qq||qq|,|qq|imgthumb|qq|:|qq|http:\\/\\/mma.local\\/images\\/Projects\\/residential\\/sorento_house\\/image 06.jpg|qq|,|qq|imglink|qq|:|qq||qq|,|qq|imgtarget|qq|:|qq|default|qq|,|qq|imgalignment|qq|:|qq|default|qq|,|qq|imgvideo|qq|:|qq||qq|,|qq|slidearticleid|qq|:|qq||qq|,|qq|slidearticlename|qq|:|qq||qq|,|qq|imgtime|qq|:|qq||qq|}]","theme":"default","skin":"camera_black_skin","alignment":"center","loader":"pie","width":"auto","height":"62%","navigation":"2","thumbnails":"1","thumbnailwidth":"100","thumbnailheight":"75","pagination":"1","effect":["random"],"time":"7000","transperiod":"1500","captioneffect":"fadeIn","portrait":"0","autoAdvance":"1","hover":"1","displayorder":"normal","limitslides":"","fullpage":"0","imagetarget":"_parent","container":"","usemobileimage":"0","mobileimageresolution":"640","loadjquery":"1","loadjqueryeasing":"1","loadjquerymobile":"1","autocreatethumbs":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","articlelength":"5000","articlelink":"image","articletitle":"h3","showarticletitle":"1","captionstylesusefont":"1","captionstylestextgfont":"Droid Sans","captionstylesfontsize":"12px","captionstylesfontcolor":"","captionstylesfontweight":"normal","captionstylesdescfontsize":"10px","captionstylesdescfontcolor":"","captionstylesusemargin":"1","captionstylesmargintop":"0","captionstylesmarginright":"85","captionstylesmarginbottom":"50","captionstylesmarginleft":"50","captionstylespaddingtop":"0","captionstylespaddingright":"0","captionstylespaddingbottom":"0","captionstylespaddingleft":"0","captionstylesusebackground":"1","captionstylesbgcolor1":"","captionstylesbgopacity":"0.6","captionstylesbgimage":"","captionstylesbgpositionx":"left","captionstylesbgpositiony":"top","captionstylesbgimagerepeat":"repeat","captionstylesusegradient":"1","captionstylesbgcolor2":"","captionstylesuseroundedcorners":"1","captionstylesroundedcornerstl":"5","captionstylesroundedcornerstr":"5","captionstylesroundedcornersbr":"5","captionstylesroundedcornersbl":"5","captionstylesuseshadow":"1","captionstylesshadowcolor":"","captionstylesshadowblur":"3","captionstylesshadowspread":"0","captionstylesshadowoffsetx":"0","captionstylesshadowoffsety":"0","captionstylesshadowinset":"0","captionstylesuseborders":"1","captionstylesbordercolor":"","captionstylesborderwidth":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
 
 -- --------------------------------------------------------
 
@@ -1566,8 +1412,7 @@ INSERT INTO `vfkn0_modules` (`id`, `asset_id`, `title`, `note`, `content`, `orde
 
 CREATE TABLE IF NOT EXISTS `vfkn0_modules_menu` (
   `moduleid` int(11) NOT NULL DEFAULT '0',
-  `menuid` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`moduleid`,`menuid`)
+  `menuid` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1610,7 +1455,8 @@ INSERT INTO `vfkn0_modules_menu` (`moduleid`, `menuid`) VALUES
 (106, 0),
 (107, 0),
 (108, 0),
-(109, 0);
+(109, 0),
+(110, 0);
 
 -- --------------------------------------------------------
 
@@ -1620,7 +1466,7 @@ INSERT INTO `vfkn0_modules_menu` (`moduleid`, `menuid`) VALUES
 
 CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
   `catid` int(11) NOT NULL DEFAULT '0',
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `link` varchar(200) NOT NULL DEFAULT '',
@@ -1648,15 +1494,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
   `description` text NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `images` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`published`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
+  `images` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1666,11 +1504,10 @@ CREATE TABLE IF NOT EXISTS `vfkn0_newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_overrider` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+`id` int(10) NOT NULL COMMENT 'Primary Key',
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
-  `file` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `file` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1680,7 +1517,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_overrider` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_icon` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(11) unsigned NOT NULL,
   `title` varchar(250) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `url` text NOT NULL,
@@ -1695,8 +1532,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_icon` (
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `hits` int(11) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `language` char(7) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
@@ -1718,7 +1554,7 @@ INSERT INTO `vfkn0_phocamaps_icon` (`id`, `title`, `alias`, `url`, `urls`, `obje
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_map` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `width` int(5) NOT NULL DEFAULT '0',
@@ -1749,11 +1585,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_map` (
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `hits` int(11) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `cat_idx` (`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`)
+  `language` char(7) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1770,7 +1602,7 @@ INSERT INTO `vfkn0_phocamaps_map` (`id`, `title`, `alias`, `width`, `height`, `l
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_marker` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(11) unsigned NOT NULL,
   `catid` int(11) NOT NULL DEFAULT '0',
   `title` varchar(250) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
@@ -1792,9 +1624,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_phocamaps_marker` (
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `hits` int(11) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `catid` (`catid`,`published`)
+  `language` char(7) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -1811,7 +1641,7 @@ INSERT INTO `vfkn0_phocamaps_marker` (`id`, `catid`, `title`, `alias`, `latitude
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_postinstall_messages` (
-  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+`postinstall_message_id` bigint(20) unsigned NOT NULL,
   `extension_id` bigint(20) NOT NULL DEFAULT '700' COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
@@ -1824,8 +1654,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_postinstall_messages` (
   `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
   `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
   `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
-  `enabled` tinyint(3) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`postinstall_message_id`)
+  `enabled` tinyint(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -1843,7 +1672,7 @@ INSERT INTO `vfkn0_postinstall_messages` (`postinstall_message_id`, `extension_i
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `old_url` varchar(255) NOT NULL,
   `new_url` varchar(255) DEFAULT NULL,
   `referer` varchar(150) NOT NULL,
@@ -1852,10 +1681,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `header` smallint(3) NOT NULL DEFAULT '301',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_link_old` (`old_url`),
-  KEY `idx_link_modifed` (`modified_date`)
+  `header` smallint(3) NOT NULL DEFAULT '301'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1866,8 +1692,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_redirect_links` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_schemas` (
   `extension_id` int(11) NOT NULL,
-  `version_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`extension_id`,`version_id`)
+  `version_id` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1890,10 +1715,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_session` (
   `time` varchar(14) DEFAULT '',
   `data` mediumtext,
   `userid` int(11) DEFAULT '0',
-  `username` varchar(150) DEFAULT '',
-  PRIMARY KEY (`session_id`),
-  KEY `userid` (`userid`),
-  KEY `time` (`time`)
+  `username` varchar(150) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1901,8 +1723,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_session` (
 --
 
 INSERT INTO `vfkn0_session` (`session_id`, `client_id`, `guest`, `time`, `data`, `userid`, `username`) VALUES
-('c16344d17ddb21ca765ca818c70b82cc', 1, 0, '1430680301', '__default|a:9:{s:15:"session.counter";i:167;s:19:"session.timer.start";i:1430679048;s:18:"session.timer.last";i:1430680300;s:17:"session.timer.now";i:1430680301;s:22:"session.client.browser";s:68:"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":4:{s:11:"application";O:8:"stdClass":1:{s:4:"lang";s:5:"en-GB";}s:13:"com_installer";O:8:"stdClass":2:{s:7:"message";s:0:"";s:17:"extension_message";s:0:"";}s:11:"com_content";O:8:"stdClass":2:{s:8:"articles";O:8:"stdClass":4:{s:6:"filter";a:8:{s:6:"search";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:1:"9";s:5:"level";s:0:"";s:6:"access";s:0:"";s:9:"author_id";s:0:"";s:8:"language";s:0:"";s:3:"tag";s:0:"";}s:4:"list";a:2:{s:12:"fullordering";s:9:"a.id DESC";s:5:"limit";s:2:"20";}s:10:"limitstart";i:0;s:5:"modal";O:8:"stdClass":5:{s:6:"filter";O:8:"stdClass":5:{s:6:"search";s:0:"";s:6:"access";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:2:"12";s:8:"language";s:0:"";}s:8:"ordercol";s:4:"a.id";s:9:"orderdirn";s:4:"desc";s:10:"limitstart";i:0;s:4:"list";a:4:{s:9:"direction";s:4:"desc";s:5:"limit";s:2:"20";s:8:"ordering";s:4:"a.id";s:5:"start";d:0;}}}s:4:"edit";O:8:"stdClass":1:{s:7:"article";O:8:"stdClass":2:{s:2:"id";a:1:{i:0;i:35;}s:4:"data";N;}}}s:11:"com_modules";O:8:"stdClass":3:{s:7:"modules";O:8:"stdClass":1:{s:6:"filter";O:8:"stdClass":1:{s:18:"client_id_previous";i:0;}}s:4:"edit";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:2:"id";a:1:{i:0;i:101;}s:4:"data";N;}}s:3:"add";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:12:"extension_id";N;s:6:"params";N;}}}}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":28:{s:9:"\\0\\0\\0isRoot";b:1;s:2:"id";s:3:"989";s:4:"name";s:10:"Super User";s:8:"username";s:8:"mmaadmin";s:5:"email";s:33:"shamus.dougan@sapient-tech.com.au";s:8:"password";s:60:"$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla";s:14:"password_clear";s:0:"";s:5:"block";s:1:"0";s:9:"sendEmail";s:1:"1";s:12:"registerDate";s:19:"2015-04-03 04:17:19";s:13:"lastvisitDate";s:19:"2015-05-02 21:59:03";s:10:"activation";s:1:"0";s:6:"params";s:0:"";s:6:"groups";a:1:{i:8;s:1:"8";}s:5:"guest";i:0;s:13:"lastResetTime";s:19:"0000-00-00 00:00:00";s:10:"resetCount";s:1:"0";s:12:"requireReset";s:1:"0";s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:8;}s:14:"\\0\\0\\0_authLevels";a:5:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:6;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;s:6:"otpKey";s:0:"";s:4:"otep";s:0:"";}s:13:"session.token";s:32:"4b94acefe4e7992548b6b9092d426c86";s:20:"com_media.return_url";s:100:"index.php?option=com_media&view=images&tmpl=component&fieldid=&e_name=ckslideimgname6&asset=&author=";}', 989, 'mmaadmin'),
-('dfe3455c1646fb69eb46307d9c6ec894', 0, 1, '1430680337', '__default|a:7:{s:15:"session.counter";i:32;s:19:"session.timer.start";i:1430679030;s:18:"session.timer.last";i:1430680337;s:17:"session.timer.now";i:1430680337;s:22:"session.client.browser";s:68:"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":26:{s:9:"\\0\\0\\0isRoot";b:0;s:2:"id";i:0;s:4:"name";N;s:8:"username";N;s:5:"email";N;s:8:"password";N;s:14:"password_clear";s:0:"";s:5:"block";N;s:9:"sendEmail";i:0;s:12:"registerDate";N;s:13:"lastvisitDate";N;s:10:"activation";N;s:6:"params";N;s:6:"groups";a:1:{i:0;s:1:"9";}s:5:"guest";i:1;s:13:"lastResetTime";N;s:10:"resetCount";N;s:12:"requireReset";N;s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:9;}s:14:"\\0\\0\\0_authLevels";a:3:{i:0;i:1;i:1;i:1;i:2;i:5;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;}}', 0, '');
+('0125vvj3faepfuasnuo9itp7k6', 1, 0, '1430703633', '__default|a:9:{s:15:"session.counter";i:220;s:19:"session.timer.start";i:1430698863;s:18:"session.timer.last";i:1430703631;s:17:"session.timer.now";i:1430703632;s:22:"session.client.browser";s:75:"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":4:{s:11:"application";O:8:"stdClass":1:{s:4:"lang";s:5:"en-GB";}s:13:"com_installer";O:8:"stdClass":2:{s:7:"message";s:0:"";s:17:"extension_message";s:0:"";}s:11:"com_content";O:8:"stdClass":2:{s:8:"articles";O:8:"stdClass":4:{s:6:"filter";a:8:{s:6:"search";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:1:"8";s:5:"level";s:0:"";s:6:"access";s:0:"";s:9:"author_id";s:0:"";s:8:"language";s:0:"";s:3:"tag";s:0:"";}s:4:"list";a:2:{s:12:"fullordering";s:14:"a.ordering ASC";s:5:"limit";s:2:"20";}s:10:"limitstart";i:0;s:5:"modal";O:8:"stdClass":5:{s:6:"filter";O:8:"stdClass":5:{s:6:"search";s:0:"";s:6:"access";s:0:"";s:9:"published";s:0:"";s:11:"category_id";s:2:"12";s:8:"language";s:0:"";}s:8:"ordercol";s:4:"a.id";s:9:"orderdirn";s:4:"desc";s:10:"limitstart";i:0;s:4:"list";a:4:{s:9:"direction";s:4:"desc";s:5:"limit";s:2:"20";s:8:"ordering";s:4:"a.id";s:5:"start";d:0;}}}s:4:"edit";O:8:"stdClass":1:{s:7:"article";O:8:"stdClass":2:{s:2:"id";a:0:{}s:4:"data";N;}}}s:11:"com_modules";O:8:"stdClass":3:{s:7:"modules";O:8:"stdClass":1:{s:6:"filter";O:8:"stdClass":1:{s:18:"client_id_previous";i:0;}}s:4:"edit";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:2:"id";a:1:{i:0;i:101;}s:4:"data";N;}}s:3:"add";O:8:"stdClass":1:{s:6:"module";O:8:"stdClass":2:{s:12:"extension_id";N;s:6:"params";N;}}}}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":28:{s:9:"\\0\\0\\0isRoot";b:1;s:2:"id";s:3:"989";s:4:"name";s:10:"Super User";s:8:"username";s:8:"mmaadmin";s:5:"email";s:33:"shamus.dougan@sapient-tech.com.au";s:8:"password";s:60:"$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla";s:14:"password_clear";s:0:"";s:5:"block";s:1:"0";s:9:"sendEmail";s:1:"1";s:12:"registerDate";s:19:"2015-04-03 04:17:19";s:13:"lastvisitDate";s:19:"2015-05-03 18:50:54";s:10:"activation";s:1:"0";s:6:"params";s:0:"";s:6:"groups";a:1:{i:8;s:1:"8";}s:5:"guest";i:0;s:13:"lastResetTime";s:19:"0000-00-00 00:00:00";s:10:"resetCount";s:1:"0";s:12:"requireReset";s:1:"0";s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:8;}s:14:"\\0\\0\\0_authLevels";a:5:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:6;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;s:6:"otpKey";s:0:"";s:4:"otep";s:0:"";}s:13:"session.token";s:32:"a8090927303e5204f55c2f0585108f06";s:20:"com_media.return_url";s:101:"index.php?option=com_media&view=images&tmpl=component&fieldid=&e_name=ckslideimgname17&asset=&author=";}', 989, 'mmaadmin'),
+('rgibn3898de5l8vbs1al235a03', 0, 1, '1430703640', '__default|a:7:{s:15:"session.counter";i:21;s:19:"session.timer.start";i:1430702919;s:18:"session.timer.last";i:1430703356;s:17:"session.timer.now";i:1430703640;s:22:"session.client.browser";s:75:"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko";s:8:"registry";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:4:"user";O:5:"JUser":26:{s:9:"\\0\\0\\0isRoot";b:0;s:2:"id";i:0;s:4:"name";N;s:8:"username";N;s:5:"email";N;s:8:"password";N;s:14:"password_clear";s:0:"";s:5:"block";N;s:9:"sendEmail";i:0;s:12:"registerDate";N;s:13:"lastvisitDate";N;s:10:"activation";N;s:6:"params";N;s:6:"groups";a:1:{i:0;s:1:"9";}s:5:"guest";i:1;s:13:"lastResetTime";N;s:10:"resetCount";N;s:12:"requireReset";N;s:10:"\\0\\0\\0_params";O:24:"Joomla\\Registry\\Registry":2:{s:7:"\\0\\0\\0data";O:8:"stdClass":0:{}s:9:"separator";s:1:".";}s:14:"\\0\\0\\0_authGroups";a:2:{i:0;i:1;i:1;i:9;}s:14:"\\0\\0\\0_authLevels";a:3:{i:0;i:1;i:1;i:1;i:2;i:5;}s:15:"\\0\\0\\0_authActions";N;s:12:"\\0\\0\\0_errorMsg";N;s:13:"\\0\\0\\0userHelper";O:18:"JUserWrapperHelper":0:{}s:10:"\\0\\0\\0_errors";a:0:{}s:3:"aid";i:0;}}', 0, '');
 
 -- --------------------------------------------------------
 
@@ -1911,7 +1733,7 @@ INSERT INTO `vfkn0_session` (`session_id`, `client_id`, `guest`, `time`, `data`,
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
@@ -1940,15 +1762,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_tags` (
   `language` char(7) NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `tag_idx` (`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_path` (`path`),
-  KEY `idx_left_right` (`lft`,`rgt`),
-  KEY `idx_alias` (`alias`),
-  KEY `idx_language` (`language`)
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -1965,15 +1779,12 @@ INSERT INTO `vfkn0_tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `tit
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_template_styles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `template` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_template` (`template`),
-  KEY `idx_home` (`home`)
+  `params` text NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
@@ -1997,11 +1808,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_base` (
   `ucm_id` int(10) unsigned NOT NULL,
   `ucm_item_id` int(10) NOT NULL,
   `ucm_type_id` int(11) NOT NULL,
-  `ucm_language_id` int(11) NOT NULL,
-  PRIMARY KEY (`ucm_id`),
-  KEY `idx_ucm_item_id` (`ucm_item_id`),
-  KEY `idx_ucm_type_id` (`ucm_type_id`),
-  KEY `idx_ucm_language_id` (`ucm_language_id`)
+  `ucm_language_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2011,7 +1818,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_base` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
-  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`core_content_id` int(10) unsigned NOT NULL,
   `core_type_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,
   `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -2042,20 +1849,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
   `core_metadesc` text NOT NULL,
   `core_catid` int(10) unsigned NOT NULL DEFAULT '0',
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `core_type_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`core_content_id`),
-  KEY `tag_idx` (`core_state`,`core_access`),
-  KEY `idx_access` (`core_access`),
-  KEY `idx_alias` (`core_alias`),
-  KEY `idx_language` (`core_language`),
-  KEY `idx_title` (`core_title`),
-  KEY `idx_modified_time` (`core_modified_time`),
-  KEY `idx_created_time` (`core_created_time`),
-  KEY `idx_content_type` (`core_type_alias`),
-  KEY `idx_core_modified_user_id` (`core_modified_user_id`),
-  KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
-  KEY `idx_core_created_user_id` (`core_created_user_id`),
-  KEY `idx_core_type_id` (`core_type_id`)
+  `core_type_id` int(10) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2065,7 +1859,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_content` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_ucm_history` (
-  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`version_id` int(10) unsigned NOT NULL,
   `ucm_item_id` int(10) unsigned NOT NULL,
   `ucm_type_id` int(10) unsigned NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
@@ -2074,11 +1868,8 @@ CREATE TABLE IF NOT EXISTS `vfkn0_ucm_history` (
   `character_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of characters in this version.',
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
-  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep',
-  PRIMARY KEY (`version_id`),
-  KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
-  KEY `idx_save_date` (`save_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=212 ;
+  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=216 ;
 
 --
 -- Dumping data for table `vfkn0_ucm_history`
@@ -2263,7 +2054,11 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 (208, 17, 1, '', '2015-05-03 19:03:10', 989, 1949, 'deb2bfab5f1c09a0d0aa40bb38152e7e01b21259', '{"id":17,"asset_id":"82","title":"Frueauf Village","alias":"frueauf-village","introtext":"<p>This multi-purpose ski village is located in the High Plains of South East Victoria at Falls Creek.<\\/p>\\r\\n","fulltext":"\\r\\n<p>\\u00a0{loadposition comercial_frueauf_village}<\\/p>","state":1,"catid":"9","created":"2015-04-16 05:33:07","created_by":"989","created_by_alias":"","modified":"2015-05-03 19:03:10","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-03 19:03:01","publish_up":"2015-04-16 05:33:07","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Frueauf_Village\\\\\\/Frueauf_village_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":6,"ordering":"3","metakey":"","metadesc":"","access":"1","hits":"6","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (209, 18, 1, '', '2015-05-03 19:06:08', 989, 2018, '8fc677ab6648c4308fe5f1796af456a3dbff76d3', '{"id":18,"asset_id":"90","title":"Mandala Winery","alias":"mandala-winery","introtext":"<p>Preserving the magnificent views to the surrounding Yarra Ranges and providing an intense rural experience for visitors, were key determinants in the design of the Mandala Winery.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition comercial_mandala_winery}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:19:58","created_by":"989","created_by_alias":"","modified":"2015-05-03 19:06:08","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-03 19:06:01","publish_up":"2015-04-16 06:19:58","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Mandala_Winery\\\\\\/Mandala_winery_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"2","metakey":"","metadesc":"","access":"1","hits":"4","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
 (210, 19, 1, '', '2015-05-03 19:06:30', 989, 2046, 'ceffdc82a80d813055026dc98e7976aaeda584d6', '{"id":19,"asset_id":"92","title":"PINE CLIFF HORSE COMPLEX","alias":"pine-cliff-horse-complex","introtext":"<p>Located on the Mornington Peninsula, Pinecliff provides state of the art facilities in horse training, and environmentally sustainable management and landscape design.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition comercial_pine_cliff_horse}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:23:13","created_by":"989","created_by_alias":"","modified":"2015-05-03 19:06:30","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-03 19:06:22","publish_up":"2015-04-16 06:23:13","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/Pinecliff_Horse_Complex\\\\\\/Pinecliff_horse_complex_article_listing.JPG\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":3,"ordering":"1","metakey":"","metadesc":"","access":"1","hits":"1","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
-(211, 20, 1, '', '2015-05-03 19:11:41', 989, 1968, 'f1c89a56ae64b47fb3ad92974fc2a9741389c742', '{"id":20,"asset_id":"94","title":"Reece Design","alias":"reece-design","introtext":"<p>Located in inner city Melbourne, Reecedesign was a showroom created in 2001 for architects, interior designers and the design aware public.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition comercial_reece_design}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:25:14","created_by":"989","created_by_alias":"","modified":"2015-05-03 19:11:41","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-03 19:11:34","publish_up":"2015-04-16 06:25:14","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/reece_design\\\\\\/recce_design_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"5","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
+(211, 20, 1, '', '2015-05-03 19:11:41', 989, 1968, 'f1c89a56ae64b47fb3ad92974fc2a9741389c742', '{"id":20,"asset_id":"94","title":"Reece Design","alias":"reece-design","introtext":"<p>Located in inner city Melbourne, Reecedesign was a showroom created in 2001 for architects, interior designers and the design aware public.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition comercial_reece_design}<\\/p>","state":1,"catid":"9","created":"2015-04-16 06:25:14","created_by":"989","created_by_alias":"","modified":"2015-05-03 19:11:41","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-03 19:11:34","publish_up":"2015-04-16 06:25:14","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/COMMERCIAL\\\\\\/reece_design\\\\\\/recce_design_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":4,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"5","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(212, 40, 1, '', '2015-05-04 00:44:36', 989, 1889, '12102198e7a2eabc3cb8f2fef15e749b74c3b206', '{"id":40,"asset_id":127,"title":"Sorrento House","alias":"sorrento-house","introtext":"<p>The juxtaposition of strong geometric forms\\u00a0 - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition residential_sorrento_house}<\\/p>","state":1,"catid":"8","created":"2015-05-04 00:44:36","created_by":"989","created_by_alias":"","modified":"2015-05-04 00:44:36","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-05-04 00:44:36","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(213, 40, 1, '', '2015-05-04 00:45:16', 989, 1998, 'fca8afe863780e35628bb5c9e8e8af5b07d68a1a', '{"id":40,"asset_id":"127","title":"Sorrento House","alias":"sorrento-house","introtext":"<p>The juxtaposition of strong geometric forms\\u00a0 - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition residential_sorrento_house}<\\/p>","state":1,"catid":"8","created":"2015-05-04 00:44:36","created_by":"989","created_by_alias":"","modified":"2015-05-04 00:45:16","modified_by":"989","checked_out":"989","checked_out_time":"2015-05-04 00:44:36","publish_up":"2015-05-04 00:44:36","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/sorento_house\\\\\\/Sorrecto_retreat_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":2,"ordering":"0","metakey":"","metadesc":"","access":"1","hits":"0","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(214, 41, 1, '', '2015-05-04 00:46:36', 989, 2491, 'e58aebf5071fac1e465bd433eef220b934cef72f', '{"id":41,"asset_id":128,"title":"Sorrento House","alias":"sorrento-house","introtext":"<div style=\\"font-size: 15px;\\">\\r\\n<p>Sorrento Beach House. The juxtaposition of strong geometric forms - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house. Ground floor entertainment areas open out on all sides engaging with the extensive recreational opportunities on the site \\u2013 playing tennis, swimming, sunbathing, cooking pizzas, picking olives or gathering around the fire pit or BBQ.<\\/p>\\r\\n<p>The building entry with the reflective pool, hovering rheinzinc cube and illuminated undercroft has been carefully crafted to create a hint of the fun and relaxation that being on holiday can provide. Interiors are casually grounded with the use of local stone for many walls, seamless indoor outdoor openings and rugged polished timber floors.<\\/p>\\r\\n<\\/div>","fulltext":"","state":1,"catid":"12","created":"2015-05-04 00:46:36","created_by":"989","created_by_alias":"","modified":"2015-05-04 00:46:36","modified_by":null,"checked_out":null,"checked_out_time":null,"publish_up":"2015-05-04 00:46:36","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":1,"ordering":null,"metakey":"","metadesc":"","access":"1","hits":null,"metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0),
+(215, 40, 1, '', '2015-05-04 00:55:41', 989, 2000, 'cc2b0213846d6fb6471cff2ea31adddb4af304eb', '{"id":"40","asset_id":"127","title":"Sorrento House","alias":"sorrento-house","introtext":"<p>The juxtaposition of strong geometric forms\\u00a0 - constructed in local stone, glass, rheinzink and spotted gum - characterizes the design of this house.<\\/p>\\r\\n","fulltext":"\\r\\n<p>{loadposition residential_sorrento_house}<\\/p>","state":"1","catid":"8","created":"2015-05-04 00:44:36","created_by":"989","created_by_alias":"","modified":"2015-05-04 00:55:41","modified_by":"989","checked_out":"0","checked_out_time":"0000-00-00 00:00:00","publish_up":"2015-05-04 00:44:36","publish_down":"0000-00-00 00:00:00","images":"{\\"image_intro\\":\\"images\\\\\\/Projects\\\\\\/residential\\\\\\/sorento_house\\\\\\/Sorrecto_retreat_article_listing.jpg\\",\\"float_intro\\":\\"\\",\\"image_intro_alt\\":\\"\\",\\"image_intro_caption\\":\\"\\",\\"image_fulltext\\":\\"\\",\\"float_fulltext\\":\\"\\",\\"image_fulltext_alt\\":\\"\\",\\"image_fulltext_caption\\":\\"\\"}","urls":"{\\"urla\\":false,\\"urlatext\\":\\"\\",\\"targeta\\":\\"\\",\\"urlb\\":false,\\"urlbtext\\":\\"\\",\\"targetb\\":\\"\\",\\"urlc\\":false,\\"urlctext\\":\\"\\",\\"targetc\\":\\"\\"}","attribs":"{\\"show_title\\":\\"\\",\\"link_titles\\":\\"\\",\\"show_tags\\":\\"\\",\\"show_intro\\":\\"\\",\\"info_block_position\\":\\"\\",\\"show_category\\":\\"\\",\\"link_category\\":\\"\\",\\"show_parent_category\\":\\"\\",\\"link_parent_category\\":\\"\\",\\"show_author\\":\\"\\",\\"link_author\\":\\"\\",\\"show_create_date\\":\\"\\",\\"show_modify_date\\":\\"\\",\\"show_publish_date\\":\\"\\",\\"show_item_navigation\\":\\"\\",\\"show_icons\\":\\"\\",\\"show_print_icon\\":\\"\\",\\"show_email_icon\\":\\"\\",\\"show_vote\\":\\"\\",\\"show_hits\\":\\"\\",\\"show_noauth\\":\\"\\",\\"urls_position\\":\\"\\",\\"alternative_readmore\\":\\"\\",\\"article_layout\\":\\"\\",\\"show_publishing_options\\":\\"\\",\\"show_article_options\\":\\"\\",\\"show_urls_images_backend\\":\\"\\",\\"show_urls_images_frontend\\":\\"\\"}","version":"2","ordering":7,"metakey":"","metadesc":"","access":"1","hits":"2","metadata":"{\\"robots\\":\\"\\",\\"author\\":\\"\\",\\"rights\\":\\"\\",\\"xreference\\":\\"\\"}","featured":"0","language":"*","xreference":""}', 0);
 
 -- --------------------------------------------------------
 
@@ -2272,7 +2067,7 @@ INSERT INTO `vfkn0_ucm_history` (`version_id`, `ucm_item_id`, `ucm_type_id`, `ve
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
-  `update_id` int(11) NOT NULL AUTO_INCREMENT,
+`update_id` int(11) NOT NULL,
   `update_site_id` int(11) DEFAULT '0',
   `extension_id` int(11) DEFAULT '0',
   `name` varchar(100) DEFAULT '',
@@ -2285,8 +2080,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
-  `extra_query` varchar(1000) DEFAULT '',
-  PRIMARY KEY (`update_id`)
+  `extra_query` varchar(1000) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available Updates' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2296,14 +2090,13 @@ CREATE TABLE IF NOT EXISTS `vfkn0_updates` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_update_sites` (
-  `update_site_id` int(11) NOT NULL AUTO_INCREMENT,
+`update_site_id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
   `enabled` int(11) DEFAULT '0',
   `last_check_timestamp` bigint(20) DEFAULT '0',
-  `extra_query` varchar(1000) DEFAULT '',
-  PRIMARY KEY (`update_site_id`)
+  `extra_query` varchar(1000) DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites' AUTO_INCREMENT=10 ;
 
 --
@@ -2311,12 +2104,12 @@ CREATE TABLE IF NOT EXISTS `vfkn0_update_sites` (
 --
 
 INSERT INTO `vfkn0_update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`, `extra_query`) VALUES
-(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 1430680173, ''),
-(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 1430680173, ''),
+(1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 1430698874, ''),
+(2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 1430698874, ''),
 (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0, ''),
 (4, 'Joomla! Update Component Update Site', 'extension', 'http://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0, ''),
-(7, 'Accordeon Menu CK Update', 'extension', 'http://update.joomlack.fr/mod_accordeonck_update.xml', 1, 0, ''),
-(9, 'Slideshow CK Update', 'extension', 'http://update.joomlack.fr/mod_slideshowck_update.xml', 1, 1430680171, '');
+(7, 'Accordeon Menu CK Update', 'extension', 'http://update.joomlack.fr/mod_accordeonck_update.xml', 1, 1430698873, ''),
+(9, 'Slideshow CK Update', 'extension', 'http://update.joomlack.fr/mod_slideshowck_update.xml', 1, 1430698873, '');
 
 -- --------------------------------------------------------
 
@@ -2326,8 +2119,7 @@ INSERT INTO `vfkn0_update_sites` (`update_site_id`, `name`, `type`, `location`, 
 
 CREATE TABLE IF NOT EXISTS `vfkn0_update_sites_extensions` (
   `update_site_id` int(11) NOT NULL DEFAULT '0',
-  `extension_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`update_site_id`,`extension_id`)
+  `extension_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Links extensions to update sites';
 
 --
@@ -2349,16 +2141,11 @@ INSERT INTO `vfkn0_update_sites_extensions` (`update_site_id`, `extension_id`) V
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_usergroups` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
-  KEY `idx_usergroup_title_lookup` (`title`),
-  KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
-  KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
+  `title` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
@@ -2383,7 +2170,7 @@ INSERT INTO `vfkn0_usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
@@ -2398,12 +2185,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_users` (
   `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
-  `requireReset` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Require user to reset password on next login',
-  PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`),
-  KEY `idx_block` (`block`),
-  KEY `username` (`username`),
-  KEY `email` (`email`)
+  `requireReset` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Require user to reset password on next login'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=990 ;
 
 --
@@ -2411,7 +2193,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_users` (
 --
 
 INSERT INTO `vfkn0_users` (`id`, `name`, `username`, `email`, `password`, `block`, `sendEmail`, `registerDate`, `lastvisitDate`, `activation`, `params`, `lastResetTime`, `resetCount`, `otpKey`, `otep`, `requireReset`) VALUES
-(989, 'Super User', 'mmaadmin', 'shamus.dougan@sapient-tech.com.au', '$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla', 0, 1, '2015-04-03 04:17:19', '2015-05-03 18:50:54', '0', '', '0000-00-00 00:00:00', 0, '', '', 0);
+(989, 'Super User', 'mmaadmin', 'shamus.dougan@sapient-tech.com.au', '$2y$10$eki.VWnxHZsVEbOlVwRjhelecMacgL5DtxUIMA5Jmw9Q5wqEQ2Jla', 0, 1, '2015-04-03 04:17:19', '2015-05-04 00:21:10', '0', '', '0000-00-00 00:00:00', 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -2420,18 +2202,13 @@ INSERT INTO `vfkn0_users` (`id`, `name`, `username`, `email`, `password`, `block
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_keys` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(255) NOT NULL,
   `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
-  `uastring` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `series` (`series`),
-  UNIQUE KEY `series_2` (`series`),
-  UNIQUE KEY `series_3` (`series`),
-  KEY `user_id` (`user_id`)
+  `uastring` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2441,7 +2218,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_keys` (
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_notes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `catid` int(10) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(100) NOT NULL DEFAULT '',
@@ -2455,10 +2232,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_notes` (
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_category_id` (`catid`)
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2471,8 +2245,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
+  `ordering` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
 
 -- --------------------------------------------------------
@@ -2483,8 +2256,7 @@ CREATE TABLE IF NOT EXISTS `vfkn0_user_profiles` (
 
 CREATE TABLE IF NOT EXISTS `vfkn0_user_usergroup_map` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
-  PRIMARY KEY (`user_id`,`group_id`)
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2501,12 +2273,10 @@ INSERT INTO `vfkn0_user_usergroup_map` (`user_id`, `group_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vfkn0_viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+`id` int(10) unsigned NOT NULL COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
   `ordering` int(11) NOT NULL DEFAULT '0',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
@@ -2520,6 +2290,608 @@ INSERT INTO `vfkn0_viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vfkn0_assets`
+--
+ALTER TABLE `vfkn0_assets`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_asset_name` (`name`), ADD KEY `idx_lft_rgt` (`lft`,`rgt`), ADD KEY `idx_parent_id` (`parent_id`);
+
+--
+-- Indexes for table `vfkn0_associations`
+--
+ALTER TABLE `vfkn0_associations`
+ ADD PRIMARY KEY (`context`,`id`), ADD KEY `idx_key` (`key`);
+
+--
+-- Indexes for table `vfkn0_banners`
+--
+ALTER TABLE `vfkn0_banners`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_state` (`state`), ADD KEY `idx_own_prefix` (`own_prefix`), ADD KEY `idx_metakey_prefix` (`metakey_prefix`), ADD KEY `idx_banner_catid` (`catid`), ADD KEY `idx_language` (`language`);
+
+--
+-- Indexes for table `vfkn0_banner_clients`
+--
+ALTER TABLE `vfkn0_banner_clients`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_own_prefix` (`own_prefix`), ADD KEY `idx_metakey_prefix` (`metakey_prefix`);
+
+--
+-- Indexes for table `vfkn0_banner_tracks`
+--
+ALTER TABLE `vfkn0_banner_tracks`
+ ADD PRIMARY KEY (`track_date`,`track_type`,`banner_id`), ADD KEY `idx_track_date` (`track_date`), ADD KEY `idx_track_type` (`track_type`), ADD KEY `idx_banner_id` (`banner_id`);
+
+--
+-- Indexes for table `vfkn0_categories`
+--
+ALTER TABLE `vfkn0_categories`
+ ADD PRIMARY KEY (`id`), ADD KEY `cat_idx` (`extension`,`published`,`access`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_path` (`path`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_language` (`language`);
+
+--
+-- Indexes for table `vfkn0_contact_details`
+--
+ALTER TABLE `vfkn0_contact_details`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`published`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_featured_catid` (`featured`,`catid`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
+
+--
+-- Indexes for table `vfkn0_content`
+--
+ALTER TABLE `vfkn0_content`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`state`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_featured_catid` (`featured`,`catid`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
+
+--
+-- Indexes for table `vfkn0_contentitem_tag_map`
+--
+ALTER TABLE `vfkn0_contentitem_tag_map`
+ ADD UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`), ADD KEY `idx_tag_type` (`tag_id`,`type_id`), ADD KEY `idx_date_id` (`tag_date`,`tag_id`), ADD KEY `idx_tag` (`tag_id`), ADD KEY `idx_type` (`type_id`), ADD KEY `idx_core_content_id` (`core_content_id`);
+
+--
+-- Indexes for table `vfkn0_content_frontpage`
+--
+ALTER TABLE `vfkn0_content_frontpage`
+ ADD PRIMARY KEY (`content_id`);
+
+--
+-- Indexes for table `vfkn0_content_rating`
+--
+ALTER TABLE `vfkn0_content_rating`
+ ADD PRIMARY KEY (`content_id`);
+
+--
+-- Indexes for table `vfkn0_content_types`
+--
+ALTER TABLE `vfkn0_content_types`
+ ADD PRIMARY KEY (`type_id`), ADD KEY `idx_alias` (`type_alias`);
+
+--
+-- Indexes for table `vfkn0_extensions`
+--
+ALTER TABLE `vfkn0_extensions`
+ ADD PRIMARY KEY (`extension_id`), ADD KEY `element_clientid` (`element`,`client_id`), ADD KEY `element_folder_clientid` (`element`,`folder`,`client_id`), ADD KEY `extension` (`type`,`element`,`folder`,`client_id`);
+
+--
+-- Indexes for table `vfkn0_finder_filters`
+--
+ALTER TABLE `vfkn0_finder_filters`
+ ADD PRIMARY KEY (`filter_id`);
+
+--
+-- Indexes for table `vfkn0_finder_links`
+--
+ALTER TABLE `vfkn0_finder_links`
+ ADD PRIMARY KEY (`link_id`), ADD KEY `idx_type` (`type_id`), ADD KEY `idx_title` (`title`), ADD KEY `idx_md5` (`md5sum`), ADD KEY `idx_url` (`url`(75)), ADD KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`), ADD KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms0`
+--
+ALTER TABLE `vfkn0_finder_links_terms0`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms1`
+--
+ALTER TABLE `vfkn0_finder_links_terms1`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms2`
+--
+ALTER TABLE `vfkn0_finder_links_terms2`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms3`
+--
+ALTER TABLE `vfkn0_finder_links_terms3`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms4`
+--
+ALTER TABLE `vfkn0_finder_links_terms4`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms5`
+--
+ALTER TABLE `vfkn0_finder_links_terms5`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms6`
+--
+ALTER TABLE `vfkn0_finder_links_terms6`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms7`
+--
+ALTER TABLE `vfkn0_finder_links_terms7`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms8`
+--
+ALTER TABLE `vfkn0_finder_links_terms8`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_terms9`
+--
+ALTER TABLE `vfkn0_finder_links_terms9`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termsa`
+--
+ALTER TABLE `vfkn0_finder_links_termsa`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termsb`
+--
+ALTER TABLE `vfkn0_finder_links_termsb`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termsc`
+--
+ALTER TABLE `vfkn0_finder_links_termsc`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termsd`
+--
+ALTER TABLE `vfkn0_finder_links_termsd`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termse`
+--
+ALTER TABLE `vfkn0_finder_links_termse`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_links_termsf`
+--
+ALTER TABLE `vfkn0_finder_links_termsf`
+ ADD PRIMARY KEY (`link_id`,`term_id`), ADD KEY `idx_term_weight` (`term_id`,`weight`), ADD KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`);
+
+--
+-- Indexes for table `vfkn0_finder_taxonomy`
+--
+ALTER TABLE `vfkn0_finder_taxonomy`
+ ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`), ADD KEY `state` (`state`), ADD KEY `ordering` (`ordering`), ADD KEY `access` (`access`), ADD KEY `idx_parent_published` (`parent_id`,`state`,`access`);
+
+--
+-- Indexes for table `vfkn0_finder_taxonomy_map`
+--
+ALTER TABLE `vfkn0_finder_taxonomy_map`
+ ADD PRIMARY KEY (`link_id`,`node_id`), ADD KEY `link_id` (`link_id`), ADD KEY `node_id` (`node_id`);
+
+--
+-- Indexes for table `vfkn0_finder_terms`
+--
+ALTER TABLE `vfkn0_finder_terms`
+ ADD PRIMARY KEY (`term_id`), ADD UNIQUE KEY `idx_term` (`term`), ADD KEY `idx_term_phrase` (`term`,`phrase`), ADD KEY `idx_stem_phrase` (`stem`,`phrase`), ADD KEY `idx_soundex_phrase` (`soundex`,`phrase`);
+
+--
+-- Indexes for table `vfkn0_finder_terms_common`
+--
+ALTER TABLE `vfkn0_finder_terms_common`
+ ADD KEY `idx_word_lang` (`term`,`language`), ADD KEY `idx_lang` (`language`);
+
+--
+-- Indexes for table `vfkn0_finder_tokens`
+--
+ALTER TABLE `vfkn0_finder_tokens`
+ ADD KEY `idx_word` (`term`), ADD KEY `idx_context` (`context`);
+
+--
+-- Indexes for table `vfkn0_finder_tokens_aggregate`
+--
+ALTER TABLE `vfkn0_finder_tokens_aggregate`
+ ADD KEY `token` (`term`), ADD KEY `keyword_id` (`term_id`);
+
+--
+-- Indexes for table `vfkn0_finder_types`
+--
+ALTER TABLE `vfkn0_finder_types`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `title` (`title`);
+
+--
+-- Indexes for table `vfkn0_languages`
+--
+ALTER TABLE `vfkn0_languages`
+ ADD PRIMARY KEY (`lang_id`), ADD UNIQUE KEY `idx_sef` (`sef`), ADD UNIQUE KEY `idx_image` (`image`), ADD UNIQUE KEY `idx_langcode` (`lang_code`), ADD KEY `idx_access` (`access`), ADD KEY `idx_ordering` (`ordering`);
+
+--
+-- Indexes for table `vfkn0_menu`
+--
+ALTER TABLE `vfkn0_menu`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`), ADD KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`), ADD KEY `idx_menutype` (`menutype`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_path` (`path`(255)), ADD KEY `idx_language` (`language`);
+
+--
+-- Indexes for table `vfkn0_menu_types`
+--
+ALTER TABLE `vfkn0_menu_types`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_menutype` (`menutype`);
+
+--
+-- Indexes for table `vfkn0_messages`
+--
+ALTER TABLE `vfkn0_messages`
+ ADD PRIMARY KEY (`message_id`), ADD KEY `useridto_state` (`user_id_to`,`state`);
+
+--
+-- Indexes for table `vfkn0_messages_cfg`
+--
+ALTER TABLE `vfkn0_messages_cfg`
+ ADD UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`);
+
+--
+-- Indexes for table `vfkn0_modules`
+--
+ALTER TABLE `vfkn0_modules`
+ ADD PRIMARY KEY (`id`), ADD KEY `published` (`published`,`access`), ADD KEY `newsfeeds` (`module`,`published`), ADD KEY `idx_language` (`language`);
+
+--
+-- Indexes for table `vfkn0_modules_menu`
+--
+ALTER TABLE `vfkn0_modules_menu`
+ ADD PRIMARY KEY (`moduleid`,`menuid`);
+
+--
+-- Indexes for table `vfkn0_newsfeeds`
+--
+ALTER TABLE `vfkn0_newsfeeds`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_state` (`published`), ADD KEY `idx_catid` (`catid`), ADD KEY `idx_createdby` (`created_by`), ADD KEY `idx_language` (`language`), ADD KEY `idx_xreference` (`xreference`);
+
+--
+-- Indexes for table `vfkn0_overrider`
+--
+ALTER TABLE `vfkn0_overrider`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `vfkn0_phocamaps_icon`
+--
+ALTER TABLE `vfkn0_phocamaps_icon`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `vfkn0_phocamaps_map`
+--
+ALTER TABLE `vfkn0_phocamaps_map`
+ ADD PRIMARY KEY (`id`), ADD KEY `cat_idx` (`published`,`access`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`);
+
+--
+-- Indexes for table `vfkn0_phocamaps_marker`
+--
+ALTER TABLE `vfkn0_phocamaps_marker`
+ ADD PRIMARY KEY (`id`), ADD KEY `catid` (`catid`,`published`);
+
+--
+-- Indexes for table `vfkn0_postinstall_messages`
+--
+ALTER TABLE `vfkn0_postinstall_messages`
+ ADD PRIMARY KEY (`postinstall_message_id`);
+
+--
+-- Indexes for table `vfkn0_redirect_links`
+--
+ALTER TABLE `vfkn0_redirect_links`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_link_old` (`old_url`), ADD KEY `idx_link_modifed` (`modified_date`);
+
+--
+-- Indexes for table `vfkn0_schemas`
+--
+ALTER TABLE `vfkn0_schemas`
+ ADD PRIMARY KEY (`extension_id`,`version_id`);
+
+--
+-- Indexes for table `vfkn0_session`
+--
+ALTER TABLE `vfkn0_session`
+ ADD PRIMARY KEY (`session_id`), ADD KEY `userid` (`userid`), ADD KEY `time` (`time`);
+
+--
+-- Indexes for table `vfkn0_tags`
+--
+ALTER TABLE `vfkn0_tags`
+ ADD PRIMARY KEY (`id`), ADD KEY `tag_idx` (`published`,`access`), ADD KEY `idx_access` (`access`), ADD KEY `idx_checkout` (`checked_out`), ADD KEY `idx_path` (`path`), ADD KEY `idx_left_right` (`lft`,`rgt`), ADD KEY `idx_alias` (`alias`), ADD KEY `idx_language` (`language`);
+
+--
+-- Indexes for table `vfkn0_template_styles`
+--
+ALTER TABLE `vfkn0_template_styles`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_template` (`template`), ADD KEY `idx_home` (`home`);
+
+--
+-- Indexes for table `vfkn0_ucm_base`
+--
+ALTER TABLE `vfkn0_ucm_base`
+ ADD PRIMARY KEY (`ucm_id`), ADD KEY `idx_ucm_item_id` (`ucm_item_id`), ADD KEY `idx_ucm_type_id` (`ucm_type_id`), ADD KEY `idx_ucm_language_id` (`ucm_language_id`);
+
+--
+-- Indexes for table `vfkn0_ucm_content`
+--
+ALTER TABLE `vfkn0_ucm_content`
+ ADD PRIMARY KEY (`core_content_id`), ADD KEY `tag_idx` (`core_state`,`core_access`), ADD KEY `idx_access` (`core_access`), ADD KEY `idx_alias` (`core_alias`), ADD KEY `idx_language` (`core_language`), ADD KEY `idx_title` (`core_title`), ADD KEY `idx_modified_time` (`core_modified_time`), ADD KEY `idx_created_time` (`core_created_time`), ADD KEY `idx_content_type` (`core_type_alias`), ADD KEY `idx_core_modified_user_id` (`core_modified_user_id`), ADD KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`), ADD KEY `idx_core_created_user_id` (`core_created_user_id`), ADD KEY `idx_core_type_id` (`core_type_id`);
+
+--
+-- Indexes for table `vfkn0_ucm_history`
+--
+ALTER TABLE `vfkn0_ucm_history`
+ ADD PRIMARY KEY (`version_id`), ADD KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`), ADD KEY `idx_save_date` (`save_date`);
+
+--
+-- Indexes for table `vfkn0_updates`
+--
+ALTER TABLE `vfkn0_updates`
+ ADD PRIMARY KEY (`update_id`);
+
+--
+-- Indexes for table `vfkn0_update_sites`
+--
+ALTER TABLE `vfkn0_update_sites`
+ ADD PRIMARY KEY (`update_site_id`);
+
+--
+-- Indexes for table `vfkn0_update_sites_extensions`
+--
+ALTER TABLE `vfkn0_update_sites_extensions`
+ ADD PRIMARY KEY (`update_site_id`,`extension_id`);
+
+--
+-- Indexes for table `vfkn0_usergroups`
+--
+ALTER TABLE `vfkn0_usergroups`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`), ADD KEY `idx_usergroup_title_lookup` (`title`), ADD KEY `idx_usergroup_adjacency_lookup` (`parent_id`), ADD KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE;
+
+--
+-- Indexes for table `vfkn0_users`
+--
+ALTER TABLE `vfkn0_users`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_name` (`name`), ADD KEY `idx_block` (`block`), ADD KEY `username` (`username`), ADD KEY `email` (`email`);
+
+--
+-- Indexes for table `vfkn0_user_keys`
+--
+ALTER TABLE `vfkn0_user_keys`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `series` (`series`), ADD UNIQUE KEY `series_2` (`series`), ADD UNIQUE KEY `series_3` (`series`), ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `vfkn0_user_notes`
+--
+ALTER TABLE `vfkn0_user_notes`
+ ADD PRIMARY KEY (`id`), ADD KEY `idx_user_id` (`user_id`), ADD KEY `idx_category_id` (`catid`);
+
+--
+-- Indexes for table `vfkn0_user_profiles`
+--
+ALTER TABLE `vfkn0_user_profiles`
+ ADD UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`);
+
+--
+-- Indexes for table `vfkn0_user_usergroup_map`
+--
+ALTER TABLE `vfkn0_user_usergroup_map`
+ ADD PRIMARY KEY (`user_id`,`group_id`);
+
+--
+-- Indexes for table `vfkn0_viewlevels`
+--
+ALTER TABLE `vfkn0_viewlevels`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idx_assetgroup_title_lookup` (`title`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vfkn0_assets`
+--
+ALTER TABLE `vfkn0_assets`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=130;
+--
+-- AUTO_INCREMENT for table `vfkn0_banners`
+--
+ALTER TABLE `vfkn0_banners`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_banner_clients`
+--
+ALTER TABLE `vfkn0_banner_clients`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_categories`
+--
+ALTER TABLE `vfkn0_categories`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `vfkn0_contact_details`
+--
+ALTER TABLE `vfkn0_contact_details`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_content`
+--
+ALTER TABLE `vfkn0_content`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
+--
+-- AUTO_INCREMENT for table `vfkn0_content_types`
+--
+ALTER TABLE `vfkn0_content_types`
+MODIFY `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `vfkn0_extensions`
+--
+ALTER TABLE `vfkn0_extensions`
+MODIFY `extension_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10016;
+--
+-- AUTO_INCREMENT for table `vfkn0_finder_filters`
+--
+ALTER TABLE `vfkn0_finder_filters`
+MODIFY `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_finder_links`
+--
+ALTER TABLE `vfkn0_finder_links`
+MODIFY `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_finder_taxonomy`
+--
+ALTER TABLE `vfkn0_finder_taxonomy`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `vfkn0_finder_terms`
+--
+ALTER TABLE `vfkn0_finder_terms`
+MODIFY `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_finder_types`
+--
+ALTER TABLE `vfkn0_finder_types`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_languages`
+--
+ALTER TABLE `vfkn0_languages`
+MODIFY `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `vfkn0_menu`
+--
+ALTER TABLE `vfkn0_menu`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=135;
+--
+-- AUTO_INCREMENT for table `vfkn0_menu_types`
+--
+ALTER TABLE `vfkn0_menu_types`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `vfkn0_messages`
+--
+ALTER TABLE `vfkn0_messages`
+MODIFY `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_modules`
+--
+ALTER TABLE `vfkn0_modules`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=111;
+--
+-- AUTO_INCREMENT for table `vfkn0_newsfeeds`
+--
+ALTER TABLE `vfkn0_newsfeeds`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_overrider`
+--
+ALTER TABLE `vfkn0_overrider`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+--
+-- AUTO_INCREMENT for table `vfkn0_phocamaps_icon`
+--
+ALTER TABLE `vfkn0_phocamaps_icon`
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `vfkn0_phocamaps_map`
+--
+ALTER TABLE `vfkn0_phocamaps_map`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `vfkn0_phocamaps_marker`
+--
+ALTER TABLE `vfkn0_phocamaps_marker`
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `vfkn0_postinstall_messages`
+--
+ALTER TABLE `vfkn0_postinstall_messages`
+MODIFY `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `vfkn0_redirect_links`
+--
+ALTER TABLE `vfkn0_redirect_links`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_tags`
+--
+ALTER TABLE `vfkn0_tags`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `vfkn0_template_styles`
+--
+ALTER TABLE `vfkn0_template_styles`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `vfkn0_ucm_content`
+--
+ALTER TABLE `vfkn0_ucm_content`
+MODIFY `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_ucm_history`
+--
+ALTER TABLE `vfkn0_ucm_history`
+MODIFY `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=216;
+--
+-- AUTO_INCREMENT for table `vfkn0_updates`
+--
+ALTER TABLE `vfkn0_updates`
+MODIFY `update_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_update_sites`
+--
+ALTER TABLE `vfkn0_update_sites`
+MODIFY `update_site_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `vfkn0_usergroups`
+--
+ALTER TABLE `vfkn0_usergroups`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `vfkn0_users`
+--
+ALTER TABLE `vfkn0_users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=990;
+--
+-- AUTO_INCREMENT for table `vfkn0_user_keys`
+--
+ALTER TABLE `vfkn0_user_keys`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_user_notes`
+--
+ALTER TABLE `vfkn0_user_notes`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vfkn0_viewlevels`
+--
+ALTER TABLE `vfkn0_viewlevels`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
