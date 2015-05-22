@@ -441,3 +441,28 @@ sap_disabled li{
 	vertical-align: top;
 }
 
+
+.body_wrapper_mobile
+	{
+		display: none;
+	}
+
+
+
+
+
+@media (max-width: 500px) 
+{
+	
+	.body_wrapper
+	{
+	display: none;
+	}
+	
+	.body_wrapper_mobile
+	{
+		display: inline;
+	}
+	
+	
+}
