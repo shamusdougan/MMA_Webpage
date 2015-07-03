@@ -25,7 +25,7 @@ function addthumbnail(imgsrc, editor) {
 	slideimg.attr('height', '64px');
 }
 
-function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo, slideselect, imgalignment, articleid, imgtime, articlename, imgtitle) {
+function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo, slideselect, imgalignment, articleid, imgtime, articlename, imgtitle, state) {
 	if (!imgtitle)
 		imgtitle = '';
 	if (!articleid)
@@ -196,20 +196,29 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 					+ '<option value="bottomRight">' + Joomla.JText._('MOD_SLIDESHOWCK_BOTTOMRIGHT', 'bottom right') + '</option>';
 		}
 	}
+	if (!state || state == '1') {
+		state = '1';
+		statetxt = 'ON';
+	} else {
+		state = '0';
+		statetxt = 'OFF';
+	}
 
 	index = checkIndex(0);
 	var ckslide = jQuery('<li class="ckslide" id="ckslide' + index + '" />');
 
-	ckslide.html('<div class="ckslidehandle"><div class="ckslidenumber">' + index + '</div></div><div class="ckslidecontainer">'
+	ckslide.html('<div class="ckslidehandle"><div class="ckslidenumber">' + index + '</div></div>'
+			+'<div class="ckslidetoggle" data-state="' + state + '"><div class="ckslidetoggler">' + statetxt + '</div></div>'
+			+'<div class="ckslidecontainer">'
 			+ '<input name="ckslidedelete' + index + '" class="ckslidedelete" type="button" value="' + Joomla.JText._('MOD_SLIDESHOWCK_REMOVE2', '') + '" onclick="javascript:removeslide(this.getParent().getParent());" />'
 			+ '<div class="cksliderow"><div class="ckslideimgcontainer"><img src="' + imgthumb + '" width="64" height="64"/></div>'
 
-			+ '<input name="ckslideimgname' + index + '" id="ckslideimgname' + index + '" class="ckslideimgname hasTip" title="Image::This is the main image for the slide, it will also be used to create the thumbnail" type="text" value="' + imgname + '" onchange="javascript:addthumbnail(this.value, this);" />'
+			+ '<input name="ckslideimgname' + index + '" id="ckslideimgname' + index + '" class="ckslideimgname hasTip hasTooltip" title="Image::This is the main image for the slide, it will also be used to create the thumbnail" type="text" value="' + imgname + '" onchange="javascript:addthumbnail(this.value, this);" />'
 
 			+ '<a class="modal ckselectimg" href="' + JURI + 'administrator/index.php?option=com_media&view=images&tmpl=component&e_name=ckslideimgname' + index + '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}" >' + Joomla.JText._('MOD_SLIDESHOWCK_SELECTIMAGE', 'select image') + '</a></div>'
 			+ '<div class="cksliderow2">'
 			// + '<span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_USETOSHOW', 'Display') + '</span><select class="ckslideselect">' + slideselectoption + '</select>'
-			+ '<span><img src="../modules/mod_slideshowck/elements/images/hourglass.png" style="float: none; padding-top: 5px;" align="top" class="hasTip" title="' + Joomla.JText._('MOD_SLIDESHOWCK_SLIDETIME', 'enter a specific time value for this slide, else it will be the default time') + '"/><input name="ckslideimgtime' + index + '" class="ckslideimgtime" type="text" value="' + imgtime + '" onchange="javascript:storesetwarning();" style="width:25px;" /></span><span>ms</span>'
+			+ '<span><img src="../modules/mod_slideshowck/elements/images/hourglass.png" style="float: none; padding-top: 5px;" align="top" class="hasTip hasTooltip" title="' + Joomla.JText._('MOD_SLIDESHOWCK_SLIDETIME', 'enter a specific time value for this slide, else it will be the default time') + '"/><input name="ckslideimgtime' + index + '" class="ckslideimgtime" type="text" value="' + imgtime + '" onchange="javascript:storesetwarning();" style="width:25px;" /></span><span>ms</span>'
 			+ '</div>'
 			+ '<div class="cksliderow"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_TITLE', 'Title') + '</span><input name="ckslidetitletext' + index + '" class="ckslidetitletext" type="text" value="' + imgtitle + '" onchange="javascript:storesetwarning();" /></div>'
 			+ '<div class="cksliderow"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_CAPTION', 'Caption') + '</span><input name="ckslidecaptiontext' + index + '" class="ckslidecaptiontext" type="text" value="' + imgcaption + '" onchange="javascript:storesetwarning();" /></div>'
@@ -239,7 +248,7 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 			+ '</div><div style="clear:both;"></div>');
 
 	jQuery('#ckslideslist').append(ckslide);
-
+	
 	script = document.createElement("script");
 	script.setAttribute('type', 'text/javascript');
 	script.text = "function jSelectArticle_ckslidearticleid" + index + "(id, title, catid, object) {"
@@ -257,6 +266,17 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 		parse: 'rel'
 	});
 	create_tabs_in_slide(jQuery('#ckslide' + index));
+	
+	// add code to toggle the slide state
+	jQuery('#ckslide' + index + ' .ckslidetoggle').click(function() {
+		if (jQuery(this).attr('data-state') == '0') {
+			jQuery(this).attr('data-state', '1');
+			jQuery(this).find('.ckslidetoggler').text('ON');
+		} else {
+			jQuery(this).attr('data-state', '0');
+			jQuery(this).find('.ckslidetoggler').text('OFF');
+		}
+	});
 }
 
 function create_tabs_in_slide(slide) {
@@ -322,6 +342,7 @@ function storeslideck() {
 		slide['slidearticleid'] = el.find('.ckslidearticleid').val();
 		slide['slidearticlename'] = el.find('.ckslidearticlename').val();
 		slide['imgtime'] = el.find('.ckslideimgtime').val();
+		slide['state'] = el.find('.ckslidetoggle').attr('data-state');
 		slides[i] = slide;
 		i++;
 	});
@@ -347,7 +368,8 @@ function callslides() {
 					slide['slidearticleid'],
 					slide['imgtime'],
 					slide['slidearticlename'],
-					slide['imgtitle']
+					slide['imgtitle'],
+					slide['state']
 					);
 		});
 	}

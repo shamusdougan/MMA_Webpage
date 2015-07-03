@@ -10,14 +10,16 @@ defined('_JEXEC') or die('Restricted access');
 
 // définit la largeur du slideshow
 $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="width:' . $params->get('width') . 'px;"' : '';
+$needJModal = false;
 ?>
 <!-- debut Slideshow CK -->
 <div class="slideshowck<?php echo $params->get('moduleclass_sfx'); ?> camera_wrap <?php echo $params->get('skin'); ?>" id="camera_wrap_<?php echo $module->id; ?>"<?php echo $width; ?>>
 	<?php
-	for ($i = 0; $i < count($items); ++$i) {
+	// for ($i = 0; $i < count($items); ++$i) {
+	foreach ($items as $i => $item) {
 		if ($params->get('displayorder', 'normal') == 'shuffle' && $params->get('limitslides', '') && $i >= $params->get('limitslides', ''))
 			break;
-		$item = $items[$i];
+		// $item = $items[$i];
 		if ($item->imgalignment != 'default') {
 			$dataalignment = ' data-alignment="' . $item->imgalignment . '"';
 		} else {
@@ -31,6 +33,7 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 		$dataalbum = ($params->get('lightboxgroupalbum', '0')) ? '[albumslideshowck' .$module->id .']' : '';
 		$datarel = ($imgtarget == 'lightbox') ? 'data-rel="lightbox' . $dataalbum . '" ' : '';
 		$datatime = ($item->imgtime) ? ' data-time="' . $item->imgtime . '"' : '';
+		if ($imgtarget == 'lightbox' && $params->get('lightboxtype', 'mediaboxck') == 'squeezebox') $needJModal = true;
 
 		if ($params->get('articlelink', 'readmore') == 'image' && $item->article->link) {
 			$item->imglink = $item->article->link;
@@ -71,7 +74,9 @@ $width = ($params->get('width') AND $params->get('width') != 'auto') ? ' style="
 			}
 			?>
 		</div>
-<?php } ?>
+<?php }
+if ($needJModal) JHtml::_('behavior.modal');
+?>
 </div>
 <div style="clear:both;"></div>
 <!-- fin Slideshow CK -->

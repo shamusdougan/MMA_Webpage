@@ -24,6 +24,7 @@ $offset = $jinput->get('offset', 0, "INT" );;
 
 
 ?>
+<div class='article_listing_web'>
 <div class='sapient_transparent_background'>
 <div class='article_listing_title_bar'>
 	<div class='article_listing_title_content'>
@@ -94,6 +95,9 @@ foreach ($this->items as $i => $article)
 	</div>
 	
 </div>
+</div>
+
+
 <?php if($n != 0 && $n > $limit) { ?>
 
 	
@@ -106,3 +110,59 @@ foreach ($this->items as $i => $article)
 		</div>
 	<?php } ?>
 </div>
+</div>
+
+
+<div class='article_listing_mobile'>
+	<div class='mobile_article_listing_title_bar'>
+		<div class='mobile_article_listing_title_content'>
+			<?php echo ($this->category->title); ?>
+		</div>
+	</div>
+	<div class='mobile_article_listing_container'>
+	
+	<?php 
+		foreach ($this->items as $i => $article) 
+			{
+			$displayArticle = JTable::getInstance("content"); 
+			$displayArticle->load($article->id); 
+			$images = json_decode($displayArticle->images); 
+			$displayTitle = strtoupper(trim(strip_tags($displayArticle->get("title"))));
+			$displayText = trim(strip_tags($displayArticle->get("introtext")));
+			
+			$id = $article->id;
+			$alias = $displayArticle->get('alias');
+			
+			
+			if (isset($images->image_intro) and !empty($images->image_intro))
+			{
+				$displayImage = $images->image_intro;
+			}	
+			else
+			{
+				$displayImage = "images/no_image_found.jpg";
+			}
+	?>
+		<div class='mobile_article_listing_wrapper'>
+			<div class='mobile_article_listing_picture'>
+			 	<div class="view view-first">
+					<A href='<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>'>
+						<img src='<?php echo htmlspecialchars ("/".$displayImage); ?>' />
+					</A>
+				 
+				</div> 
+				
+			</div>
+			<div class='article_listing_title'>
+				<A href='<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>'>
+					<?php echo $displayTitle; ?>
+				</A>
+			</div>
+		</div>
+		<? } ?>
+		
+	</div>
+
+</div>
+
+</div>	

@@ -35,7 +35,7 @@ elseif($menuID == 104) //principals
 	{
 	$filelist[] = $imagePath2."principals_background.JPG";
 	}
-elseif($menuID == 108 || $menuID == 109 || $menuID == 110 || $menuID == 106) //projects pages
+elseif($menuID == 108 || $menuID == 109 || $menuID == 110 || $menuID == 106 || $menuID == 138 || $menuID == 139 || $menuID == 141 ||  $menuID == 140) //projects pages
 	{
 	$filelist[] = $imagePath2."merton_hero_bw.jpg";
 	}
@@ -43,16 +43,20 @@ else
 	{
 	$filelist = get_backgroundlist();	
 	}
-			
-			
+		
+//	echo $menuID."<br>";
 
 
+function isMobile() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
 
 ?>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
+<meta name="viewport" content="initial-scale=1.0">
 
 
 <jdoc:include type="head" />
@@ -80,8 +84,18 @@ else
 				pause:   1, 
 				speed: 2000,
 				timeout:  3500 
-			});			
+				});		
+				jQuery('#slideshow_mobile').cycle({
+				fx: 'fade',
+				pager: '#smallnav', 
+				pause:   1, 
+				speed: 2000,
+				timeout:  3500 
+				});			
+				
 		});
+		
+	
 	
 </script> 
 
@@ -128,22 +142,47 @@ else
 
 	
 		<div class='content_body'>	
-			<jdoc:include type="component" />
+			<?php if(!isMobile()){ ?>
+				<jdoc:include type="component" />
+			<?php } ?>
 		</div>
 		
 			
-		</div>
-
-
-	
 	</div>
-	
+
+
 	
 </div>
+	
+	
+
 
 
 <div class='body_wrapper_mobile'>
-Hello world
+	<div class='mobile_body'>
+
+		<div id="slideshow_mobile">
+			<?php
+			foreach($filelist as $filename){
+				echo "<image src='/".$filename."' class='bgM'/>\n";
+				}
+			?>
+		</div>
+
+		<div class='mobile_head_wrapper'>
+			<div class='mobile_logoTitle' ><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo_notext.jpg'><br>MICHAEL MORRIS ARCHITECTS</div>	
+			<div class='mobile_menu_wrapper'><jdoc:include type="modules" name="mobile_menu" /></div>	
+		</div>
+	
+	
+		<div class='mobile_main_content'>
+			
+			<?php if(isMobile()){ ?>
+				<jdoc:include type="component" />
+			<?php } ?>
+			
+		</div>
+	</div>
 </div>
 
 </body>

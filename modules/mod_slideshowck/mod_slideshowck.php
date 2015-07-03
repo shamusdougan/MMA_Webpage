@@ -8,7 +8,7 @@
  * */
 // no direct access
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal');
+// JHtml::_('behavior.modal');
 require_once dirname(__FILE__) . '/helper.php';
 
 if ($params->get('slideshowckhikashop_enable', '0') == '1') {
@@ -58,9 +58,7 @@ if ($params->get('slideshowckhikashop_enable', '0') == '1') {
 }
 
 $document = JFactory::getDocument();
-if ($params->get('loadjquery', '1')) {
-	JHTML::_("jquery.framework", true);
-}
+JHTML::_("jquery.framework", true);
 if ($params->get('loadjqueryeasing', '1')) {
 	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/jquery.easing.1.3.js');
 }
@@ -173,6 +171,15 @@ $css .= "
 	" . $captioncss['descfontcolor'] . $captioncss['descfontsize'] . "
 }
 ";
+
+if ($params->get('usecaptionresponsive') == '1') {
+	$css .= "
+@media screen and (max-width: " . str_replace("px", "", $params->get('captionresponsiveresolution', '480')) . "px) {
+		.camera_caption {
+			" . ( $params->get('captionresponsivehidecaption', '0') == '1' ? "display: none" : "font-size: " . $params->get('captionresponsivefontsize', '0.6em') ) . " !important;
+		}
+}";
+}
 $document->addStyleDeclaration($css);
 
 // display the module

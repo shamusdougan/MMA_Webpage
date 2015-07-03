@@ -27,7 +27,6 @@ $db->setQuery($query);
 $catTitle = $db->loadResult();
 
 
-
 ?>
 <div class='sapient_transparent_background'>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Article">
@@ -36,7 +35,8 @@ $catTitle = $db->loadResult();
 	
 	
 	<?php //Customised Page Heading settings to display the Project slideshows ?>
-			
+	
+	<div class='projectslideshow_web'>
 	<div class="sap_article_title_bar">
 		<div class='sap_article_title_bar_nav'>
 			<A Href='<?php echo $catRoute; ?>'>
@@ -48,7 +48,12 @@ $catTitle = $db->loadResult();
 		<h1> <?php echo $this->escape($this->item->title); ?> </h1>
 		</div>
 	</div>
-	
+	</div>
+	<div class='projectslideshow_mobile'>
+		<div class='projectslideshow_title_mobile'>
+		<h1> <?php echo $this->escape($this->item->title); ?></h1>
+		</div>
+	</div>
 	
 	
 	<?php
