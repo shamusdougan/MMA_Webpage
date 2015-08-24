@@ -146,7 +146,8 @@ body
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
-	font-size: 30px;
+	font-size:25px;
+	font-family: 'DinAlternate'; !important
 }
 
 .article_listing_container

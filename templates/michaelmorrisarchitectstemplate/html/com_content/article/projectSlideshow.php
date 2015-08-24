@@ -39,10 +39,7 @@ $catTitle = $db->loadResult();
 	<div class='projectslideshow_web'>
 	<div class="sap_article_title_bar">
 		<div class='sap_article_title_bar_nav'>
-			<A Href='<?php echo $catRoute; ?>'>
-				<div class='sap_article_title_nav_arrow'></div>
-				<div class='sap_article_title_nav_description'><?php echo $catTitle; ?></div>
-		</A>
+			
 		</div>
 		<div class='sap_article_title_bar_content'>
 		<h1> <?php echo $this->escape($this->item->title); ?> </h1>
