@@ -25,8 +25,8 @@ class ModaccordeonckHelper {
 		$active_id = isset($active) ? $active->id : $menu->getDefault()->id;
 		$base = self::getBase($params);
 
-//		$path = isset($active) ? $active->tree : array();
-		$path = $base->tree;
+		$path = isset($active) ? $active->tree : $base->tree;;
+		// $path = $base->tree; // pb si on utilise cela, lorsque base item est sur autre que courant, ça ne marche plus. Le path renvoit uniquement le lien base item
 		$start = (int) $params->get('startLevel');
 		$end = (int) $params->get('endLevel');
 		$showAll = 1;
@@ -150,18 +150,26 @@ class ModaccordeonckHelper {
 					$item->classe .= ' current';
 				}
 
-				if (in_array($item->id, $path)) {
-					$item->classe .= ' active';
-					$item->isactive = true;
-				} elseif ($item->type == 'alias') {
-					$aliasToId = $item->params->get('aliasoptions');
-					if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
-						$item->classe .= ' active';
-						$item->isactive = true;
-					} elseif (in_array($aliasToId, $path)) {
-						$item->classe .= ' alias-parent-active active';
-						$item->isactive = true;
-					}
+				// if (in_array($item->id, $path)) {
+					// $item->classe .= ' active';
+					// $item->isactive = true;
+				// } elseif ($item->type == 'alias') {
+					// $aliasToId = $item->params->get('aliasoptions');
+					// if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
+						// $item->classe .= ' active';
+						// $item->isactive = true;
+					// } elseif (in_array($aliasToId, $path)) {
+						// $item->classe .= ' alias-parent-active active';
+						// $item->isactive = true;
+					// }
+				// }
+				
+				// new method for the active class
+					if (	$item->type == 'alias' &&
+						in_array($item->params->get('aliasoptions'),$path)
+					||	in_array($item->id, $path)) {
+							$item->classe .= ' active';
+							$item->isactive = true;
 				}
 
 				// css management for the item following the plugin params

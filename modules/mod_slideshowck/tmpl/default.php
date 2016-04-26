@@ -37,6 +37,8 @@ $needJModal = false;
 
 		if ($params->get('articlelink', 'readmore') == 'image' && $item->article->link) {
 			$item->imglink = $item->article->link;
+		} else if ($params->get('lightboxautolinkimages', '0') == '1') {
+			$item->imglink = $item->imgname;
 		}
 		?>
 		<div <?php echo $datarel . $datatitle; ?>data-thumb="<?php echo $item->imgthumb; ?>" data-src="<?php echo $item->imgname; ?>" <?php if ($item->imglink) echo 'data-link="' . $item->imglink . '" data-target="' . $imgtarget . '"'; echo $dataalignment . $datatime; ?>>

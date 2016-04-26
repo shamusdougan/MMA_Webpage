@@ -48,6 +48,9 @@ if ($params->get('slideshowckhikashop_enable', '0') == '1') {
 		case 'autoloadarticlecategory':
 			$items = modSlideshowckHelper::getItemsAutoloadarticlecategory($params);
 			break;
+		case 'flickr':
+			$items = modSlideshowckHelper::getItemsAutoloadflickr($params);
+			break;
 		default:
 			$items = modSlideshowckHelper::getItems($params);
 			break;
@@ -62,9 +65,9 @@ JHTML::_("jquery.framework", true);
 if ($params->get('loadjqueryeasing', '1')) {
 	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/jquery.easing.1.3.js');
 }
-if ($params->get('loadjquerymobile', '1')) {
-	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/jquery.mobile.customized.min.js');
-}
+//if ($params->get('loadjquerymobile', '1')) {
+//	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/jquery.mobile.customized.min.js');
+//}
 
 $document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/camera.min.js');
 
@@ -91,31 +94,41 @@ if (JFile::exists('modules/mod_slideshowck/themes/' . $theme . '/css/camera_ie8.
 }
 
 // set the navigation variables
-switch ($params->get('navigation', '2')) {
-	case 0:
-		// aucune
-		$navigation = "navigationHover: false,
-                navigation: false,
-                playPause: false,";
-		break;
-	case 1:
-		// toujours
-		$navigation = "navigationHover: false,
-                navigation: true,
-                playPause: true,";
-		break;
-	case 2:
-	default:
-		// on mouseover
-		$navigation = "navigationHover: true,
-                navigation: true,
-                playPause: true,";
-		break;
+if (count($items) == 1) { // for only one slide, no navigation, no button
+	$navigation = "navigationHover: false,
+			mobileNavHover: false,
+			navigation: false,
+			playPause: false,";
+} else {
+	switch ($params->get('navigation', '2')) {
+		case 0:
+			// aucune
+			$navigation = "navigationHover: false,
+					mobileNavHover: false,
+					navigation: false,
+					playPause: false,";
+			break;
+		case 1:
+			// toujours
+			$navigation = "navigationHover: false,
+					mobileNavHover: false,
+					navigation: true,
+					playPause: true,";
+			break;
+		case 2:
+		default:
+			// on mouseover
+			$navigation = "navigationHover: true,
+					mobileNavHover: true,
+					navigation: true,
+					playPause: true,";
+			break;
+	}
 }
 
 
 // load the slideshow script
-$js = "<script type=\"text/javascript\"> <!--
+$js = "<script type=\"text/javascript\">
        jQuery(function(){
         jQuery('#camera_wrap_" . $module->id . "').camera({
                 height: '" . $params->get('height', '400') . "',
@@ -143,7 +156,7 @@ $js = "<script type=\"text/javascript\"> <!--
                 barPosition: '" . $params->get('barPosition', 'bottom') . "',
 				container: '" . $params->get('container', '') . "'
         });
-}); //--> </script>";
+}); </script>";
 
 echo $js;
 

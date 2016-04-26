@@ -45,7 +45,7 @@ class JFormFieldCktestmaximenupluginmobile extends JFormField {
             $icon = $this->element['icon'];
 
             // Build the class for the label.
-            $class = !empty($this->description) ? 'hasTip' : '';
+            $class = !empty($this->description) ? 'hasTip hasTooltip' : '';
             $class = $this->required == true ? $class . ' required' : $class;
 
             // Add the opening label tag and main attributes attributes.

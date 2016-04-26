@@ -54,8 +54,8 @@ foreach ($list as $i => &$item) :
 			  $class .= 'isactive ';
 			}
 			
-			$class = (isset($class) AND $class) ? 'class="' . $class . '" ' : '';
-			
+			// $class = (isset($class) AND $class) ? 'class="' . $class . '" ' : '';
+
 		$title = $item->anchor_title ? 'title="'.$item->anchor_title.'" ' : '';
 		if ($item->menu_image) {
 				$menu_image_split = explode('.', $item->menu_image);
@@ -92,7 +92,7 @@ foreach ($list as $i => &$item) :
 		// Render the menu item.
 		switch ($item->type) :
 			case 'separator':
-				echo $imageevent; ?><a <?php echo $class.$item->rel; ?>href="javascript:void(0);"<?php echo $style; ?>><span class="separator"><?php echo $linktype; ?></span></a><?php
+				echo $imageevent; ?><a class="separator <?php echo $class ?>" <?php echo $item->rel; ?>href="javascript:void(0);"<?php echo $style; ?>><span class=""><?php echo $linktype; ?></span></a><?php
 				break;
 			case 'url':
 			case 'component':
@@ -100,16 +100,15 @@ foreach ($list as $i => &$item) :
 				switch ($item->browserNav) :
 						default:
 						case 0:
-							echo $imageevent; ?><a <?php echo $class.$item->rel; ?>href="<?php echo $item->flink; ?>" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
+							echo $imageevent; ?><a class="<?php echo $class ?>" <?php echo $item->rel; ?>href="<?php echo $item->flink; ?>" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
 							break;
 						case 1:
 							// _blank
-							echo $imageevent; ?><a <?php echo $class.$item->rel; ?>href="<?php echo $item->flink; ?>" target="_blank" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
+							echo $imageevent; ?><a class="<?php echo $class ?>" <?php echo $item->rel; ?>href="<?php echo $item->flink; ?>" target="_blank" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
 							break;
 						case 2:
 							// window.open
-							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'.$params->get('window_open');
-							echo $imageevent; ?><a <?php echo $class.$item->rel; ?>href="<?php echo $item->flink; ?>" onclick="window.open(this.href,'targetWindow','<?php echo $attribs;?>');return false;" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
+							echo $imageevent; ?><a class="<?php echo $class ?>" <?php echo $item->rel; ?>href="<?php echo $item->flink; ?>" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes');return false;" <?php echo $title.$style; ?>><?php echo $linktype; ?></a><?php
 							break;
 					endswitch;	
 				break;

@@ -26,7 +26,7 @@ class JFormFieldCktext extends JFormField
 		$icon = $this->element['icon'];
 		
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = !empty($this->description) ? 'hasTip hasTooltip' : '';
 		
 		$label .= '<div id="'.$this->id.'-link" class="'.$class.'"';
 		

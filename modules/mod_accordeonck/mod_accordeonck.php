@@ -123,7 +123,7 @@ if ($params->get('usestyles') == 1) {
 
 $document->addScript(JURI::base(true) . '/modules/mod_accordeonck/assets/jquery.easing.1.3.js');
 $js = "
-       jQuery(document).ready(function(jQuery){
+       jQuery(document).ready(function(){
         jQuery('#" . $menuID . "').accordeonmenuck({"
 		. "fadetransition : " . $fadetransition . ","
 		. "eventtype : '" . $eventtype . "',"

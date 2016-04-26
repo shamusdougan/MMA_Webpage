@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>1.4.17</version>
+	<version>1.4.29</version>
 	<description>MOD_SLIDESHOWCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_slideshowck">mod_slideshowck.php</filename>
@@ -37,6 +37,37 @@
 	</updateservers>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field 
+					name="linkdocumentation" 
+					type="cklink"
+					label="MOD_SLIDESHOWCK_DOWNLOAD_DOCUMENTATTION"
+					url="http://www.joomlack.fr/en/slideshowck/slideshow-documentation"
+					icon="page_white_acrobat.png"
+					/>
+				<field 
+					name="linkthemes" 
+					type="cklink"
+					label="MOD_SLIDESHOWCK_DOWNLOAD_THEMES"
+					url="http://www.joomlack.fr/en/slideshowck/slideshow-themes"
+					icon="palette.png"
+					/>
+				<field 
+					name="ckvotejed" 
+					type="ckvotejed"
+					label="MOD_SLIDESHOWCK_VOTE_JED"
+					url="http://extensions.joomla.org/extensions/extension/photos-a-images/slideshow/slideshow-ck"
+					/>
+				<field 
+					name="ckcheckversion" 
+					type="ckcheckversion"
+					/>
+				<field 
+					name="ckcheckpluginversion" 
+					type="ckcheckpluginversion"
+					version="1.2.4"
+					/>
+			</fieldset>
 			<fieldset name="slidessource" label="MOD_SLIDESHOWCK_OPTIONS_SLIDESSOURCE">
 				<field
 					name="slidesssource"
@@ -84,6 +115,15 @@
 			<fieldset name="slidesfromarticlecategory" label="MOD_SLIDESHOWCK_OPTIONS_FROMARTICLECATEGORY">
 				<field
 					name="slideshowparamsinfoarticle"
+					label="MOD_SLIDESHOWCK_CHECKPARAMSPLUGIN"
+					type="cktestslideshowparamsplugin"
+					style="link"
+					icon="information.png"
+				/>
+			</fieldset>
+			<fieldset name="slidesfromflickr" label="MOD_SLIDESHOWCK_OPTIONS_FROMFLICKR">
+				<field
+					name="slideshowparamsinfoflickr"
 					label="MOD_SLIDESHOWCK_CHECKPARAMSPLUGIN"
 					type="cktestslideshowparamsplugin"
 					style="link"
@@ -261,8 +301,10 @@
 					label="MOD_SLIDESHOWCK_EFFECT_LABEL"
 					description="MOD_SLIDESHOWCK_EFFECT_DESC"
 					icon="application_view_gallery.png"
+					styles="width:200px;"
 				>
 					<option value="random">random</option>
+					<option value="kenburns">kenburns</option>
 					<option value="simpleFade">simpleFade</option>
 					<option value="curtainTopLeft">curtainTopLeft</option>
 					<option value="curtainTopRight">curtainTopRight</option>
@@ -479,19 +521,6 @@
 					default="1"
 					label="MOD_SLIDESHOWCK_LOADJQUERYEASING_LABEL"
 					description="MOD_SLIDESHOWCK_LOADJQUERYEASING_DESC"
-					icon="page_white_wrench.png"
-					class="btn-group"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="loadjquerymobile"
-					type="ckradio"
-					default="1"
-					label="MOD_SLIDESHOWCK_LOADJQUERYMOBILE_LABEL"
-					description="MOD_SLIDESHOWCK_LOADJQUERYMOBILE_DESC"
 					icon="page_white_wrench.png"
 					class="btn-group"
 				>

@@ -131,7 +131,7 @@ class JFormFieldCkradio2 extends JFormField {
         $text = JText::_($text);
 
         // Build the class for the label.
-        $class = !empty($this->description) ? 'hasTip' : '';
+        $class = !empty($this->description) ? 'hasTip hasTooltip' : '';
 
         $label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
 

@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>2.0.13</version>
+	<version>2.0.19</version>
 	<description>MOD_ACCORDEONCK_DESC</description>
 	<files>
 		<filename module="mod_accordeonck">mod_accordeonck.php</filename>

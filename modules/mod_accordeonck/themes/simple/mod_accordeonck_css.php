@@ -24,7 +24,6 @@ $id = 'ul#'.htmlspecialchars ( $_GET['cssid'] , ENT_QUOTES );
     list-style: none;
     color: #666;
 	background: none;
-	text-transform: uppercase;
 }
 
 /* style for all links from the second level */
@@ -33,7 +32,6 @@ $id = 'ul#'.htmlspecialchars ( $_GET['cssid'] , ENT_QUOTES );
     margin: 0 0 0 20px;
 	border-bottom: none;
 	border-top: 1px solid #ddd;
-	text-transform: capitalize;
 }
 
 /* style for all anchors */

@@ -169,7 +169,7 @@ class modSlideshowckHelper {
 			$item->article = null;
 			$item->slidearticleid = null;
 			$item->imgalignment = null;
-			$item->imgtarget = null;
+			$item->imgtarget = 'default';
 			$item->imgtime = null;
 			$item->imglink = null;
 			$item->imgtitle = null;
@@ -218,7 +218,7 @@ class modSlideshowckHelper {
 			$item->article = null;
 			$item->slidearticleid = null;
 			$item->imgalignment = null;
-			$item->imgtarget = null;
+			$item->imgtarget = 'default';
 			$item->imgtime = null;
 			$item->imglink = null;
 			$item->imgtitle = null;
@@ -242,6 +242,83 @@ class modSlideshowckHelper {
 		return $items;
 	}
 	
+	/**
+	 * Get a list of the items.
+	 *
+	 * @param	JRegistry	$params	The module options.
+	 *
+	 * @return	array
+	 */
+	static function getItemsAutoloadflickr(&$params) {
+		self::$slideshowparams = $params;
+
+		$url = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&extras=description,original_format,url_sq,url_t,url_s,url_m,url_o&nojsoncallback=1';
+		$url .= '&api_key=' . $params->get('flickr_apikey');
+		$url .= '&photoset_id=' . $params->get('flickr_photoset');
+
+		if (function_exists('file_get_contents')) {  
+			$result = @file_get_contents($url);  
+		} 
+		// look for curl
+		if ($result == '' && extension_loaded('curl')) {
+			$ch = curl_init();  
+			$timeout = 30;  
+			curl_setopt($ch, CURLOPT_URL, $url);  
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);  
+			$result = curl_exec($ch);  
+			curl_close($ch);  
+		}
+
+		$images = json_decode($result)->photoset->photo;
+		$items = Array();
+		$i = 0;
+		foreach ($images as & $image) {
+			$items[$i] = new stdClass();
+			$item = $items[$i];
+			$item->imgname = $image->url_o;
+			$item->imgthumb = $item->imgname;
+			// create new images for mobile
+			// if ($params->get('usemobileimage', '0')) { 
+				// self::resizeImage($item->imgname, $params->get('mobileimageresolution', '640'), '', $params->get('mobileimageresolution', '640'), '');
+			// }
+			// if ($params->get('thumbnails', '1') == '1')
+				// $item->imgthumb = JURI::base(true) . '/' . self::resizeImage($item->imgname, $params->get('thumbnailwidth', '100'), $params->get('thumbnailheight', '75'));
+			// $thumbext = explode(".", $item->imgname);
+			// $thumbext = end($thumbext);
+			// set the variables
+			$item->imgvideo = null;
+			$item->slideselect = null;
+			$item->slideselect = null;
+			$item->imgcaption = null;
+			$item->article = null;
+			$item->slidearticleid = null;
+			$item->imgalignment = null;
+			$item->imgtarget = 'default';
+			$item->imgtime = null;
+			$item->imglink = null;
+			$item->imgtitle = null;
+
+			// show the title and description of the image
+			if ($params->get('flickr_showcaption', '1')) {
+				$item->imgtitle = $image->title;
+				$item->imgcaption = $image->description->_content;
+			}
+
+			// set the link to the image
+			if ($params->get('flickr_autolink', '0')) {
+				$item->imglink = $image->url_o;
+			}
+
+			$i++;
+		}
+
+		return $items;
+	}
+
 	static function getItemsAutoloadarticlecategory(&$params) {
 		// Get an instance of the generic articles model
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
@@ -497,7 +574,7 @@ class modSlideshowckHelper {
 				$slideItem->article = new stdClass();
 				$slideItem->slidearticleid = null;
 				$slideItem->imgalignment = null;
-				$slideItem->imgtarget = null;
+				$slideItem->imgtarget = 'default';
 				$slideItem->imgtime = null;
 				$slideItem->imglink = null;
 				$slideItem->imgtitle = null;
@@ -519,7 +596,7 @@ class modSlideshowckHelper {
 		$item->imgcaption = null;
 		$item->article = null;
 		$item->imgalignment = null;
-		$item->imgtarget = null;
+		$item->imgtarget = 'default';
 		$item->imgtime = null;
 		$item->imglink = null;
 		// load the image data from txt
@@ -617,11 +694,11 @@ class modSlideshowckHelper {
 		
 		if ($size) {
 			if (JFile::exists($thumbfile)) {
-				$thumbsize = getimagesize(JPATH_ROOT . '/' . $thumbfile);
-				if ($thumbsize[0] == $x || $thumbsuffix == '') {
-					//echo 'miniature existante';
-					return $thumbfile;
-				}
+				return $thumbfile;
+				// $thumbsize = getimagesize(JPATH_ROOT . '/' . $thumbfile);
+				// if ($thumbsize[0] == $x || $thumbsuffix == '') {
+					// return $thumbfile;
+				// }
 			}
 			
 			$thumbfolder = str_replace(JFile::getName($file), $thumbpath . "/", $filetmp);
