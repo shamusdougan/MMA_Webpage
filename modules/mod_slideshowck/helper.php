@@ -46,6 +46,22 @@ class modSlideshowckHelper {
 				continue;
 			}
 
+			// check the slide start date
+			if (isset($item->startdate) && $item->startdate) {
+				if (date("d M Y") < $item->startdate) {
+					unset($items[$i]);
+					continue;
+				}
+			}
+
+			// check the slide end date
+			if (isset($item->enddate) && $item->enddate) {
+				if (date("d M Y") > $item->enddate) {
+					unset($items[$i]);
+					continue;
+				}
+			}
+
 			if (isset($item->slidearticleid) && $item->slidearticleid) {
 				$item = self::getArticle($item, $params);
 			} else {
@@ -751,15 +767,15 @@ class modSlideshowckHelper {
 	 */
 	static function createCss($params, $prefix = 'menu') {
 		$css = Array();
-		$csspaddingtop = ($params->get($prefix . 'paddingtop') AND $params->get($prefix . 'usemargin')) ? 'padding-top: ' . $params->get($prefix . 'paddingtop', '0') . 'px;' : '';
-		$csspaddingright = ($params->get($prefix . 'paddingright') AND $params->get($prefix . 'usemargin')) ? 'padding-right: ' . $params->get($prefix . 'paddingright', '0') . 'px;' : '';
-		$csspaddingbottom = ($params->get($prefix . 'paddingbottom') AND $params->get($prefix . 'usemargin') ) ? 'padding-bottom: ' . $params->get($prefix . 'paddingbottom', '0') . 'px;' : '';
-		$csspaddingleft = ($params->get($prefix . 'paddingleft') AND $params->get($prefix . 'usemargin')) ? 'padding-left: ' . $params->get($prefix . 'paddingleft', '0') . 'px;' : '';
+		$csspaddingtop = ($params->get($prefix . 'paddingtop') AND $params->get($prefix . 'usemargin')) ? 'padding-top: ' . self::testUnit($params->get($prefix . 'paddingtop', '0')) . ';' : '';
+		$csspaddingright = ($params->get($prefix . 'paddingright') AND $params->get($prefix . 'usemargin')) ? 'padding-right: ' . self::testUnit($params->get($prefix . 'paddingright', '0')) . ';' : '';
+		$csspaddingbottom = ($params->get($prefix . 'paddingbottom') AND $params->get($prefix . 'usemargin') ) ? 'padding-bottom: ' . self::testUnit($params->get($prefix . 'paddingbottom', '0')) . ';' : '';
+		$csspaddingleft = ($params->get($prefix . 'paddingleft') AND $params->get($prefix . 'usemargin')) ? 'padding-left: ' . self::testUnit($params->get($prefix . 'paddingleft', '0')) . ';' : '';
 		$css['padding'] = $csspaddingtop . $csspaddingright . $csspaddingbottom . $csspaddingleft;
-		$cssmargintop = ($params->get($prefix . 'margintop') AND $params->get($prefix . 'usemargin')) ? 'margin-top: ' . $params->get($prefix . 'margintop', '0') . 'px;' : '';
-		$cssmarginright = ($params->get($prefix . 'marginright') AND $params->get($prefix . 'usemargin')) ? 'margin-right: ' . $params->get($prefix . 'marginright', '0') . 'px;' : '';
-		$cssmarginbottom = ($params->get($prefix . 'marginbottom') AND $params->get($prefix . 'usemargin')) ? 'margin-bottom: ' . $params->get($prefix . 'marginbottom', '0') . 'px;' : '';
-		$cssmarginleft = ($params->get($prefix . 'marginleft') AND $params->get($prefix . 'usemargin')) ? 'margin-left: ' . $params->get($prefix . 'marginleft', '0') . 'px;' : '';
+		$cssmargintop = ($params->get($prefix . 'margintop') AND $params->get($prefix . 'usemargin')) ? 'margin-top: ' . self::testUnit($params->get($prefix . 'margintop', '0')) . ';' : '';
+		$cssmarginright = ($params->get($prefix . 'marginright') AND $params->get($prefix . 'usemargin')) ? 'margin-right: ' . self::testUnit($params->get($prefix . 'marginright', '0')) . ';' : '';
+		$cssmarginbottom = ($params->get($prefix . 'marginbottom') AND $params->get($prefix . 'usemargin')) ? 'margin-bottom: ' . self::testUnit($params->get($prefix . 'marginbottom', '0')) . ';' : '';
+		$cssmarginleft = ($params->get($prefix . 'marginleft') AND $params->get($prefix . 'usemargin')) ? 'margin-left: ' . self::testUnit($params->get($prefix . 'marginleft', '0')) . ';' : '';
 		$css['margin'] = $cssmargintop . $cssmarginright . $cssmarginbottom . $cssmarginleft;
 		$bgcolor1 = ($params->get($prefix . 'bgcolor1') && $params->get($prefix . 'bgopacity')) ? self::hex2RGB($params->get($prefix . 'bgcolor1'), $params->get($prefix . 'bgopacity')) : $params->get($prefix . 'bgcolor1');
 		$css['background'] = ($params->get($prefix . 'bgcolor1') AND $params->get($prefix . 'usebackground')) ? 'background: ' . $bgcolor1 . ';' : '';

@@ -39,6 +39,8 @@ JText::script('MOD_SLIDESHOWCK_SLIDETIME');
 JText::script('MOD_SLIDESHOWCK_CLEAR');
 JText::script('MOD_SLIDESHOWCK_SELECT');
 JText::script('MOD_SLIDESHOWCK_TITLE');
+JText::script('MOD_SLIDESHOWCK_STARTDATE');
+JText::script('MOD_SLIDESHOWCK_ENDDATE');
 
 class JFormFieldCkslidesmanager extends JFormField {
 
@@ -52,8 +54,11 @@ class JFormFieldCkslidesmanager extends JFormField {
 		JHtml::_('jquery.framework');
 		JHtml::_('jquery.ui', array('core', 'sortable'));
 		JHTML::_('behavior.modal');
+		JHTML::_('script', 'modules/mod_slideshowck/elements/assets/jquery-ui.min.js');
+		
 		JHTML::_('script', $path . 'ckslidesmanager.js');
 		JHTML::_('script', $path . 'FancySortable.js');
+		JHTML::_('stylesheet', 'modules/mod_slideshowck/elements/assets/jquery-ui.min.css');
 		JHTML::_('stylesheet', $path . 'ckslidesmanager.css');
 
 		$html = '<input name="' . $this->name . '" id="ckslides" type="hidden" value="' . $this->value . '" />'
@@ -63,6 +68,7 @@ class JFormFieldCkslidesmanager extends JFormField {
 				//.'<input name="ckaddfromfolder" id="ckaddfromfolder" type="button" value="Import from a folder" onclick="javascript:addfromfolderck();"/>'
 				//.'<input name="ckstoreslide" id="ckstoreslide" type="button" value="Save" onclick="javascript:storeslideck();"/>'
 				. '<ul id="ckslideslist" style="clear:both;"></ul>'
+//				.'<p>Date: <input type="text" id="datepicker"></p>'
 				. '<input name="ckaddslide" id="ckaddslide" type="button" value="' . JText::_('MOD_SLIDESHOWCK_ADDSLIDE') . '" onclick="javascript:addslideck();"/>';
 
 		return $html;

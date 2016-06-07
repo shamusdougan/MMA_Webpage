@@ -25,7 +25,11 @@ function addthumbnail(imgsrc, editor) {
 	slideimg.attr('height', '64px');
 }
 
-function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo, slideselect, imgalignment, articleid, imgtime, articlename, imgtitle, state) {
+function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo, slideselect, imgalignment, articleid, imgtime, articlename, imgtitle, state, imgstartdate, imgenddate) {
+	if (!imgstartdate)
+		imgstartdate = '';
+	if (!imgenddate)
+		imgenddate = '';
 	if (!imgtitle)
 		imgtitle = '';
 	if (!articleid)
@@ -228,6 +232,7 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 			+ '<span class="ckslideaccordeonbutton">' + Joomla.JText._('MOD_SLIDESHOWCK_LINKOPTIONS', 'Link options') + '</span>'
 			+ '<span class="ckslideaccordeonbutton">' + Joomla.JText._('MOD_SLIDESHOWCK_VIDEOOPTIONS', 'Video options') + '</span>'
 			+ '<span class="ckslideaccordeonbutton">' + Joomla.JText._('MOD_SLIDESHOWCK_ARTICLEOPTIONS', 'Article options') + '</span>'
+			+ '<span class="ckslideaccordeonbutton">' + Joomla.JText._('MOD_SLIDESHOWCK_DATESOPTIONS', 'Dates') + '</span>'
 			+ '<div style="clear:both;"></div>'
 			+ '<div class="ckslideaccordeoncontent">'
 			+ '<div class="cksliderow"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_ALIGNEMENT_LABEL', 'Image alignment') + '</span><select name="ckslidedataalignmenttext' + index + '" class="ckslidedataalignmenttext" >' + imgdataalignmentoption + '</select></div>'
@@ -243,6 +248,10 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 			+ '<div class="cksliderow" id="cksliderowarticle' + index + '"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_ARTICLE_ID', 'Article ID') + '</span><input name="ckslidearticleid' + index + '" class="ckslidearticleid input-medium" id="ckslidearticleid' + index + '" style="width:20px" type="text" value="' + articleid + '" disabled="disabled" onchange="javascript:storesetwarning();" /><input name="ckslidearticlename' + index + '" class="ckslidearticlename input-medium" id="ckslidearticlename' + index + '" type="text" value="' + articlename + '" disabled="disabled" /><a id="ckslidearticlebuttonSelect" class="modal btn" href="index.php?option=com_content&amp;layout=modal&amp;view=articles&amp;tmpl=component&amp;function=jSelectArticle_ckslidearticleid' + index + '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}" style="display:inline-block;margin:0 5px 0 5px;">' + Joomla.JText._('MOD_SLIDESHOWCK_SELECT', 'Select') + '</a><a class="btn" href="javascript:void(0)" onclick="document.getElementById(\'ckslidearticleid' + index + '\').value=\'\';document.getElementById(\'ckslidearticlename' + index + '\').value=\'\';">' + Joomla.JText._('MOD_SLIDESHOWCK_CLEAR', 'Clear') + '</a>'
 			+(articleid != '' ? '<a id="ckslidearticlebuttonSelect" class="modal btn" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id='+articleid+'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'+Joomla.JText._('MOD_SLIDESHOWCK_EDIT', 'Edit')+'</a>' : '')
 			+'</div>'
+			+ '</div>'
+			+ '<div class="ckslideaccordeoncontent">'
+			+ '<div class="cksliderow"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_STARTDATE', 'Start date') + '</span><input name="ckslidestartdate' + index + '" class="ckslidestartdate ckdatepicker" type="text" value="' + imgstartdate + '" /></div>'
+			+ '<div class="cksliderow"><span class="ckslidelabel">' + Joomla.JText._('MOD_SLIDESHOWCK_ENDDATE', 'End date') + '</span><input name="ckslideenddate' + index + '" class="ckslideenddate ckdatepicker" type="text" value="' + imgenddate + '" /></div>'
 			+ '</div>'
 			+ '</div></div>'
 			+ '</div><div style="clear:both;"></div>');
@@ -266,7 +275,8 @@ function addslideck(imgname, imgcaption, imgthumb, imglink, imgtarget, imgvideo,
 		parse: 'rel'
 	});
 	create_tabs_in_slide(jQuery('#ckslide' + index));
-	
+	jQuery('#ckslide' + index + ' .ckdatepicker').datepicker({"dateFormat": "d MM yy"});
+
 	// add code to toggle the slide state
 	jQuery('#ckslide' + index + ' .ckslidetoggle').click(function() {
 		if (jQuery(this).attr('data-state') == '0') {
@@ -343,6 +353,8 @@ function storeslideck() {
 		slide['slidearticlename'] = el.find('.ckslidearticlename').val();
 		slide['imgtime'] = el.find('.ckslideimgtime').val();
 		slide['state'] = el.find('.ckslidetoggle').attr('data-state');
+		slide['startdate'] = el.find('.ckslidestartdate').val();
+		slide['enddate'] = el.find('.ckslideenddate').val();
 		slides[i] = slide;
 		i++;
 	});
@@ -369,7 +381,9 @@ function callslides() {
 					slide['imgtime'],
 					slide['slidearticlename'],
 					slide['imgtitle'],
-					slide['state']
+					slide['state'],
+					slide['startdate'],
+					slide['enddate']
 					);
 		});
 	}
@@ -421,4 +435,10 @@ jQuery(document).ready(function() {
 			+ "alert('Formulaire invalide');"
 			+ "}}";
 	document.body.appendChild(script);
+	
+//    jQuery( "#datepicker" ).datepicker(
+//		{
+//			"dateFormat": "d MM yy"
+//		}
+//		);
 });

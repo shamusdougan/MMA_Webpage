@@ -107,6 +107,8 @@
 
 		container: '',
 
+		responsiveCaption: false,
+
 ////////callbacks
 
 		onEndTransition		: function() {  },	//this callback is invoked when the transition effect ends
@@ -447,6 +449,7 @@
 	$(window).bind('load resize pageshow',function(){
 		thumbnailPos();
 		thumbnailVisible();
+		if (opts.responsiveCaption) resizeFont();
 	});
 
 
@@ -497,7 +500,12 @@
 			},1500);
 		}
 	});
-	
+
+	function resizeFont() {
+		var fontRatio = wrap.width() / 700;
+		$('.camera_caption > div').css('font-size', fontRatio + 'em');
+	}
+
 	function addLightbox() {
 		if (opts.lightbox == 'mediaboxck' && typeof(Mediabox) != "undefined") {
 			Mediabox.scanPage();
