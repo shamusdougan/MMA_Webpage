@@ -11,7 +11,7 @@
 	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>ced1870@gmail.com</authorEmail>
 	<authorUrl>http://www.joomlack.fr</authorUrl>
-	<version>1.4.29</version>
+	<version>1.4.31</version>
 	<description>MOD_SLIDESHOWCK_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_slideshowck">mod_slideshowck.php</filename>
@@ -232,6 +232,14 @@
 					label="MOD_SLIDESHOWCK_HEIGHT_LABEL"
 					description="MOD_SLIDESHOWCK_HEIGHT_DESC"
 					suffix=""
+				/>
+				<field
+					name="minheight"
+					type="cktext"
+					default="150"
+					label="MOD_SLIDESHOWCK_MINHEIGHT_LABEL"
+					description="MOD_SLIDESHOWCK_MINHEIGHT_DESC"
+					suffix="px"
 				/>
 				<field
 					name="navigation"
@@ -638,14 +646,15 @@
 				/>
 				<field
 					name="usecaptionresponsive"
-					type="ckradio"
+					type="cklist"
 					label="MOD_SLIDESHOWCK_USERESPONSIVECAPTION_LABEL"
 					description="MOD_SLIDESHOWCK_USERESPONSIVECAPTION_DESC"
 					icon="ipod.png"
 					class="btn-group"
 					default="1"
 					>
-						<option value="1">JYES</option>
+						<option value="2">MOD_SLIDESHOWCK_RESOLUTION_ADAPTATIVE</option>
+						<option value="1">MOD_SLIDESHOWCK_RESOLUTION_STEP</option>
 						<option value="0">JNO</option>
 				</field>
 				<field
@@ -663,6 +672,7 @@
 					description="MOD_SLIDESHOWCK_RESPONSIVEFONTSIZE_DESC"
 					icon="style.png"
 					default="0.6em"
+					showon="usecaptionresponsive:1"
 				/>
 				<field
 					name="captionresponsivehidecaption"
@@ -1083,7 +1093,7 @@
 				<field
 					name="captionstylesfontsize"
 					type="cktext"
-					default="12px"
+					default="1.1em"
 					label="MOD_SLIDESHOWCK_FONTSIZE_LABEL"
 					description="MOD_SLIDESHOWCK_FONTSIZE_DESC"
 					icon="style.png"
@@ -1113,7 +1123,7 @@
 				<field
 					name="captionstylesdescfontsize"
 					type="cktext"
-					default="10px"
+					default="0.8em"
 					label="MOD_SLIDESHOWCK_DESCFONTSIZE_LABEL"
 					description="MOD_SLIDESHOWCK_DESCFONTSIZE_DESC"
 					icon="style.png"
@@ -1151,7 +1161,7 @@
 					label="MOD_SLIDESHOWCK_MARGINTOP_LABEL"
 					description="MOD_SLIDESHOWCK_MARGINTOP_DESC"
 					icon="margin_top.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1161,7 +1171,7 @@
 					label="MOD_SLIDESHOWCK_MARGINRIGHT_LABEL"
 					description="MOD_SLIDESHOWCK_MARGINRIGHT_DESC"
 					icon="margin_right.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1171,7 +1181,7 @@
 					label="MOD_SLIDESHOWCK_MARGINBOTTOM_LABEL"
 					description="MOD_SLIDESHOWCK_MARGINBOTTOM_DESC"
 					icon="margin_bottom.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1181,7 +1191,7 @@
 					label="MOD_SLIDESHOWCK_MARGINLEFT_LABEL"
 					description="MOD_SLIDESHOWCK_MARGINLEFT_DESC"
 					icon="margin_left.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1191,7 +1201,7 @@
 					label="MOD_SLIDESHOWCK_PADDINGTOP_LABEL"
 					description="MOD_SLIDESHOWCK_PADDINGTOP_DESC"
 					icon="padding_top.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1201,7 +1211,7 @@
 					label="MOD_SLIDESHOWCK_PADDINGRIGHT_LABEL"
 					description="MOD_SLIDESHOWCK_PADDINGRIGHT_DESC"
 					icon="padding_right.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1211,7 +1221,7 @@
 					label="MOD_SLIDESHOWCK_PADDINGBOTTOM_LABEL"
 					description="MOD_SLIDESHOWCK_PADDINGBOTTOM_DESC"
 					icon="padding_bottom.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field
@@ -1221,7 +1231,7 @@
 					label="MOD_SLIDESHOWCK_PADDINGLEFT_LABEL"
 					description="MOD_SLIDESHOWCK_PADDINGLEFT_DESC"
 					icon="padding_left.png"
-					suffix="px"
+					suffix="px/%"
 					class="captionstyles"
 				/>
 				<field

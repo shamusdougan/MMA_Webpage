@@ -67,9 +67,13 @@ if ($params->get('loadjqueryeasing', '1')) {
 }
 //if ($params->get('loadjquerymobile', '1')) {
 //	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/jquery.mobile.customized.min.js');
-//}
-
-$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/camera.min.js');
+//
+$debug = true;
+if ($debug) {
+	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/camera.js');
+} else {
+	$document->addScript(JURI::base(true) . '/modules/mod_slideshowck/assets/camera.min.js');
+}
 
 $theme = $params->get('theme', 'default');
 $langdirection = $document->getDirection();
@@ -132,7 +136,7 @@ $js = "<script type=\"text/javascript\">
        jQuery(function(){
         jQuery('#camera_wrap_" . $module->id . "').camera({
                 height: '" . $params->get('height', '400') . "',
-                minHeight: '',
+                minHeight: '" . $params->get('minheight', '150') . "',
                 pauseOnClick: false,
                 hover: " . $params->get('hover', '1') . ",
                 fx: '" . implode(",", $params->get('effect', array('linear'))) . "',
@@ -154,6 +158,7 @@ $js = "<script type=\"text/javascript\">
 				mobileimageresolution: '" . ($params->get('usemobileimage', '0') ? $params->get('mobileimageresolution', '640') : '0') . "',
                 " . $navigation . "
                 barPosition: '" . $params->get('barPosition', 'bottom') . "',
+                responsiveCaption: " . ($params->get('usecaptionresponsive') == '2' ? '1' : '0') . ",
 				container: '" . $params->get('container', '') . "'
         });
 }); </script>";
@@ -178,18 +183,21 @@ $css .= "
 	position: absolute;
 }
 #camera_wrap_" . $module->id . " .camera_caption > div {
-	" . $captioncss['padding'] . $captioncss['margin'] . $captioncss['background'] . $captioncss['gradient'] . $captioncss['borderradius'] . $captioncss['shadow'] . $captioncss['border'] . $captioncss['fontcolor'] . $captioncss['fontsize'] . $fontfamily . "
+	" . $captioncss['padding'] . $captioncss['margin'] . $captioncss['background'] . $captioncss['gradient'] . $captioncss['borderradius'] . $captioncss['shadow'] . $captioncss['border'] . $fontfamily . "
 }
-#camera_wrap_" . $module->id . " .camera_caption > div div.slideshowck_description {
+#camera_wrap_" . $module->id . " .camera_caption > div div.camera_caption_title {
+	" . $captioncss['fontcolor'] . $captioncss['fontsize'] . "
+}
+#camera_wrap_" . $module->id . " .camera_caption > div div.camera_caption_desc {
 	" . $captioncss['descfontcolor'] . $captioncss['descfontsize'] . "
 }
 ";
 
-if ($params->get('usecaptionresponsive') == '1') {
+if ($params->get('usecaptionresponsive') == '1' || $params->get('usecaptionresponsive') == '2') {
 	$css .= "
 @media screen and (max-width: " . str_replace("px", "", $params->get('captionresponsiveresolution', '480')) . "px) {
 		.camera_caption {
-			" . ( $params->get('captionresponsivehidecaption', '0') == '1' ? "display: none" : "font-size: " . $params->get('captionresponsivefontsize', '0.6em') ) . " !important;
+			" . ( $params->get('captionresponsivehidecaption', '0') == '1' ? "display: none !important;" : ($params->get('usecaptionresponsive') == '1' ? "font-size: " . $params->get('captionresponsivefontsize', '0.6em') ." !important;" : "") ) . "
 		}
 }";
 }
