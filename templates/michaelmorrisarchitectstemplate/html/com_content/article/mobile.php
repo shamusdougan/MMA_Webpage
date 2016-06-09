@@ -19,38 +19,15 @@ $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
-
-$catRoute = JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catid));
-$db = JFactory::getDBO();
-$query = "SELECT title FROM #__categories WHERE id = " . $this->item->catid;
-$db->setQuery($query);
-$catTitle = $db->loadResult();
-
-
 ?>
-<div class='sapient_transparent_background'>
+<div class='sapient_mobile_background'>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
-	
-	
-	
-	<?php //Customised Page Heading settings to display the Project slideshows ?>
-	
-	<div class='projectslideshow_web'>
-	<div class="sap_article_title_bar">
-		<div class='sap_article_title_bar_content'>
-		<h1> <?php echo strtoupper($this->escape($this->item->title)); ?> </h1>
-		</div>
+	<?php if ($this->params->get('show_page_heading')) : ?>
+	<div class="page-header">
+		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
-	</div>
-	<div class='projectslideshow_mobile'>
-		<div class='projectslideshow_title_mobile'>
-		<h1> <?php echo strtoupper($this->escape($this->item->title)); ?></h1>
-		</div>
-	</div>
-	
-	
-	<?php
+	<?php endif;
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 	{
 		echo $this->item->pagination;
@@ -184,14 +161,6 @@ $catTitle = $db->loadResult();
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
-	
 	<?php echo $this->item->event->afterDisplayContent; ?>
-</div>
-<div class='sap_article_footer_nav'><a href='<?php echo $catRoute; ?>'>
-	<div class='sap_article_footer_nav_arrow'></div>
-	<div class='sap_article_footer_nav_description'><?php echo $catTitle; ?>
-	</div></a>
-</div>
-</div>
-
+</div></div>
 

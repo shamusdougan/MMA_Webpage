@@ -107,6 +107,15 @@ body
 	padding-right: 5px;
 }
 
+.sapient_mobile_background
+{
+	//background-color: white;
+	background: rgba(255, 255, 255, 0.1);
+	color: black;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
 #slideshow, img.bgM {
 	
      	min-height: 100%;
@@ -353,6 +362,29 @@ sap_disabled li{
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+	
+	
+	
+}
+
+.sap_article_title_bar_content h1
+{
+	text-transform: capitalize !important;
+	font-family: 'DinAlternate' !important;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+}
+
+
+.sap_h2_heading
+{
+	text-transform: capitalize !important;
+	font-family: 'DinAlternate' !important;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	text-align: center;
 }
 
 .sap_article_title_bar_nav
@@ -393,8 +425,8 @@ sap_disabled li{
 	
 	height: 40px;
 	width: 320px;	
-	position: relative;
-	top: -50px;
+	
+	 
 }
 
 
@@ -450,22 +482,35 @@ sap_disabled li{
 	}
 
 
-
+.article_display_mobile
+{
+	color: black;
+}
 
 
 
 @media screen and (max-device-width: 481px)
 {
 	
-	.body_wrapper, .article_listing_web, .projectslideshow_web
+	.body_wrapper, .article_listing_web, .projectslideshow_web, .article_display_Web
 	{
 	display: none;
 	}
 	
-	.body_wrapper_mobile, .article_listing_mobile, .projectslideshow_mobile
+	.body_wrapper_mobile, .article_listing_mobile, .projectslideshow_mobile, .article_display_mobile
 	{
-		display: inline;
-		
+	display: inline;
+	}
+	
+	.sapient_transparent_background 
+	{
+		background-color: white;
+		color: black;
+	}
+	
+	.sap_article_footer_nav
+	{
+		background-color: grey;
 	}
 	
 	.slideshowtext
@@ -477,13 +522,20 @@ sap_disabled li{
 .mobile_body{
 	width: 100%;
 	height: 100%;
-	background-color: grey;
+	background-color: white;
 
 }
 
 .mobile_head_wrapper{
 	
 	width: 100%;
+	height: 55px;
+}
+
+.mobile_menu_bar{
+	width: 100%;
+	height: 40px;
+	background-color: grey;
 }
 
 .mobile_logoTitle
@@ -554,4 +606,26 @@ sap_disabled li{
 	margin-left: auto;
 	text-align: center;
 	padding-top: 5px;
+	text-transform: capitalize !important;
+	font-family: 'DinAlternate' !important;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 10px;
+}
+
+.camera_caption_title{
+	
+	text-transform: capitalize !important;
+	font-family: 'DinAlternate' !important;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 12px;
+}
+
+.camera_caption_desc
+{
+	font-family: 'DinAlternate' !important;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 10px;
 }

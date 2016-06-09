@@ -149,7 +149,11 @@ foreach ($this->items as $i => $article)
 					<A href='<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>'>
 						<img src='<?php echo htmlspecialchars ("/".$displayImage); ?>' />
 					</A>
-				 
+				 <div class="mask">
+		                <h2><?php echo $displayTitle; ?></h2>
+		                <p><?php echo $displayText; ?></p>
+		                <a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>" class="info">View More</a>
+		            </div>	
 				</div> 
 				
 			</div>

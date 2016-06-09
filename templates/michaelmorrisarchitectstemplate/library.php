@@ -48,7 +48,7 @@
  	//if we are in the last page of the list then
  	if($offset >= ($itemCount - $limit))
  	{
-		$nextString = '<li class="disabled" ><a class="hasTooltip" title="Next"><i class="icon-next"></i></a></li></ul>';
+		$nextString = "<li class='active'><a class='hasTooltip' title='Next'><i class='icon-next'></i></a></li></ul>";
 	}
 	else
 	{

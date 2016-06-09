@@ -170,14 +170,17 @@ function isMobile() {
 		</div>
 
 		<div class='mobile_head_wrapper'>
-			<div class='mobile_logoTitle' ><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo_notext.jpg'><br>MICHAEL MORRIS ARCHITECTS</div>	
+			<div class='mobile_logoTitle' ><img src='<? echo $this->baseurl . '/templates/' . $this->template; ?>/images/MMA_Logo.jpg'></div>	
+		</div>
+		<div class='mobile_menu_bar'>
 			<div class='mobile_menu_wrapper'><jdoc:include type="modules" name="mobile_menu" /></div>	
 		</div>
 	
 	
 		<div class='mobile_main_content'>
 			
-			<?php if(isMobile()){ ?>
+			<?php if(isMobile()){ 
+			?>
 				<jdoc:include type="component" />
 			<?php } ?>
 			

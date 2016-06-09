@@ -4,20 +4,22 @@
   -webkit-transition: 250ms all;
   transition: 250ms all;
   -ms-transition: 250ms all;
+  
 }
 
 .zatr-menu-opener {
   cursor: pointer;
-  height: 64px;
-  position: fixed;
-  top: 2%;
+  height: 40px;
+  position: relative;
+  //top: 10px;
   left: 1%;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 64px;
+  width: 40px;
    z-index:999;
+   background-color: black;
 }
 .zatr-menu-opener:hover, .zatr-menu-opener.active {
   background: #f1c40f;
@@ -25,18 +27,22 @@
 }
 
 .zatr-menu-opener-inner {
+	position: relative;
+	top: 15px;
   background: #fff;
   height: .5rem;
-  margin-left: .75rem;
-  margin-top: 1.75rem;
-  width: 2.5rem;
+  margin-left: .3rem;
+  margin-top: 2.0rem;
+  width: 1.85rem;
 }
+
+
 .zatr-menu-opener-inner::before, .zatr-menu-opener-inner::after {
   background: white;
   content: '';
   display: block;
   height: .5rem;
-  width: 2.5rem;
+  width: 1.85rem;
 }
 .zatr-menu-opener-inner::before {
   -webkit-transform: translateY(-0.75rem);
@@ -66,8 +72,8 @@
   background: #f1c40f;
   color: transparent;
   height: 64px;
-  position: fixed;
-  top: 1%;
+  position: relative;
+ top: -40px;
   left: 1%;
   -webkit-user-select: none;
   -moz-user-select: none;
